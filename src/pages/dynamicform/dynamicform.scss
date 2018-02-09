@@ -1,0 +1,38 @@
+page-home {
+
+}
+
+label#rounded{border-radius:15px; }
+
+div#container{width: 300px; margin-left:auto; margin-right: auto; }
+
+
+.container{
+    display: -webkit-flex;
+    height: 100%;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,darkgray), color-stop(100%,#f7d47c));
+    background: -webkit-linear-gradient(top, darkgray 0%,#f7d47c 100%);
+}
+
+
+
+
+.background{
+width:100%;
+height:100%;
+background:linear-gradient(10deg,#4E5EFC,#FFC300)
+}
+
+.scroll-content{
+text-align: center;
+}
+
+ion-label{
+font-size: 18px !important;
+color:grey;
+}
+
+.error{
+color:orange;
+font-weight: bold;
+}

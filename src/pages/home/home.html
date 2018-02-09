@@ -1,0 +1,47 @@
+<ion-header>
+  <!-- <ion-navbar color="secondary" [class]="selectedTheme"> -->
+      <ion-navbar color="secondary">
+    <ion-title>
+      Forms
+    </ion-title>
+     <ion-buttons end>
+      <button ion-button icon-only color="royal">
+        <ion-icon name="contact"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+ 
+<ion-content>
+
+  
+
+
+
+<ion-toolbar> 
+<ion-searchbar placeholder="Search" [(ngModel)]="searchText" (ioninput)="updateForms()"> 
+
+</ion-searchbar>
+<!-- <button ion-button full icon-left (click)="toggleAppTheme()">
+    <ion-icon  name="bulb"></ion-icon>Toggle Theme
+  </button> -->
+</ion-toolbar>
+
+
+<ion-list>
+  <ion-item-sliding *ngFor="let item of shoppingItems | async">
+  <ion-item (click)="goToInputForm($event,item)">
+    <ion-thumbnail item-start>
+      <img src="{{item.imageurl}}">
+    </ion-thumbnail>
+    <h2>{{item.formname}}</h2>
+    <p>{{item.description}}</p>
+
+    <!-- <ion-icon name="arrow-forward" item-end></ion-icon> -->
+    <!-- <button ion-button clear item-end>View</button> -->
+  </ion-item>
+  </ion-item-sliding>
+</ion-list>
+
+
+</ion-content>

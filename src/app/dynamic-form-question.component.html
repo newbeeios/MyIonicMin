@@ -1,0 +1,112 @@
+<div *ngIf="form">
+    <div [formGroup]="form" style="padding-top:0px">
+
+        <ion-label stacked text-left style="color:black;padding-bottom:2px;">{{question.label}}</ion-label>
+
+
+
+        <div [ngSwitch]="question.controlType">
+
+            <ion-item no-lines *ngSwitchCase="'number'">
+                <ion-input type="number" [formControlName]="question.key" [id]="question.key"></ion-input>
+            </ion-item>
+
+            <ion-segment no-lines *ngSwitchCase="'segment'" [formControlName]="question.key">
+                <ion-segment-button *ngFor="let opt of question.options" [value]="opt.value">
+                    {{opt.value}}
+                </ion-segment-button>
+            </ion-segment>
+
+            <ion-item no-lines *ngSwitchCase="'textbox'">
+                <ion-input type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
+            </ion-item>
+
+            <ion-item no-lines *ngSwitchCase="'checkbox'">
+                <ion-checkbox [formControlName]="question.key" (ionChange)="checkedChange(question.key,$event)" [id]="question.key" color="dark"
+                    checked="false"></ion-checkbox>
+            </ion-item>
+
+            <ion-item no-lines *ngSwitchCase="'textarea'">
+                <ion-textarea type="text" [formControlName]="question.key" [id]="question.key"></ion-textarea>
+            </ion-item>
+
+            <ion-item no-lines *ngSwitchCase="'date'">
+                <ion-datetime displayFormat="MM/DD/YYYY" [formControlName]="question.key" [id]="question.key"></ion-datetime>
+            </ion-item>
+
+            <ion-item no-lines *ngSwitchCase="'time'">
+                <ion-datetime displayFormat="HH:mm:ss" [formControlName]="question.key" [id]="question.key"></ion-datetime>
+            </ion-item>
+
+
+            <div *ngSwitchCase="'picklist'" (click)="PopUpPickList(question.key,question.options)">
+                <ion-item no-lines>
+                    <ion-label>
+                        <ion-icon name="list"></ion-icon>
+                    </ion-label>
+                    <ion-input [readonly]="true" type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
+                </ion-item>
+            </div>
+
+
+            <ion-item no-lines *ngSwitchCase="'dropdown'">
+                <ion-select [id]="question.key" [formControlName]="question.key">
+                    <ion-option *ngFor="let opt of question.options" [value]="opt.value">{{opt.value}}</ion-option>
+                </ion-select>
+            </ion-item>
+
+            <ion-item no-lines *ngSwitchCase="'multiselect'">
+                <ion-select [id]="question.key" [formControlName]="question.key" multiple>
+                    <ion-option *ngFor="let opt of question.options" [value]="opt.value">{{opt.value}}</ion-option>
+                </ion-select>
+            </ion-item>
+
+            <div *ngSwitchCase="'scanner'">
+                <ion-list>
+                    <ion-item>
+                        <button type="button" ion-button (click)='showScanner(question.key)'> <ion-icon name="barcode" style="padding-right:5px;"></ion-icon> scan barcode</button>
+                    </ion-item>
+                    <ion-item>
+                        <ion-input type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
+                    </ion-item>
+                </ion-list>
+
+            </div>
+
+            <div *ngSwitchCase="'picture'">
+                <ion-list>
+                    <ion-item>
+                        <button type="button" ion-button (click)='presentActionSheet(question.key)'><ion-icon name="camera" style="padding-right:5px;"></ion-icon> Capture Image</button>
+                    </ion-item>
+                    <ion-item>
+                        <ion-input type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
+                        <!-- <ion-img  [src]="question.source" width="80" [formControlName]="question.key"   [id]="question.key"  height="80"></ion-img> -->
+                    </ion-item>
+                </ion-list>
+
+            </div>
+
+            <div *ngSwitchCase="'gps'">
+                <ion-list>
+                    <ion-item>
+                        <button type="button" ion-button (click)='getLocationCoordinates(question.key)'><ion-icon name="pin" style="color:white;padding-right:5px;"></ion-icon>  Gps Points</button>
+                    </ion-item>
+                    <ion-item>
+                        <ion-textarea type="text" [formControlName]="question.key" [id]="question.key"></ion-textarea>
+                    </ion-item>
+                </ion-list>
+
+            </div>
+          
+      
+
+        </div>
+
+
+
+
+        <ion-label text-left color="danger" class="errorMessage"  *ngIf="!isValid">{{question.label}} is required</ion-label>
+
+
+    </div>
+</div>

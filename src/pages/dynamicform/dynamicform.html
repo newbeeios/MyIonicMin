@@ -1,0 +1,112 @@
+<ion-header>
+  <ion-navbar color="secondary">
+    <ion-title>
+      Planting Form
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+ 
+
+       <!-- <select [id]="elementtype"  formControlName="elementtype" class="form-control" >
+                <option *ngFor="let opt of elementTypes" [value]="opt.key">{{opt.value}}</option>
+            </select> -->
+   <form (ngSubmit)="logForm()">
+
+ <ion-content padding class="container">
+
+    <ion-list>
+    <ion-item-sliding *ngFor="let item of formelements | async" [ngSwitch]="item.elementtype" >
+      
+      <ion-item *ngSwitchCase="'Textbox'">           
+       
+       <ion-label stacked>{{item.displaytext}}</ion-label>      
+       <ion-input type="text" ng-value="item.displaytext"></ion-input>
+
+      </ion-item>
+
+    <ion-item *ngSwitchCase="'yesno'">    
+      <div>
+        {{item.displaytext}}        
+      </div>
+      
+      <div padding>
+         
+          <ion-segment>
+            <ion-segment-button value="yes">
+              Yes
+            </ion-segment-button>
+            <ion-segment-button value="no">
+              No
+            </ion-segment-button>
+          </ion-segment>
+      </div>
+    </ion-item>
+
+      <ion-item *ngSwitchCase="'textarea'">
+        <ion-label stacked>{{item.displaytext}}</ion-label>
+        <ion-textarea></ion-textarea>
+        <!-- <ion-input type="text"></ion-input>      -->
+      </ion-item>
+
+      <ion-item *ngSwitchCase="'dropdown'">
+        <ion-label stacked>{{item.displaytext}}</ion-label>
+        <ion-input type="text"></ion-input>     
+      </ion-item>
+
+       <ion-item *ngSwitchCase="'datetime'">
+        <ion-label stacked>{{item.displaytext}}</ion-label>
+        <ion-input type="text"></ion-input>     
+      </ion-item>
+
+      <ion-item *ngSwitchCase="'time'">
+        <ion-label>Start Time</ion-label>
+        <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A"></ion-datetime>
+      </ion-item>
+
+
+
+       <ion-item *ngSwitchCase="'Multi-Select'">
+
+         <ion-label>{{item.displaytext}}</ion-label>
+
+         
+          <ion-select multiple="true" >          <!--     *ngFor="let items of item.options" -->
+
+            
+            
+             <!-- <ion-option value="{{items.key}}">{{items.value}}</ion-option>  -->
+
+
+
+
+
+            <ion-option value="Morrisville">Morrisville</ion-option>
+            <ion-option value="Greensboro">Greensboro</ion-option>
+            <ion-option value="Duluth">Duluth</ion-option>  
+            
+        </ion-select>
+
+
+      </ion-item>
+
+       <ion-item *ngSwitchCase="'photos'">
+        <ion-label stacked>{{item.displaytext}}</ion-label>
+        <ion-input type="text"></ion-input>     
+      </ion-item>
+
+       <ion-item *ngSwitchCase="'file'">
+        <ion-label stacked>{{item.displaytext}}</ion-label>
+        <ion-input type="text"></ion-input>     
+      </ion-item>
+
+
+
+
+    </ion-item-sliding>
+  </ion-list> 
+   
+
+<button ion-button full color="secondary" round (click)="onSubmit()">Submit</button>
+
+</ion-content>   
+</form> 
