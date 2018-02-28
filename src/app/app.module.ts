@@ -17,6 +17,7 @@ import { DynamicFormComponent }         from './dynamic-form.component';
 import { DynamicFormQuestionComponent } from './dynamic-form-question.component';
 import {PicklistModalViewPage} from '../pages/picklist-modal-view/picklist-modal-view';
 import {LoginPage} from '../pages/login/login';
+import {ReportsPage} from '../pages/reports/reports';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -58,7 +59,8 @@ export const firebaseConfig={
     DynamicFormQuestionComponent,
     PicklistModalViewPage,
     LoginPage,
-    SettingsComponent
+    SettingsComponent,
+    ReportsPage
   ],
   imports: [
     BrowserModule,
@@ -79,7 +81,8 @@ export const firebaseConfig={
     DFormPage,
     PicklistModalViewPage,
     LoginPage,
-    SettingsComponent
+    SettingsComponent,
+    ReportsPage
   ],
   providers: [
     StatusBar,
