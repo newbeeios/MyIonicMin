@@ -56,6 +56,7 @@ export class DFormPage implements OnInit,OnChanges {
   parameter1: any;
   questions$: Observable<any>;
   formName='';
+  formKey='';
   options: {key: string, value: string}[] = [];
   @Input()
   set data(value) {
@@ -72,12 +73,9 @@ export class DFormPage implements OnInit,OnChanges {
   constructor(public navCtrl: NavController, public af: AngularFireDatabase, public navParams: NavParams, private qcs: QuestionService) {
     this.parameter1 = navParams.get('param1');
     this.formName =  this.parameter1.formname;
+    this.formKey = this.parameter1.$key;
   
   }
-
-
-
-
 
 
   ngOnInit() {
@@ -178,7 +176,7 @@ console.log(elementData.elementtype);
         key: elementData.elementname,
         label: elementData.displaytext,
         value: elementData.elementvalue,
-        required: false,
+        required: elementData.required?elementData.required:false,
         order: elementData.sortorder
       });
 
@@ -193,8 +191,8 @@ console.log(elementData.elementtype);
       return new DropdownQuestion({
         key: elementData.elementname,
         label: elementData.displaytext,
-        value: elementData.elementvalue,
-        required: false,
+        value: '',
+        required: elementData.required?elementData.required:false,
         order: elementData.sortorder,
         options: [] //this.options   //elementData.options  //optionsData
 
@@ -204,8 +202,8 @@ console.log(elementData.elementtype);
       return new DropdownQuestion({
         key: elementData.elementname,
         label: elementData.displaytext,
-        value: elementData.elementvalue,
-        required: false,
+        value: '',
+        required: elementData.required?elementData.required:false,
         order: elementData.sortorder,
         options: Object.keys(elementData.options).map(e=>elementData.options[e]) //this.options   //elementData.options  //optionsData
 
@@ -221,6 +219,7 @@ console.log(elementData.elementtype);
           key: elementData.elementname,
           label: elementData.displaytext,
           value: elementData.elementvalue,
+          required: elementData.required?elementData.required:false,
           options: [],//elementData.options,
           order: elementData.sortorder
         });
@@ -231,7 +230,8 @@ console.log(elementData.elementtype);
         label: elementData.displaytext,
         value: elementData.elementvalue,
         options: Object.keys(elementData.options).map(e=>elementData.options[e]),//elementData.options,
-        order: elementData.sortorder
+        order: elementData.sortorder,
+        required: elementData.required?elementData.required:false
       });
     }
 
@@ -244,13 +244,15 @@ console.log(elementData.elementtype);
             label: elementData.displaytext,
             value: elementData.elementvalue,
             options: [],//elementData.options,
-            order: elementData.sortorder
+            order: elementData.sortorder,
+            required: elementData.required?elementData.required:false
           });
         }else{
           return new MultiSelectQuestion({
             key: elementData.elementname,
             label: elementData.displaytext,
             value: elementData.elementvalue,
+            required: elementData.required?elementData.required:false,
             options: Object.keys(elementData.options).map(e=>elementData.options[e]),//elementData.options,
             order: elementData.sortorder
           });
@@ -265,7 +267,7 @@ console.log(elementData.elementtype);
         key: elementData.elementname,
         label: elementData.displaytext,
         value: elementData.elementvalue,
-        required: false,
+        required: elementData.required?elementData.required:false,
         order: elementData.sortorder
 
       });
@@ -276,7 +278,7 @@ console.log(elementData.elementtype);
         key: elementData.elementname,
         label: elementData.displaytext,
         value: elementData.elementvalue,
-        required: false,
+        required: elementData.required?elementData.required:false,
         order: elementData.sortorder
 
       });
@@ -287,7 +289,7 @@ console.log(elementData.elementtype);
           key: elementData.elementname,
           label: elementData.displaytext,
           value: '',
-          required: false,
+          required: elementData.required?elementData.required:false,
           order: elementData.sortorder
         });
 
@@ -297,7 +299,7 @@ console.log(elementData.elementtype);
           key: elementData.elementname,
           label: elementData.displaytext,
           value: '',
-          required: false,
+          required: elementData.required?elementData.required:false,
           order: elementData.sortorder
   
         });
@@ -310,14 +312,16 @@ console.log(elementData.elementtype);
           key: elementData.elementname,
           label: elementData.displaytext,
            options: [],
-           order: elementData.sortorder
+           order: elementData.sortorder,
+           required: elementData.required?elementData.required:false
          });
       }else{
         return  new SegmentQuestion({
           key: elementData.elementname,
           label: elementData.displaytext,
            options: elementData.options,
-           order: elementData.sortorder
+           order: elementData.sortorder,
+           required: elementData.required?elementData.required:false
          });
       }
 
@@ -333,7 +337,8 @@ console.log(elementData.elementtype);
                { key: 'female', value: 'Female' },
                { key: 'unknown', value: 'Unknown' }
              ],
-             order: elementData.sortorder
+             order: elementData.sortorder,
+             required: elementData.required?elementData.required:false
            });
 
 
@@ -343,8 +348,9 @@ console.log(elementData.elementtype);
         key: elementData.elementname,
         label: elementData.displaytext,
         value: elementData.value,
-        required: false,
+        required: elementData.required?elementData.required:false,
         order: elementData.sortorder
+        
 
       });
 
@@ -354,7 +360,7 @@ console.log(elementData.elementtype);
         key: elementData.elementname,
         label: elementData.displaytext,
         value: elementData.value,
-        required: false,
+        required: elementData.required?elementData.required:false,
         order: elementData.sortorder
 
       });
@@ -364,7 +370,7 @@ console.log(elementData.elementtype);
         key: elementData.elementname,
         label: elementData.displaytext,
         value: elementData.value,
-        required: false,
+        required: elementData.required?elementData.required:false,
         order: elementData.sortorder
 
       });
@@ -374,7 +380,7 @@ console.log(elementData.elementtype);
         key: elementData.elementname,
         label: elementData.displaytext,
         value: elementData.elementvalue,
-        required: false,
+        required: elementData.required?elementData.required:false,
         order: elementData.sortorder
       });
       

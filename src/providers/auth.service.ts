@@ -3,7 +3,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
 //import { NavController } from 'ionic-angular';
-//import { LoginPage } from '../../login/login';
+//import { LoginPage } from './../../login/login';
 
 @Injectable()
 export class AuthService {
@@ -61,7 +61,7 @@ constructor(private _firebaseAuth: AngularFireAuth) {
       this._firebaseAuth.auth.signOut()
       .then((res) => 
       console.log("Signed Out")
-      //this.navCtrl.push(LoginPage) //this.router.navigate(['login'])
+     // this.navCtrl.push(LoginPage) //this.router.navigate(['login'])
     );
     
     }

@@ -30,6 +30,7 @@ import { QuestionService } from './../providers/question-service';
 import {AuthService} from './../providers/auth.service';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
+
 import { SettingsProvider } from './../providers/settings/settings';
 
 import {SettingsComponent} from '../pages/settings/settings';

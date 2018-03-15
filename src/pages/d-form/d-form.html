@@ -12,6 +12,6 @@
 
   <!-- <app-dynamic-form [questions]="(questions$ | async)"></app-dynamic-form> -->
   <div *ngIf="questions$">
-  <app-dynamic-form [questions]="(questions$ | async)"></app-dynamic-form>
+  <app-dynamic-form  [formnamestring]="formName" [formId]="formKey" [questions]="(questions$ | async)"></app-dynamic-form>
   </div>
 </ion-content>

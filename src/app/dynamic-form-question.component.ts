@@ -43,8 +43,17 @@ export class DynamicFormQuestionComponent implements OnInit,OnChanges {
 
   //get isValid() { return this.form.controls[this.question.key].valid; }
 
+  // get isValid() { return this.form.controls[this.question.key] 
+  //   ? this.form.controls[this.question.key].valid : true; }
+
   get isValid() { return this.form.controls[this.question.key] 
-    ? this.form.controls[this.question.key].valid : true; }
+    ? ( this.form.controls[this.question.key].valid  ) : true; }
+
+    get isDirty() { return this.form.controls[this.question.key] 
+      ? (this.form.controls[this.question.key].dirty ) : true; }
+  
+      get isTouched() { return this.form.controls[this.question.key] 
+        ?   (this.form.controls[this.question.key].touched) : true; }
 
 
   constructor(private barcodeScanner: BarcodeScanner,private platform: Platform, private geolocation: Geolocation,private camera: Camera,
@@ -128,7 +137,7 @@ ngOnChanges(data){
               // imageData is either a base64 encoded string or a file URI
               // If it's base64:
               let base64Image = 'data:image/jpeg;base64,' + imageData;
-              //this.form.get(key).setValue(base64Image);
+              this.form.get(key).setValue(base64Image);
              }, (err) => {
               // Handle error
              });

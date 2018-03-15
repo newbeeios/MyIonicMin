@@ -19,7 +19,6 @@ export class DynamicFormPage {
    
   //console.log(this.navParams.data.$key);
 
-  debugger;
   
     this.formelements = this.firebaseProvider.getQuestions(this.navParams.data.$key);
 
