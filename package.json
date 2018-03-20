@@ -24,6 +24,7 @@
         "@ionic-native/camera": "^4.4.2",
         "@ionic-native/core": "3.12.1",
         "@ionic-native/geolocation": "^4.4.2",
+        "@ionic-native/google-plus": "^4.6.0",
         "@ionic-native/photo-library": "^4.4.2",
         "@ionic-native/splash-screen": "3.12.1",
         "@ionic-native/status-bar": "3.12.1",
@@ -38,6 +39,7 @@
         "cordova-plugin-device": "^1.1.4",
         "cordova-plugin-file": "^4.3.2",
         "cordova-plugin-geolocation": "^3.0.0",
+        "cordova-plugin-googleplus": "^5.2.1",
         "cordova-plugin-photo-library": "^2.1.0",
         "cordova-plugin-splashscreen": "^4.0.3",
         "cordova-plugin-statusbar": "^2.2.2",
@@ -77,6 +79,9 @@
             "cordova-plugin-camera": {},
             "cordova-plugin-photo-library": {
                 "PHOTO_LIBRARY_USAGE_DESCRIPTION": "To choose photos"
+            },
+            "cordova-plugin-googleplus": {
+                "REVERSED_CLIENT_ID": "com.googleusercontent.apps.540411607255-e5k8htocogjmvmqqmj10nvvp9a5o9fii"
             }
         },
         "platforms": [

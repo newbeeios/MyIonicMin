@@ -35,6 +35,10 @@ import { SettingsProvider } from './../providers/settings/settings';
 
 import {SettingsComponent} from '../pages/settings/settings';
 
+import {GooglePlus} from '@ionic-native/google-plus';
+import {GoogleloginComponent} from './../components/googlelogin/googlelogin';
+
+
 export const firebaseConfig={
     apiKey: "AIzaSyDJzt1-d5doukG8_TX6D06_xKbQOf7WaRQ",
     authDomain: "minute-forms.firebaseapp.com",
@@ -61,7 +65,8 @@ export const firebaseConfig={
     PicklistModalViewPage,
     LoginPage,
     SettingsComponent,
-    ReportsPage
+    ReportsPage,
+    GoogleloginComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +88,8 @@ export const firebaseConfig={
     PicklistModalViewPage,
     LoginPage,
     SettingsComponent,
-    ReportsPage
+    ReportsPage,
+    GoogleloginComponent
   ],
   providers: [
     StatusBar,
@@ -95,7 +101,8 @@ export const firebaseConfig={
     Geolocation,
     Camera,
     AuthService,
-    SettingsProvider
+    SettingsProvider,
+    GooglePlus
   ]
 })
 export class AppModule {}

@@ -10,7 +10,7 @@ import {LoginPage} from '../pages/login/login';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = TabsPage;
+  rootPage:any = LoginPage;
   selectedTheme: String;
  //rootPage:any = LoginPage;
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,private settings: SettingsProvider) {
