@@ -8,6 +8,8 @@
 
  <div *ngIf="user.uid">
 
+{{user | json}}
+
   You are already logged in with UID: {{user.uid}}
 
   <button ion-button (tap)="signOut()">

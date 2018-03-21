@@ -82,7 +82,7 @@ export class HomePage {
 
 
   updateForms() {
-    debugger;
+   
     let queryTextLower = this.searchText.toLowerCase();
     let filteredItems = [];
     this.shoppingItems = this.af.list('/forms', {

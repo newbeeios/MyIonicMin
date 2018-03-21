@@ -11,6 +11,7 @@ import { Platform } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 import { ActionSheetController,ModalController,NavController } from 'ionic-angular';
 
+import firebase from 'firebase';
 
 
 
@@ -22,6 +23,10 @@ import { ActionSheetController,ModalController,NavController } from 'ionic-angul
 export class DynamicFormQuestionComponent implements OnInit,OnChanges {
   @Input() question: QuestionBase<any>;
   @Input() form: FormGroup;
+
+  public myPhotosRef: any;
+  public myPhoto: any;
+  public myPhotoURL: any;
 
     options: CameraOptions = {
     quality: 100,
@@ -59,7 +64,7 @@ export class DynamicFormQuestionComponent implements OnInit,OnChanges {
   constructor(private barcodeScanner: BarcodeScanner,private platform: Platform, private geolocation: Geolocation,private camera: Camera,
     public loadingCtrl: LoadingController,public actionSheetCtrl: ActionSheetController,
     public modalCtrl: ModalController,public navCtrl: NavController){
-
+      this.myPhotosRef = firebase.storage().ref('/Photos/');
 
       console.log("DynamicFormQuestionComponent constructor entered========");
       console.log(this.question);
@@ -109,7 +114,7 @@ ngOnChanges(data){
   
   presentActionSheet(key) {
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Modify your album',
+      title: 'Pick from the following',
       buttons: [
         {
           text: 'Photo Library',
@@ -117,7 +122,11 @@ ngOnChanges(data){
           handler: () => {
             
             this.camera.getPicture(this.PhotoLibraryOptions)
-            .then(file_uri => this.form.get(key).setValue(file_uri), 
+            .then(file_uri => {
+               // If it's base64:
+              let base64Image = 'data:image/jpeg;base64,' + file_uri;
+              this.form.get(key).setValue(file_uri);
+            }, 
             err => console.log(err));
 
             // this.camera.getPicture(this.PhotoLibraryOptions).then((imageData) => {

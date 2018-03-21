@@ -84,6 +84,9 @@
     <plugin name="cordova-plugin-geolocation" spec="^3.0.0">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
     </plugin>
+    <plugin name="cordova-plugin-googleplus" spec="^5.2.1">
+        <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.540411607255-e5k8htocogjmvmqqmj10nvvp9a5o9fii" />
+    </plugin>
     <plugin name="cordova-plugin-photo-library" spec="^2.1.0">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="To choose photos" />
     </plugin>
@@ -93,8 +96,5 @@
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
     <plugin name="phonegap-plugin-barcodescanner" spec="^7.0.0">
         <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />
-    </plugin>
-    <plugin name="cordova-plugin-googleplus" spec="^5.2.1">
-        <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.540411607255-e5k8htocogjmvmqqmj10nvvp9a5o9fii" />
     </plugin>
 </widget>

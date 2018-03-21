@@ -18,7 +18,15 @@ export class SettingsComponent {
   logout(){
 
    this._AuthService.logout();
-   this.navCtrl.pop();
+
+  //  this._firebaseAuth.auth.signOut()
+  //  .then((res) => {
+  //    console.log("Signed Out");
+     
+
+  //  }
+
+ 
 
   }
 

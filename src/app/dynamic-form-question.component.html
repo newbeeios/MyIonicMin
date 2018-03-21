@@ -79,9 +79,12 @@
                         <button type="button" ion-button (click)='presentActionSheet(question.key)'><ion-icon name="camera" style="padding-right:5px;"></ion-icon> Capture Image</button>
                     </ion-item>
                     <ion-item>
-                        <ion-input type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
+                        <ion-input [readonly]="true" type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
                         <!-- <ion-img  [src]="question.source" width="80" [formControlName]="question.key"   [id]="question.key"  height="80"></ion-img> -->
                     </ion-item>
+                    <!-- <ion-thumbnail item-left>
+                         <img src="img/{{item.title}}.png">
+                      </ion-thumbnail> -->
                 </ion-list>
 
             </div>

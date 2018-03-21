@@ -5,13 +5,9 @@ import { Observable } from 'rxjs/Observable';
 
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Platform } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 
-/**
- * Generated class for the GoogleloginComponent component.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
- * for more info on Angular Components.
- */
+
 @Component({
   selector: 'googlelogin',
   templateUrl: 'googlelogin.html'
@@ -21,11 +17,9 @@ export class GoogleloginComponent {
 
   user: Observable<firebase.User>;
 
-  constructor(private afAuth: AngularFireAuth, private gplus: GooglePlus, private platform: Platform) {
+  constructor(private navctrl:NavController,private afAuth: AngularFireAuth, private gplus: GooglePlus, private platform: Platform) {
 
     this.user = this.afAuth.authState;
-
-
 
   }
 
@@ -64,7 +58,30 @@ export class GoogleloginComponent {
     try {
 
       const provider = new firebase.auth.GoogleAuthProvider();
-      const credential = await this.afAuth.auth.signInWithPopup(provider);
+     // const credential = await this.afAuth.auth.signInWithPopup(provider);
+
+      this.afAuth.auth.signInWithPopup(provider).then(function(result) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+
+        this.navctrl.push();
+        // ...
+      }).catch(function(error) {
+
+        console.log(error);
+
+        // Handle Errors here.
+       // var errorCode = error.code;
+       // var errorMessage = error.message;
+        // The email of the user's account used.
+      //  var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+       // var credential = error.credential;
+        // ...
+      });
+      
 
     }
     catch (err) {
