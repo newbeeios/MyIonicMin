@@ -9,7 +9,7 @@ import { LoadingController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { SettingsProvider } from './../../providers/settings/settings';
 import { FormControl } from '@angular/forms';
-
+import { AuthService } from './../../providers/auth.service';
 
 @Component({
   selector: 'page-home',
@@ -22,10 +22,14 @@ export class HomePage {
   selectedTheme: String;
   searchControl: FormControl;
   searching: any = false;
+  isLoading:boolean=true;
 
-  constructor(public navCtrl: NavController, public firebaseProvider: FirebaseProvider, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private settings: SettingsProvider, private af: AngularFireDatabase, ) {
+  constructor(private authSer: AuthService,public navCtrl: NavController, public firebaseProvider: FirebaseProvider, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private settings: SettingsProvider, private af: AngularFireDatabase ) {
     this.searchControl = new FormControl();
-    this.shoppingItems = this.firebaseProvider.getShoppingItems();
+    //this.shoppingItems = this.firebaseProvider.getShoppingItems();
+    //this.shoppingItems.subscribe(()=> this.isLoading=false);
+
+
     this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
   }
 
@@ -65,17 +69,28 @@ export class HomePage {
 
       this.shoppingItems = this.af.list('/forms', {
         query: {
-          limitToLast: 200,
-          orderByChild: 'formname',
-          startAt: this.searchText
+          limitToLast: 2000,
+          orderByChild: 'createdby',
+          equalTo: this.authSer.userDetails.email //,
+          //startAt: this.searchText
         }
-      })
+      });
+      this.shoppingItems.subscribe(()=> this.isLoading=false);
 
       this.searching = false;
 
     }
     else {
-      this.shoppingItems = this.af.list('/forms');
+      this.shoppingItems = this.af.list('/forms',{
+        query: {
+          limitToLast: 2000,
+          orderByChild: 'createdby',
+          equalTo: this.authSer.userDetails.email //,
+          //startAt: this.searchText
+        }
+        });
+
+        this.shoppingItems.subscribe(()=> this.isLoading=false);
     }
   }
 
@@ -87,9 +102,10 @@ export class HomePage {
     let filteredItems = [];
     this.shoppingItems = this.af.list('/forms', {
       query: {
-        limitToLast: 200,
-        orderByChild: 'formname',
-        equalTo: this.searchText
+        limitToLast: 2000,
+        orderByChild: 'createdby',
+        equalTo: this.authSer.userDetails.email
+        //equalTo: this.searchText
       }
     })
     //Filter logic here

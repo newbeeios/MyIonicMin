@@ -9,37 +9,38 @@
         <ion-icon name="contact"></ion-icon>
       </button>
     </ion-buttons> -->
-  </ion-navbar>
-</ion-header>
+
  
-<ion-content>
+
+  </ion-navbar>
+  <ion-toolbar> 
+      <ion-searchbar [(ngModel)]="searchText" [formControl]="searchControl"></ion-searchbar>
+      
+      <div *ngIf="searching" class="spinner-container">
+          <ion-spinner name="bubbles"></ion-spinner>
+      </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="container">
 
   
 
 
 
-<ion-toolbar> 
-    <ion-searchbar [(ngModel)]="searchText" [formControl]="searchControl"></ion-searchbar>
-    
-    <div *ngIf="searching" class="spinner-container">
-        <ion-spinner name="bubbles"></ion-spinner>
-    </div>
-<!-- <ion-searchbar placeholder="Search" [(ngModel)]="searchText" (ioninput)="updateForms()">  -->
-<!-- <ion-searchbar placeholder="Search" [(ngModel)]="searchText" [FormControl]="searchControl"> 
-</ion-searchbar> -->
-<!-- <button ion-button full icon-left (click)="toggleAppTheme()">
-    <ion-icon  name="bulb"></ion-icon>Toggle Theme
-  </button> -->
-</ion-toolbar>
+
 
 
 <ion-list>
+
+    <ion-spinner  *ngIf="isLoading" name="bubbles"></ion-spinner>
+
   <ion-item-sliding *ngFor="let item of shoppingItems | async">
-  <ion-item (click)="goToInputForm($event,item)">
+  <ion-item  (click)="goToInputForm($event,item)">
     <ion-thumbnail item-start>
       <img src="{{item.imageurl}}">
     </ion-thumbnail>
-    <h2 style="font-weight:bold">{{item.formname}}</h2>
+    <h2 style="font-weight:bold">{{item.displaytext}}</h2>
     <p>{{item.description}}</p>
 
     <!-- <ion-icon name="arrow-forward" item-end></ion-icon> -->
@@ -48,6 +49,17 @@
   </ion-item-sliding>
 
 </ion-list>
+
+<ion-fab right bottom>
+  <button ion-fab color="light"><ion-icon name="arrow-dropleft"></ion-icon></button>
+  <ion-fab-list side="left">
+    <button ion-fab><ion-icon name="logo-facebook"></ion-icon></button>
+    <button ion-fab><ion-icon name="logo-twitter"></ion-icon></button>
+    <button ion-fab><ion-icon name="logo-vimeo"></ion-icon></button>
+    <button ion-fab><ion-icon name="logo-googleplus"></ion-icon></button>
+  </ion-fab-list>
+</ion-fab>
+
 
 
 </ion-content>

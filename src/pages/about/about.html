@@ -1,29 +1,13 @@
 <ion-header>
-  <ion-navbar color="secondary">
-    <ion-title>
-    <ion-icon name="notifications"></ion-icon>  Notifications   
-    </ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-content padding>
-
-  <ion-card>
-  <ion-card-header>
-    <ion-icon name="leaf"></ion-icon>  Planting Alert
-  </ion-card-header>
-  <ion-card-content>
-    All the planting reports should be submitted no later than 10th of this month. In case of failure the plantings will be considered as waste.
-  </ion-card-content>
-</ion-card>
-
-  <ion-card>
-  <ion-card-header>
-     Cleaning Notification <ion-icon name="alert"></ion-icon>
-  </ion-card-header>
-  <ion-card-content>
-    All the planting reports should be submitted no later than 10th of this month. In case of failure the plantings will be considered as waste.
-  </ion-card-content>
-</ion-card>
-
-</ion-content>
+    <ion-navbar hideBackButton="true">
+      <ion-title>Home</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content padding>
+  <h2>Welcome to Signature!</h2>
+  <button ion-button full (click)="openSignatureModel()">
+  Open Signature
+  </button>
+  <div><img [src]="signatureImage" *ngIf="signatureImage" /></div>
+  </ion-content>

@@ -4,7 +4,7 @@ import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Platform } from 'ionic-angular';
-
+import {AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database';
 
 
 @Injectable()
@@ -12,19 +12,26 @@ export class AuthService {
   public user: Observable<firebase.User>;
   public userDetails: firebase.User = null;
 
-constructor(private _firebaseAuth: AngularFireAuth,private gplus: GooglePlus, private platform: Platform) { 
-      this.user = _firebaseAuth.authState;
-      this.user.subscribe(
-        (user) => {
-          if (user) {
-            this.userDetails = user;
-            console.log(this.userDetails);
-          }
-          else {
-            this.userDetails = null;
-          }
+  appSettings = {
+    'webClientId': '540411607255-e5k8htocogjmvmqqmj10nvvp9a5o9fii.apps.googleusercontent.com',
+    'offline': true,
+    'scopes': 'profile email'
+  }
+
+  constructor(private _firebaseAuth: AngularFireAuth, private gplus: GooglePlus,
+     private platform: Platform,public afd:AngularFireDatabase)  {
+    this.user = _firebaseAuth.authState;
+    this.user.subscribe(
+      (user) => {
+        if (user) {
+          this.userDetails = user;
+          console.log(this.userDetails);
         }
-      );
+        else {
+          this.userDetails = null;
+        }
+      }
+    );
   }
 
 
@@ -40,13 +47,15 @@ constructor(private _firebaseAuth: AngularFireAuth,private gplus: GooglePlus, pr
 
   }
 
+  silentLogin() {
+    return this.gplus.trySilentLogin(this.appSettings);
+  }
+
+
+
   async nativeGoogleLogin(): Promise<void> {
     try {
-      const gplusUser = await this.gplus.login({
-        'webClientId': 'A540411607255-iu25jjg2orsng6gkhruj5jooccq6kjv0.apps.googleusercontent.com',
-        'offline': true,
-        'scopes': 'profile email'
-      })
+      const gplusUser = await this.gplus.login(this.appSettings);
 
       return await this._firebaseAuth.auth.signInWithCredential(
         firebase.auth.GoogleAuthProvider.credential(gplusUser.idToken)
@@ -63,21 +72,21 @@ constructor(private _firebaseAuth: AngularFireAuth,private gplus: GooglePlus, pr
     try {
 
       const provider = new firebase.auth.GoogleAuthProvider();
-     // const credential = await this.afAuth.auth.signInWithPopup(provider);
+      // const credential = await this.afAuth.auth.signInWithPopup(provider);
 
-      this._firebaseAuth.auth.signInWithPopup(provider).then(function(result) {
+      this._firebaseAuth.auth.signInWithPopup(provider).then(function (result) {
         // This gives you a Google Access Token. You can use it to access the Google API.
         var token = result.credential.accessToken;
         // The signed-in user info.
         var user = result.user;
 
- 
+
         // ...
-      }).catch(function(error) {
+      }).catch(function (error) {
 
         console.log(error);
       });
-      
+
 
     }
     catch (err) {
@@ -88,16 +97,30 @@ constructor(private _firebaseAuth: AngularFireAuth,private gplus: GooglePlus, pr
 
   signOut() {
 
-    this._firebaseAuth.auth.signOut();
+    console.log("Signout method entered");
+
+    //this.user = null;
+
 
     if (this.platform.is('cordova')) {
-      this.gplus.logout();
+
+      console.log("Platform is cordova");
+
+      return this.gplus.logout();
+    }
+    else {
+
+      return this._firebaseAuth.auth.signOut();
 
     }
 
   }
 
 
+  reset(email)
+  {
+  return this._firebaseAuth.auth.sendPasswordResetEmail(email);
+  }
 
   signInWithGoogle() {
     return this._firebaseAuth;
@@ -118,33 +141,45 @@ constructor(private _firebaseAuth: AngularFireAuth,private gplus: GooglePlus, pr
     )
   }
 
-  signInRegular(email, password) {
-    const credential = firebase.auth.EmailAuthProvider.credential( email, password );
-    return this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password)
- }
+  signInRegular(email,password)
+  {
+  return this._firebaseAuth.auth.signInWithEmailAndPassword(email,password);
+  
+  }
+
+  // signUpRegular(email, password) {
+  //   const credential = firebase.auth.EmailAuthProvider.credential(email, password);
+  //   return this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password)
+  // }
+
+
+  signUpRegular(email,password,firstname,lastname,phone)
+  {
+  return this._firebaseAuth.auth.createUserWithEmailAndPassword(email,password)
+   .then(newUser=>{
+    this.afd.list('/userProfile').update(newUser.uid,{email:email,firstname:firstname,lastname:lastname,phone:phone});
+  });
+  
+  }
+
+  setUser(data) {
+    console.log('Setting User Data: ', data);
+    this.user = data;
+  }
 
   isLoggedIn() {
-    if (this.userDetails == null ) {
-        return false;
-      } else {
-        return true;
-      }
+    if (this.userDetails == null) {
+      return false;
+    } else {
+      return true;
     }
+  }
 
   logout() {
-      this._firebaseAuth.auth.signOut()
-      .then((res) => {
-        console.log("Signed Out");
-        
+    return this._firebaseAuth.auth.signOut();
 
-      }
 
-      
+  }
 
-     // this.navCtrl.push(LoginPage) //this.router.navigate(['login'])
-    );
-    
-    }
-  
 
 }

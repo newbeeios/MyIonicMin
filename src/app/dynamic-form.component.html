@@ -1,3 +1,4 @@
+
 <div *ngIf="form">
   <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
@@ -9,7 +10,8 @@
     </div>
 
     <div class="form-row">
-        <button ion-button color="secondary" type="submit" [disabled]="!form.valid">Save</button>
+       
+        <button ion-button  full color="secondary" type="submit" [disabled]="!form.valid">Save</button>
     </div>
   </div>
    
@@ -20,3 +22,8 @@
     <!-- <strong>Saved the following values</strong><br>{{payLoad}} -->
   </div>
 </div>
+
+
+    
+
+

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { AuthService } from './../../providers/auth.service';
+import { LoginPage } from '../login/login';
 
 @Component({
   selector: 'settings',
@@ -17,7 +18,18 @@ export class SettingsComponent {
 
   logout(){
 
-   this._AuthService.logout();
+   this._AuthService.logout().then((res) => {
+    this.navCtrl.setRoot(LoginPage);
+    console.log("logout method fired Signed Out");
+    this._AuthService.user=null;
+
+
+  }
+
+
+
+  // this.navCtrl.push(LoginPage) //this.router.navigate(['login'])
+  );
 
   //  this._firebaseAuth.auth.signOut()
   //  .then((res) => {

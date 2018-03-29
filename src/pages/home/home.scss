@@ -1,4 +1,17 @@
 page-home {
 
+    .container{
+        display: -webkit-flex;
+        height: 100%;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,darkgray), color-stop(100%,#f7d47c));
+        background: -webkit-linear-gradient(top, darkgray 0%,#f7d47c 100%);
+    }
+
+    ion-spinner * {
+        width: 28px;
+        height: 28px;
+        stroke: #444;
+        fill: #222;
+      }
 
 }

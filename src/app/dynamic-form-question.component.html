@@ -79,7 +79,7 @@
                         <button type="button" ion-button (click)='presentActionSheet(question.key)'><ion-icon name="camera" style="padding-right:5px;"></ion-icon> Capture Image</button>
                     </ion-item>
                     <ion-item>
-                        <ion-input [readonly]="true" type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
+                        <ion-input type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
                         <!-- <ion-img  [src]="question.source" width="80" [formControlName]="question.key"   [id]="question.key"  height="80"></ion-img> -->
                     </ion-item>
                     <!-- <ion-thumbnail item-left>
@@ -95,20 +95,42 @@
                         <button type="button" ion-button (click)='getLocationCoordinates(question.key)'><ion-icon name="pin" style="color:white;padding-right:5px;"></ion-icon>  Gps Points</button>
                     </ion-item>
                     <ion-item>
-                        <ion-textarea type="text" [formControlName]="question.key" [id]="question.key"></ion-textarea>
+                        <ion-textarea style="height:80px;" elastic type="text" [formControlName]="question.key" [id]="question.key"></ion-textarea>
                     </ion-item>
                 </ion-list>
 
             </div>
-          
-      
+
+            <div *ngSwitchCase="'sign'" style="border-color:white;border-width:2px;border-style:dotted">
+
+                <signature-pad [options]="signaturePadOptions" id="signatureCanvas"></signature-pad>
+                <ion-list>
+                    <ion-item>
+                        <ion-input [readonly]="true" type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
+                    </ion-item>
+                </ion-list>
+                 <ion-grid>
+                      <ion-row>
+                        <!-- <ion-col col-4>
+                    <button ion-button  type="button" full color="danger" (click)="drawCancel()">Cancel</button>
+                        </ion-col> -->
+                        <ion-col col-4>
+                    <button ion-button  type="button" full color="light" (click)="drawClear()">Clear</button>
+                        </ion-col>
+                        <ion-col col-4>
+                    <button ion-button type="button" full color="primary" (click)="drawComplete(question.key)">Done</button>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid> 
+
+            </div>
 
         </div>
 
 
 
 
-        <ion-label text-left color="danger" class="errorMessage"  *ngIf="!isValid && (isDirty || isTouched)">{{question.label}} is required</ion-label>
+        <ion-label text-left color="danger" class="errorMessage" *ngIf="!isValid && (isDirty || isTouched)">{{question.label}} is required</ion-label>
 
 
     </div>

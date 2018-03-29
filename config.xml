@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.minuteforms.newcompany" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>MyApp</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+<widget id="com.minuteforms.new" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Minute Forms</name>
+    <description>Go Paperless</description>
+    <author email="waj1206@gmail.com" href="http://minuteforms.com/">Bharadwaja Gajula</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
@@ -77,15 +77,10 @@
         <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
     </platform>
-    <engine name="ios" spec="^4.4.0" />
     <plugin name="cordova-plugin-camera" spec="^3.0.0" />
     <plugin name="cordova-plugin-console" spec="^1.0.5" />
-    <plugin name="cordova-plugin-device" spec="^1.1.4" />
     <plugin name="cordova-plugin-geolocation" spec="^3.0.0">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
-    </plugin>
-    <plugin name="cordova-plugin-googleplus" spec="^5.2.1">
-        <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.540411607255-e5k8htocogjmvmqqmj10nvvp9a5o9fii" />
     </plugin>
     <plugin name="cordova-plugin-photo-library" spec="^2.1.0">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="To choose photos" />
@@ -97,4 +92,14 @@
     <plugin name="phonegap-plugin-barcodescanner" spec="^7.0.0">
         <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />
     </plugin>
+    <plugin name="cordova-plugin-googleplus" spec="^5.2.1">
+        <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.540411607255-e5k8htocogjmvmqqmj10nvvp9a5o9fii" />
+    </plugin>
+    <plugin name="phonegap-plugin-push" spec="^2.2.2">
+        <variable name="SENDER_ID" value="540411607255" />
+    </plugin>
+    <plugin name="cordova-plugin-fcm" spec="^2.1.2" />
+    <plugin name="cordova-plugin-device" spec="^1.1.4" />
+    <engine name="android" spec="^7.0.0" />
+    <engine name="ios" spec="^4.5.4" />
 </widget>

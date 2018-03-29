@@ -5,18 +5,23 @@ import { MyApp } from './app.component';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Camera } from '@ionic-native/camera';
+import { Device } from '@ionic-native/device';
 
 
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
+import {HistoryPage} from '../pages/history/history';
+
 import { DynamicFormPage } from '../pages/dynamicform/dynamicform';
 import { DFormPage } from '../pages/d-form/d-form';
 import { DynamicFormComponent }         from './dynamic-form.component';
 import { DynamicFormQuestionComponent } from './dynamic-form-question.component';
 import {PicklistModalViewPage} from '../pages/picklist-modal-view/picklist-modal-view';
 import {LoginPage} from '../pages/login/login';
+import {SignupPage} from '../pages/signup/signup';
+import {ResetPasswordPage} from '../pages/resetpassword/resetpassword';
 import {ReportsPage} from '../pages/reports/reports';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -35,8 +40,16 @@ import { SettingsProvider } from './../providers/settings/settings';
 
 import {SettingsComponent} from '../pages/settings/settings';
 
+
+
 import {GooglePlus} from '@ionic-native/google-plus';
 import {GoogleloginComponent} from './../components/googlelogin/googlelogin';
+import { Push} from '@ionic-native/push';
+import { FCM } from '@ionic-native/fcm';
+
+
+import { SignaturePage } from '../pages/signature/signature';
+import { SignaturePadModule } from 'angular2-signaturepad';
 
 
 export const firebaseConfig={
@@ -64,9 +77,13 @@ export const firebaseConfig={
     DynamicFormQuestionComponent,
     PicklistModalViewPage,
     LoginPage,
+    SignupPage,
+    ResetPasswordPage,
     SettingsComponent,
     ReportsPage,
-    GoogleloginComponent
+    GoogleloginComponent,
+    SignaturePage,
+    HistoryPage
   ],
   imports: [
     BrowserModule,
@@ -74,7 +91,8 @@ export const firebaseConfig={
     AngularFireModule.initializeApp(firebaseConfig),
     IonicModule.forRoot(MyApp),
     HttpModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    SignaturePadModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -87,9 +105,13 @@ export const firebaseConfig={
     DFormPage,
     PicklistModalViewPage,
     LoginPage,
+    SignupPage,
+    ResetPasswordPage,
     SettingsComponent,
     ReportsPage,
-    GoogleloginComponent
+    GoogleloginComponent,
+    SignaturePage,
+    HistoryPage
   ],
   providers: [
     StatusBar,
@@ -102,7 +124,10 @@ export const firebaseConfig={
     Camera,
     AuthService,
     SettingsProvider,
-    GooglePlus
+    GooglePlus,
+    Push,
+    FCM,
+    Device
   ]
 })
 export class AppModule {}

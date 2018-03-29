@@ -4,6 +4,8 @@ import { FormGroup } from '@angular/forms';
 import { QuestionBase } from './../../providers/question-base';
 import { QuestionService } from './../../providers/question-service';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+
+
 import { Observable } from 'rxjs';
 
 //Controrls Import
@@ -20,12 +22,19 @@ import { CheckboxQuestion } from './../../providers/question-checkbox';
 import { PickListQuestion } from './../../providers/question-picklist';
 import {DateQuestion} from './../../providers/question-date';
 import {TimeQuestion} from './../../providers/question-time';
+import {SignatureQuestion} from './../../providers/question-signature';
+
+
 
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/toPromise';
 import { BehaviorSubject } from "rxjs/Rx";
+
+
+
+
 
 // @IonicPage()
 @Component({
@@ -304,6 +313,21 @@ console.log(elementData.elementtype);
   
         });
 
+
+    case 'Signature':
+
+    return new SignatureQuestion({
+      key: elementData.elementname,
+      label: elementData.displaytext,
+      value: '',
+      required: elementData.required?elementData.required:false,
+      order: elementData.sortorder
+
+    });
+
+    
+
+
      case 'Segment':
      console.log("========================SEGMENT=====================");
      if(elementData.options==undefined)
@@ -359,7 +383,7 @@ console.log(elementData.elementtype);
       return new DateQuestion({
         key: elementData.elementname,
         label: elementData.displaytext,
-        value: elementData.value,
+        value: new Date().toISOString(),  //elementData.value,
         required: elementData.required?elementData.required:false,
         order: elementData.sortorder
 

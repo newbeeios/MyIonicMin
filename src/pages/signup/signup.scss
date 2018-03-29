@@ -1,0 +1,68 @@
+page-signup{
+    
+        .signup-container {
+            display: -webkit-flex;
+            height: 100%;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,darkgray), color-stop(100%,#f7d47c));
+            background: -webkit-linear-gradient(top, darkgray 0%,#f7d47c 100%);
+        }
+    
+    
+        ion-label, .select-text {
+            margin-left: 10px;
+        }
+    
+    ion-label{
+        font-size: 18px !important;
+        color:grey;
+        // font-weight: bold;
+    }
+    
+    .error{
+        color:orangered;
+        // font-weight: bold;
+    }
+    
+    
+    
+        // ion-input, ion-select, ion-textarea {
+        //     background-color: #f2f2f2;
+        //     padding: 5px 10px;
+        // }
+    
+        .invalid {
+            border: 1px solid #ea6153;
+        }
+        
+        p {
+            font-size: 0.8em;
+            color: #d2d2d2;
+        }
+    
+    
+        .button-rounded {
+            display: block !important;
+            width: 30px !important;
+            height: 30px !important;
+            line-height: 30px !important;
+            border: 2px solid white !important;
+            border-radius: 50% !important;
+            color: white !important;
+            text-align: center !important;
+            text-decoration: none !important;
+            font-size: 10px !important;
+            font-weight: bold !important;
+          }
+          
+          
+          .bar .buttons .button.button-icon .icon::before, .bar .buttons .button.button-icon::before, .bar .buttons .button.button-icon.icon-left::before, .bar .buttons .button.button-icon.icon-right::before {
+            font-size: 24px;
+            line-height: 24px;
+          }
+    
+    
+    
+    
+    
+    }
+    

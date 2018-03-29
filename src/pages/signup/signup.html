@@ -1,0 +1,59 @@
+
+<!-- <ion-header>
+    
+      <ion-navbar>
+        <ion-title>Sign Up</ion-title>
+      </ion-navbar>
+    
+    </ion-header> -->
+    
+    
+    <ion-content padding class="signup-container">
+    
+        <h2 style="color:white;font-weight:bold;">Minute Forms</h2>
+
+        <form [formGroup]="signup" (ngSubmit)="logForm()">
+            <ion-item>
+              <ion-label stacked>First Name</ion-label>
+              <ion-input type="text" formControlName="firstname"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="!signup.controls.firstname.valid  && (signup.controls.firstname.dirty)">
+                <p class="error">Please enter First Name.</p>
+            </ion-item>
+            <ion-item>
+              <ion-label stacked>Last Name</ion-label>
+              <ion-input type="text"  formControlName="lastname"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="!signup.controls.lastname.valid  && (signup.controls.lastname.dirty)">
+                <p class="error">Please enter Last Name.</p>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Email</ion-label>
+                <ion-input type="text"  formControlName="email"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="!signup.controls.email.valid  && (signup.controls.email.dirty)">
+                <p class="error">Please enter valid Email.</p>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Phone Number</ion-label>
+                <ion-input type="text"  formControlName="phonenumber"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="!signup.controls.phonenumber.valid  && (signup.controls.phonenumber.dirty)">
+                <p class="error">Please enter a valid Phone Number.</p>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Password</ion-label>
+                <ion-input type="password"  formControlName="password"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="!signup.controls.password.valid  && (signup.controls.password.dirty)">
+                <p class="error">Please enter Password with minimum 6 characters.</p>
+            </ion-item>
+            
+            <button ion-button ion-left block type="submit" style="margin-top:10px;" [disabled]="!signup.valid"><b>Register</b></button>
+    
+            <button ion-button ion-left block type="button" style="margin-top:10px;" (click)="LoginPage()"><b>Back to Login</b></button>
+    
+          </form>
+    
+    </ion-content>
+    

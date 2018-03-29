@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-
 import { AboutPage } from '../about/about';
 import { ContactPage } from '../contact/contact';
 import { HomePage } from '../home/home';
 import { DFormPage } from '../d-form/d-form';
 import {SettingsComponent} from '../settings/settings';
 import {ReportsPage} from '../reports/reports';
+import {HistoryPage} from '../history/history';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -13,7 +13,7 @@ import {ReportsPage} from '../reports/reports';
 export class TabsPage {
 
   tab1Root = HomePage;
-  tab2Root = AboutPage;
+  tab2Root = HistoryPage; //AboutPage;
   tab3Root = SettingsComponent;
   tab4Root = ReportsPage;
 
