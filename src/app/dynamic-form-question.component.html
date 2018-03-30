@@ -11,6 +11,11 @@
                 <ion-input type="number" [formControlName]="question.key" [id]="question.key"></ion-input>
             </ion-item>
 
+            <ion-segment no-lines *ngSwitchCase="'yesno'" [formControlName]="question.key">
+                <ion-segment-button [value]="Yes">Yes</ion-segment-button>
+                <ion-segment-button [value]="No">No</ion-segment-button>
+            </ion-segment>
+
             <ion-segment no-lines *ngSwitchCase="'segment'" [formControlName]="question.key">
                 <ion-segment-button *ngFor="let opt of question.options" [value]="opt.value">
                     {{opt.value}}
@@ -109,19 +114,19 @@
                         <ion-input [readonly]="true" type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
                     </ion-item>
                 </ion-list>
-                 <ion-grid>
-                      <ion-row>
+                <ion-grid>
+                    <ion-row>
                         <!-- <ion-col col-4>
                     <button ion-button  type="button" full color="danger" (click)="drawCancel()">Cancel</button>
                         </ion-col> -->
                         <ion-col col-4>
-                    <button ion-button  type="button" full color="light" (click)="drawClear()">Clear</button>
+                            <button ion-button type="button" full color="light" (click)="drawClear()">Clear</button>
                         </ion-col>
                         <ion-col col-4>
-                    <button ion-button type="button" full color="primary" (click)="drawComplete(question.key)">Done</button>
+                            <button ion-button type="button" full color="primary" (click)="drawComplete(question.key)">Done</button>
                         </ion-col>
-                      </ion-row>
-                    </ion-grid> 
+                    </ion-row>
+                </ion-grid>
 
             </div>
 

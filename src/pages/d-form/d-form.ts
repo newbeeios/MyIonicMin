@@ -280,6 +280,7 @@ console.log(elementData.elementtype);
         order: elementData.sortorder
 
       });
+
      
     case 'CheckBox':
 
@@ -350,6 +351,20 @@ console.log(elementData.elementtype);
       }
 
    
+    case 'YesNo':
+
+    return  new SegmentQuestion({
+      key: elementData.elementname,
+      label: elementData.displaytext,
+       options: [
+         { key: 'Yes', value: 'Yes' },
+         { key: 'No', value: 'No' },
+         { key: 'N/A', value: 'N/A' }
+       ],
+       order: elementData.sortorder,
+       required: elementData.required?elementData.required:false
+     });
+
 
      case 'Gender':
         
