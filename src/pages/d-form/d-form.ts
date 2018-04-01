@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,LoadingController } from 'ionic-angular';
 import { FormGroup } from '@angular/forms';
 import { QuestionBase } from './../../providers/question-base';
 import { QuestionService } from './../../providers/question-service';
@@ -79,7 +79,7 @@ export class DFormPage implements OnInit,OnChanges {
   }
 
 
-  constructor(public navCtrl: NavController, public af: AngularFireDatabase, public navParams: NavParams, private qcs: QuestionService) {
+  constructor(public loadingCtrl: LoadingController,public navCtrl: NavController, public af: AngularFireDatabase, public navParams: NavParams, private qcs: QuestionService) {
     this.parameter1 = navParams.get('param1');
     this.formName =  this.parameter1.formname;
     this.formKey = this.parameter1.$key;
@@ -143,6 +143,14 @@ export class DFormPage implements OnInit,OnChanges {
     console.log("Async Function entered");
     console.log(FormKey);
 
+
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Loading...'
+    });
+  
+    loading.present();
+
         const dbQuestions$ = this.af.list('/elements', {
           query: {
             limitToLast: 200,
@@ -163,6 +171,8 @@ export class DFormPage implements OnInit,OnChanges {
           // })
       
         ));
+
+        this.questions$.subscribe(()=>loading.dismiss());
       
     }
 

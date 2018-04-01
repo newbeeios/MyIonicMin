@@ -187,6 +187,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
 
   takePhoto(key) {
     let loader = this.loadingCtrl.create({
+      spinner: "bubbles",
       content: "Uploading Image..."
     });
 
@@ -210,6 +211,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
   selectPhoto(key): void {
 
     let loader = this.loadingCtrl.create({
+      spinner: "bubbles",
       content: "Uploading Image..."
     });
 

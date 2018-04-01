@@ -1,0 +1,34 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Submitted Data</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+
+  <ion-grid>
+    <ion-row *ngFor="let item of data">
+
+      <ion-col col-3 class="Label">{{item.key}}</ion-col>
+      <ion-col col-9 *ngIf="item.key.includes('Photo_') || item.key.includes('Sign_')">
+        <ion-thumbnail item-start>
+          <img src="{{item.value}}">
+        </ion-thumbnail>
+      </ion-col>
+      <ion-col col-9 item-end *ngIf="!item.key.includes('Photo_') && !item.key.includes('Sign_')">{{item.value}}</ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+  <ion-fab bottom right>
+      <button ion-fab color="secondary" (click)="printDisabled()"> <ion-icon name="print"></ion-icon></button>
+    </ion-fab>
+
+  <!-- {{formData | json}} -->
+
+
+</ion-content>

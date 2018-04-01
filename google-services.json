@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "540411607255",
+    "firebase_url": "https://minute-forms.firebaseio.com",
+    "project_id": "minute-forms",
+    "storage_bucket": "minute-forms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540411607255:android:58615fc32208a458",
+        "android_client_info": {
+          "package_name": "com.minuteforms.new"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "540411607255-iu25jjg2orsng6gkhruj5jooccq6kjv0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB80g4Y-AiVnGuUI4FLD_k3G3en30EPUps"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

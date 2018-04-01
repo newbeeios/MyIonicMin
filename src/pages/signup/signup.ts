@@ -38,7 +38,7 @@ export class SignupPage {
       this.firebaseService.signUpRegular(this.signup.value.email,this.signup.value.password,
         this.signup.value.firstname,this.signup.value.lastname,this.signup.value.phonenumber)
         .then(()=>{
-
+          this.loading.dismiss();
           this.navCtrl.setRoot(LoginPage);
           
         },error=>{

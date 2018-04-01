@@ -6,6 +6,8 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Camera } from '@ionic-native/camera';
 import { Device } from '@ionic-native/device';
+import { Printer } from '@ionic-native/printer';
+import { Network } from '@ionic-native/network';
 
 
 import { AboutPage } from '../pages/about/about';
@@ -23,6 +25,7 @@ import {LoginPage} from '../pages/login/login';
 import {SignupPage} from '../pages/signup/signup';
 import {ResetPasswordPage} from '../pages/resetpassword/resetpassword';
 import {ReportsPage} from '../pages/reports/reports';
+import {DataPage} from '../pages/data/data';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -81,6 +84,7 @@ export const firebaseConfig={
     ResetPasswordPage,
     SettingsComponent,
     ReportsPage,
+    DataPage,
     GoogleloginComponent,
     SignaturePage,
     HistoryPage
@@ -109,6 +113,7 @@ export const firebaseConfig={
     ResetPasswordPage,
     SettingsComponent,
     ReportsPage,
+    DataPage,
     GoogleloginComponent,
     SignaturePage,
     HistoryPage
@@ -122,6 +127,8 @@ export const firebaseConfig={
     BarcodeScanner,
     Geolocation,
     Camera,
+    Printer,
+    Network,
     AuthService,
     SettingsProvider,
     GooglePlus,

@@ -10,7 +10,7 @@
     
     <ion-content padding class="signup-container">
     
-        <h2 style="color:white;font-weight:bold;">Minute Forms</h2>
+        <h2 style="color:white;font-weight:bold;"><ion-icon name="jet"></ion-icon> Minute Forms</h2>
 
         <form [formGroup]="signup" (ngSubmit)="logForm()">
             <ion-item>
@@ -49,9 +49,9 @@
                 <p class="error">Please enter Password with minimum 6 characters.</p>
             </ion-item>
             
-            <button ion-button ion-left block type="submit" style="margin-top:10px;" [disabled]="!signup.valid"><b>Register</b></button>
+            <button color="secondary" ion-button ion-left block type="submit" style="margin-top:10px;" [disabled]="!signup.valid">Register</button>
     
-            <button ion-button ion-left block type="button" style="margin-top:10px;" (click)="LoginPage()"><b>Back to Login</b></button>
+            <button ion-button ion-left block type="button" style="margin-top:10px;" (click)="LoginPage()"><ion-icon name="md-arrow-round-back" style="padding-right:5px;"></ion-icon>  Back to Login</button>
     
           </form>
     

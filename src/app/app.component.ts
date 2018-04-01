@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
-import { Platform, AlertController,NavController } from 'ionic-angular';
+import { Platform, AlertController,NavController,ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { SettingsProvider } from './../providers/settings/settings';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
-
 import { Push, PushObject, PushOptions } from '@ionic-native/push';
 import { FCM } from '@ionic-native/fcm';
 import { AuthService } from './../providers/auth.service';
-
+import { Network } from '@ionic-native/network';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,7 +17,7 @@ export class MyApp {
   rootPage: any = LoginPage;
   selectedTheme: String;
   //rootPage:any = LoginPage;
-  constructor(  private authService: AuthService,private fcm: FCM, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private settings: SettingsProvider, private push: Push, private alertCtrl: AlertController) {
+  constructor(private toastCtrl: ToastController,private network: Network,  private authService: AuthService,private fcm: FCM, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private settings: SettingsProvider, private push: Push, private alertCtrl: AlertController) {
     this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -37,6 +36,20 @@ export class MyApp {
         }
       );
 
+           // IN CASE THE USER DISCONNECT
+           this.network.onDisconnect().subscribe(() => {
+
+            this.presentToast("network was disconnected :-(");
+            //DO YOUR CODE, SAVE SOMETHING ON LOCALDATABASE, CALL FUNCTION, ETC.
+          });
+    
+          // IN CASE USER RECONECCT BACK
+          this.network.onConnect().subscribe(() => {
+
+            this.presentToast("network connected!");
+           // DO CODE
+          });
+
     
 
 
@@ -49,6 +62,21 @@ export class MyApp {
 
 
     });
+  }
+
+
+  presentToast(Message:any) {
+    let toast = this.toastCtrl.create({
+      message: Message,
+      duration: 3000,
+      position: 'top'
+    });
+  
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+  
+    toast.present();
   }
 
   pushsetup() {
