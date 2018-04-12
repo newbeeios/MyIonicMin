@@ -26,7 +26,7 @@
 
 <ion-list>
 
-    <ion-spinner  *ngIf="isLoading" name="bubbles"></ion-spinner>
+    <!-- <ion-spinner  *ngIf="isLoading" name="bubbles"></ion-spinner> -->
 
   <ion-item-sliding *ngFor="let item of shoppingItems | async">
   <ion-item  (click)="goToInputForm($event,item)">

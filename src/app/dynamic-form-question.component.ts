@@ -82,7 +82,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
   constructor(private barcodeScanner: BarcodeScanner, private platform: Platform, private geolocation: Geolocation, private camera: Camera,
     public loadingCtrl: LoadingController, public actionSheetCtrl: ActionSheetController,
     public modalCtrl: ModalController, public navCtrl: NavController) {
-    this.myPhotosRef = firebase.storage().ref('/Photos/');
+    this.myPhotosRef = firebase.storage().ref();
 
     console.log("DynamicFormQuestionComponent constructor entered========");
     console.log(this.question);
@@ -230,11 +230,13 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
   }
 
   private uploadPhoto(key, loader): void {
-    this.myPhotosRef.child(this.generateUUID()).child('myPhoto.png')
+    var newGUID = this.generateUUID();
+    this.myPhotosRef.child(newGUID + '.png')
       .putString(this.myPhoto, 'base64', { contentType: 'image/png' })
       .then((savedPicture) => {
         this.myPhotoURL = savedPicture.downloadURL;
-        this.form.get(key).setValue(this.myPhotoURL);
+        this.form.get(key).setValue('thumb_' + newGUID + '.png');
+        //this.form.get(key).setValue(this.myPhotoURL);
         loader.dismiss();
 
       });
@@ -286,13 +288,12 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
   }
 
 
-
-
   getLocationCoordinates(key) {
 
     this.platform.ready().then(() => {
 
       let loader = this.loadingCtrl.create({
+        spinner: "bubbles",
         content: "Please wait..."
       });
       loader.present();
@@ -336,16 +337,18 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
   }
 
   private uploadSignature(key, loader): void {
-    console.log("Image Data "+this.signatureImage);
-    
+    console.log("Image Data " + this.signatureImage);
 
-    this.myPhotosRef.child(this.generateUUID()+'.png')
+    var NewGUID = this.generateUUID();
+
+    this.myPhotosRef.child(NewGUID + '.png')
       .putString(this.signatureImage, 'data_url')
       .then((savedPicture) => {
-      
+
         this.myPhotoURL = savedPicture.downloadURL;
 
-        this.form.get(key).setValue(this.myPhotoURL);
+        //this.form.get(key).setValue(this.myPhotoURL);
+        this.form.get(key).setValue('thumb_' + NewGUID + '.png');
         loader.dismiss();
 
       });
@@ -360,7 +363,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
     //this.uploadImage(this.signatureImage, loader);
 
     this.signatureImage = this.signaturePad.toDataURL();
-    this.uploadSignature(key,loader);
+    this.uploadSignature(key, loader);
 
 
     //this.form.get(key).setValue(this.signatureImage); 

@@ -10,13 +10,16 @@
 <ion-content padding>
 
 
+ 
+
+
   <ion-grid>
     <ion-row *ngFor="let item of data">
 
       <ion-col col-3 class="Label">{{item.key}}</ion-col>
       <ion-col col-9 *ngIf="item.key.includes('Photo_') || item.key.includes('Sign_')">
         <ion-thumbnail item-start>
-          <img src="{{item.value}}">
+          <img class="{{item.key}}" src="">
         </ion-thumbnail>
       </ion-col>
       <ion-col col-9 item-end *ngIf="!item.key.includes('Photo_') && !item.key.includes('Sign_')">{{item.value}}</ion-col>

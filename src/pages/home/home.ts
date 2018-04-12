@@ -22,7 +22,7 @@ export class HomePage {
   selectedTheme: String;
   searchControl: FormControl;
   searching: any = false;
-  isLoading:boolean=true;
+  isLoading:boolean=false;
 
   constructor(private authSer: AuthService,public navCtrl: NavController, public firebaseProvider: FirebaseProvider, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private settings: SettingsProvider, private af: AngularFireDatabase ) {
     this.searchControl = new FormControl();
@@ -63,9 +63,20 @@ export class HomePage {
   }
 
   setFilteredItems() {
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Loading...'
+    });
+
+    //loading.present();
+
     if (this.searchText != '') {
       this.searching = true;
       console.log(this.searchText);
+
+    
+    
+      
 
       this.shoppingItems = this.af.list('/forms', {
         query: {
@@ -75,7 +86,12 @@ export class HomePage {
           //startAt: this.searchText
         }
       });
-      this.shoppingItems.subscribe(()=> this.isLoading=false);
+
+      this.shoppingItems.subscribe(()=> {
+      this.isLoading=false;
+      //loading.dismiss();
+    }
+    );
 
       this.searching = false;
 
@@ -90,7 +106,11 @@ export class HomePage {
         }
         });
 
-        this.shoppingItems.subscribe(()=> this.isLoading=false);
+        this.shoppingItems.subscribe(()=> {
+        //loading.dismiss();
+        }
+      //  this.isLoading=false
+      );
     }
   }
 

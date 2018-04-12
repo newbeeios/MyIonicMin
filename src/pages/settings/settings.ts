@@ -10,10 +10,15 @@ import { LoginPage } from '../login/login';
 export class SettingsComponent {
 
   text: string;
+  userDetails: any;
 
   constructor(private _AuthService: AuthService,public navCtrl: NavController,private alertCtrl:AlertController ) {
     console.log('Hello SettingsComponent Component');
     this.text = 'Hello World';
+
+    this.userDetails = _AuthService.userDetails;
+
+    console.log(this.userDetails);
   }
 
 

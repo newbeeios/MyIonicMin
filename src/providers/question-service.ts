@@ -22,15 +22,15 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class QuestionService {
 
-  //public questions: QuestionBase<any>[] = [];
+
 
   public questions: QuestionBase<any>[] = [];
 
   questions$: QuestionBase<any>[]=[];
-  //public questions: Observable<QuestionBase<any>[]>;
+
   pageData: any;
 
-  constructor(public af: AngularFireDatabase, private http: Http) {
+  constructor(public af: AngularFireDatabase) {
 
   }
 
@@ -62,45 +62,17 @@ export class QuestionService {
 
 
   getQuestions$() {
-    const url ='https://api.myjson.com/bins/d0srd'; //'https://minute-forms.firebaseio.com/elements.json'; 
    
-
-
-
-
-
-   // console.log('getQuestions Triggered');
-
    return this.af.list('/elements/').map((items)=>{
     items.map(questionMetadata => this.metadataToQuestions(questionMetadata))
-    //.map(questions=>questions)
     
-    //.sort((a, b) => a.order - b.order)
-    //.map(questions => questions.sort((a, b) => a.order - b.order))
    });
     
 
 
-  //  var testConnection = this.af.list('/elements/')
-  //  .map((items) => { //first map
-  //    console.log(items);
-  //    return items.map(item => { //second map
-  //      console.log(items);
-  //      console.log(item);
-  //    })
-  //  })
 
 
-    // return this.http.get(url)
-    // .map(response => response.json())
-    // .map(questionMetadata => this.metadataToQuestions(questionMetadata))
-    // .map(questions => questions.sort((a, b) => a.order - b.order))
    
-   
-    // return this.http.get(url)
-    //   .map(response => response.json())
-    //   .map(questionMetadata => this.metadataToQuestions(questionMetadata))
-    //   .map(questions => questions.sort((a, b) => a.order - b.order))
 
 
 
@@ -111,19 +83,15 @@ export class QuestionService {
 
 
 
-  //questions: FirebaseListObservable<QuestionBase<any>[]>;
-
-
-  // getQuestions(FormKey: string): Observable<QuestionBase<any>[]> {
-  getQuestions(FormKey: string) //: QuestionBase<any>[] 
+  getQuestions(FormKey: string) 
   {
 
     var dbQuestions = this.af.object('/elements/', { preserveSnapshot: true }).take(100);
 
     this.af.object('/elements/', { preserveSnapshot: true }).take(1).forEach(function (child) {
 
-      var key = child.key;
-      //var elementData = child.val();
+    
+      
       console.log("=======================Inside Foreach ==========================");
 
 
@@ -197,7 +165,7 @@ export class QuestionService {
 
     });
 
-    //return this.questions;
+    
 
   }
 
@@ -206,9 +174,9 @@ export class QuestionService {
   console.log(questionMetadata);
 
   this.questions.push(this.toQuestion(questionMetadata));
-  //return questionMetadata.map(this.toQuestion);
+  
    return this.toQuestion(questionMetadata);
-    //return questionMetadata.questions.map(this.toQuestion)
+    
   }
 
 
@@ -369,126 +337,4 @@ export class QuestionService {
 
 
 
-    // let questions1: QuestionBase<any>[] = [
-
-
-    //   new MultiSelectQuestion({
-    //     key: 'role',
-    //     label: 'Roles',
-    //     options: [
-    //       { key: 'developer', value: 'Developer' },
-    //       { key: 'manager', value: 'Manager' },
-    //       { key: 'hr', value: 'HR' },
-    //       { key: 'sales', value: 'Sales' }
-
-    //     ],
-    //     order: 1
-    //   }),
-    //   new SegmentQuestion({
-    //     key: 'gender',
-    //     label: 'Gender',
-    //     options: [
-    //       { key: 'male', value: 'Male' },
-    //       { key: 'female', value: 'Female' },
-    //       { key: 'unknown', value: 'Unknown' }
-
-    //     ],
-    //     order: 1
-    //   }),
-
-    //   new TextboxQuestion({
-    //     key: 'firstName',
-    //     label: 'First name',
-    //     value: 'Bombasto',
-    //     required: true,
-    //     order: 2
-    //   }),
-    //   new ScannerQuestion({
-    //     key: 'scan',
-    //     label: 'Scan barcode',
-    //     value: '',
-    //     required: false,
-    //     order: 2
-    //   }),
-
-    //   new TextboxQuestion({
-    //     key: 'lastname',
-    //     label: 'Last Name',
-    //     value: '',
-    //     required: false,
-    //     order: 3
-    //   }),
-
-    //   new TextboxQuestion({
-    //     key: 'emailAddress',
-    //     label: 'Email',
-    //     value: '',
-    //     type: 'email',
-    //     order: 4
-    //   }),
-
-    //   new TextboxQuestion({
-    //     key: 'Zip',
-    //     label: 'Zip Code',
-    //     value: '',
-    //     required: true,
-    //     order: 5
-    //   }),
-
-    //   new TextAreaQuestion({
-    //     key: 'Comments',
-    //     label: 'Comments',
-    //     value: '',
-    //     required: true,
-    //     order: 6
-
-    //   }),
-    //   new GpsQuestion({
-    //     key: 'GpsPoints',
-    //     label: 'Location Coordinates',
-    //     value: '',
-    //     required: false,
-    //     order: 7
-
-    //   }),
-    //   new PictureQuestion({
-    //     key: 'pictures',
-    //     label: 'Capture Photo',
-    //     source: '',
-    //     required: false,
-    //     order: 8
-
-    //   }),
-    //   new CheckboxQuestion({
-    //     key: 'local',
-    //     label: 'Are you local?',
-    //     value: false,
-    //     required: false,
-    //     order: 9
-
-    //   }),
-    //   new PickListQuestion({
-    //     key: 'city',
-    //     label: 'City',
-    //     options: [
-    //       { key: 'Greensboro', value: 'Greensboro' },
-    //       { key: 'Raleigh', value: 'Raleigh' },
-    //       { key: 'Charlotte', value: 'Charlotte' },
-    //       { key: 'Morrisville', value: 'Morrisville' }
-
-    //     ],
-    //     order: 10
-    //   }),
-    //   new DropdownQuestion({
-    //     key: 'satisfy',
-    //     label: 'How do you rate this form?',
-    //     options: [
-    //       { key: 'ok', value: 'Ok' },
-    //       { key: 'average', value: 'Average' },
-    //       { key: 'awesome', value: 'Awesome' }
-
-    //     ],
-    //     order: 1
-    //   }),
-
-    // ];
+    

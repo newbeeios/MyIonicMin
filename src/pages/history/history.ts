@@ -22,13 +22,23 @@ import { Printer, PrintOptions } from '@ionic-native/printer';
 export class HistoryPage {
 
   historyItems: FirebaseListObservable<any[]>;
-  isLoading: boolean = true;
+  isLoading: boolean = false;
   searchControl: FormControl;
   searchText: string = '';
 
-  constructor(public printer: Printer, private authSer: AuthService, public navCtrl: NavController, public firebaseProvider: FirebaseProvider, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private settings: SettingsProvider, private af: AngularFireDatabase) {
+  constructor(public printer: Printer, private authSer: AuthService, 
+    public navCtrl: NavController, public firebaseProvider: FirebaseProvider,
+     public alertCtrl: AlertController, public loadingCtrl: LoadingController, 
+     public toastCtrl: ToastController, private settings: SettingsProvider,
+      private af: AngularFireDatabase) {
     this.searchControl = new FormControl();
 
+
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Loading...'
+    });
+    loading.present();
 
     this.historyItems = this.af.list('/data', {
       query: {
@@ -39,7 +49,11 @@ export class HistoryPage {
       }
     });
 
-    this.historyItems.subscribe(() => this.isLoading = false);
+    this.historyItems.subscribe(() => {
+      loading.dismiss();
+    }
+    //this.isLoading = false
+  );
 
   }
 
@@ -48,6 +62,13 @@ export class HistoryPage {
   }
 
   setFilteredItems() {
+
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Loading...'
+    });
+    loading.present();
+
     if (this.searchText != '') {
       this.isLoading = true;
       console.log(this.searchText);
@@ -61,7 +82,11 @@ export class HistoryPage {
         }
       });
 
-      this.historyItems.subscribe(() => this.isLoading = false);
+      this.historyItems.subscribe(() => {
+        loading.dismiss();
+      }
+      //this.isLoading = false
+    );
 
     }
     else {
@@ -74,7 +99,11 @@ export class HistoryPage {
         }
       });
 
-      this.historyItems.subscribe(() => this.isLoading = false);
+      this.historyItems.subscribe(() => {
+        loading.dismiss();
+      }
+      //this.isLoading = false
+    );
     }
   }
 

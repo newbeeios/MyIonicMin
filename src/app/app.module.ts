@@ -8,14 +8,11 @@ import { Camera } from '@ionic-native/camera';
 import { Device } from '@ionic-native/device';
 import { Printer } from '@ionic-native/printer';
 import { Network } from '@ionic-native/network';
-
-
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import {HistoryPage} from '../pages/history/history';
-
 import { DynamicFormPage } from '../pages/dynamicform/dynamicform';
 import { DFormPage } from '../pages/d-form/d-form';
 import { DynamicFormComponent }         from './dynamic-form.component';
