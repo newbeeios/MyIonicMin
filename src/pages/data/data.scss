@@ -1,16 +1,41 @@
 page-data {
 
+    .scroll-content {
+      background-color: grey;
+  }
+  .grid{
+      background: white;
+  }
+      
+      .header .col {
+        background-color:lightgrey;
+      }
+      
+      .col {
+        border: solid 1px #428bca;
+        border-bottom-style: none;
+        border-right-style: none;
+      }
+      
+      .col:last-child {
+        border-right: solid 1px grey;
+      }
+      
+      .row:last-child .col {
+        border-bottom: solid 1px grey;
+      }
+
     // ion-grid{
     //     border-width: 1px;
     //     border-style: solid;
     //     border-color: #428bca;
     // }
 
-    .Label{
-        font-weight:bold;
-    //  color:#428bca;
+    // .Label{
+    //     font-weight:bold;
+      
 
-    }
+    // }
 
     ion-col
     {
@@ -29,3 +54,4 @@ page-data {
     // }
 
 }
+

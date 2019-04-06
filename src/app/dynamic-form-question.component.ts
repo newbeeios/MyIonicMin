@@ -82,7 +82,8 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
   constructor(private barcodeScanner: BarcodeScanner, private platform: Platform, private geolocation: Geolocation, private camera: Camera,
     public loadingCtrl: LoadingController, public actionSheetCtrl: ActionSheetController,
     public modalCtrl: ModalController, public navCtrl: NavController) {
-    this.myPhotosRef = firebase.storage().ref();
+    var storageRef  = firebase.storage().ref();
+    this.myPhotosRef = storageRef.child('images');
 
     console.log("DynamicFormQuestionComponent constructor entered========");
     console.log(this.question);
@@ -235,8 +236,9 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
       .putString(this.myPhoto, 'base64', { contentType: 'image/png' })
       .then((savedPicture) => {
         this.myPhotoURL = savedPicture.downloadURL;
-        this.form.get(key).setValue('thumb_' + newGUID + '.png');
-        //this.form.get(key).setValue(this.myPhotoURL);
+        //this.form.get(key).setValue('thumb_' + newGUID + '.png');
+        this.form.get(key).setValue( newGUID + '.png');
+      
         loader.dismiss();
 
       });

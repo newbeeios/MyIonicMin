@@ -5,6 +5,7 @@ import firebase from 'firebase';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from "rxjs/Rx";
 import { QuestionBase } from './../../providers/question-base';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 @IonicPage()
 @Component({
@@ -19,10 +20,60 @@ export class DataPage {
   //col:any = ["Field Name", "User Input"];
   //rows:any = [];
   data: { key: string, value: string }[] = [];
-
-  constructor(private printer: Printer, public navCtrl: NavController, public navParams: NavParams, private loadingCtrl: LoadingController, private alertCtrl: AlertController) {
+  columns: any[] = [];
+  formdata: any;
+  formName: any;
+  constructor(private printer: Printer, public af: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, private loadingCtrl: LoadingController, private alertCtrl: AlertController) {
     this.myPhotosRef = firebase.storage().ref();
     this.formData = navParams.get('param1');
+
+    //console.log(this.formData.$key);
+
+    var data1 = this.af.object('/forms/' + this.formData["formid"], { preserveSnapshot: true });
+    data1.subscribe(snapshot => {
+      this.formName = snapshot.val().displaytext;
+    });
+
+
+    this.af.list('/elements', {
+      query: {
+        limitToLast: 200,
+        orderByChild: 'formid',
+        equalTo: this.formData["formid"], //'-L1yqzYrLrPzSqXdlHZM',
+        preserveSnapshot: true
+      }
+    }).subscribe(snapshot => {
+      if (snapshot != undefined) {
+        //console.log(snapshot);
+
+        snapshot.forEach((childSnapshot) => {
+          this.columns.push({ columnDef: childSnapshot.elementname, elementtype: childSnapshot.elementtype, header: childSnapshot.displaytext, cell: (element: any) => `${element.elementname}` });
+          return false;
+        });
+      }
+
+    });
+
+    var recordData = this.af.object('/data/' + this.formData.$key, { preserveSnapshot: true });
+
+    recordData.subscribe(snap => {
+      this.formdata = snap.val();
+      for (var key in this.formData) {
+
+        if (key.toLowerCase().startsWith("photo_") || key.toLowerCase().startsWith("sign_")) {
+          this.getImageUrl(this.formData[key], key);
+        }
+
+        console.log(key);
+      }
+
+
+      console.log(snap.val());
+    });
+
+
+
+
   }
 
 
@@ -45,33 +96,25 @@ export class DataPage {
         continue;
       }
 
-  
 
-      if (key.includes("Photo_")) {
+
+      if (key.toLowerCase().includes("photo_")) {
 
         var ctrlKey: string = key;
-      //  alert("Inside Photo_" + this.formData[key]);
+        //  alert("Inside Photo_" + this.formData[key]);
         console.log();
         var imageURL: string = '';
         var imageName: string = this.formData[ctrlKey];
 
         if (imageName != "") {
 
-          firebase.storage().ref(imageName).getDownloadURL().then(function (url) {
+
+          firebase.storage().ref('images/' + imageName).getDownloadURL().then(function (url) {
             imageURL = url;
-            alert(ctrlKey);
-           var CurrentKey=ctrlKey;
-           
-           // do{
-             // alert(url + "=====IMAGE KEY=====" + CurrentKey);
-              (<HTMLImageElement>document.querySelector("." + CurrentKey)).src = url;
-  
-            // }while(url==null || url=='')
-   
 
-            //ctrlKey = '';
+            var CurrentKey = ctrlKey;
 
-            // console.log("IMAGE URL" + imageURL);
+            (<HTMLImageElement>document.querySelector("." + CurrentKey)).src = url;
 
           }).catch(function (error) {
             alert(error);
@@ -95,7 +138,7 @@ export class DataPage {
         //  console.log(error);
         // });
       }
-      else if (key.includes("Sign_")) {
+      else if (key.toLowerCase().includes("sign_")) {
 
         var ctrlKey: string = key;
         //alert("Inside Sign_" + this.formData[key]);
@@ -103,20 +146,16 @@ export class DataPage {
         var imageName: string = this.formData[ctrlKey];
         var imageURL: string = '';
 
-       // var ctrlKey = key;
-        firebase.storage().ref(imageName).getDownloadURL().then(function (url) {
 
-          alert( ctrlKey);
-          var CurrentKey=ctrlKey;
+        var storageRef = firebase.storage().ref();
+        storageRef.child('images/' + imageName).getDownloadURL().then(function (url) {
+          // firebase.storage().ref(imageName).getDownloadURL().then(function (url) {
+
+          alert(url);
+          var CurrentKey = ctrlKey;
           imageURL = url;
-          
 
-           //do{
-           // alert(url + "=====SIGN KEY=====" + CurrentKey);
-            (<HTMLImageElement>document.querySelector("." + CurrentKey)).src = url;
-
-          // }while(url==null || url=='')
- 
+          (<HTMLImageElement>document.querySelector("." + CurrentKey)).src = url;
 
           ctrlKey = '';
 
@@ -161,10 +200,30 @@ export class DataPage {
   }
 
 
+  getImageUrl(imageName, CurrentKey): any {
+
+    if (imageName != "") {
+      var storageRef = firebase.storage().ref();
+      storageRef.child('images/' + imageName).getDownloadURL().then(function (url) {
+        console.log("Inside IMAGE URL" + url);
+        (<HTMLImageElement>document.querySelector("." + CurrentKey)).src = url;
+        //return url;
+
+      }).catch(function (error) {
+        console.log(error);
+        // alert("Inside getImageUrl() "+error);
+        return error;
+
+
+      });
+    }
+
+  }
+
   presentAlert() {
     let alert = this.alertCtrl.create({
       title: 'Print',
-      subTitle: 'Print not available',
+      subTitle: 'Print available only with PRO Version',
       buttons: ['Dismiss']
     });
     alert.present();
@@ -192,3 +251,4 @@ export class DataPage {
 
 
 }
+

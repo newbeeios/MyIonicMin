@@ -37,14 +37,12 @@
     "angular2-signaturepad": "^2.8.0",
     "angularfire2": "^4.0.0-rc0",
     "chart.js": "^2.7.1",
-    "cordova-android": "^7.1.0",
-    "cordova-ios": "^4.4.0",
+    "cordova-android": "~6.3.0",
     "cordova-plugin-add-swift-support": "^1.6.0",
     "cordova-plugin-camera": "^3.0.0",
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-console": "^1.0.5",
     "cordova-plugin-device": "^1.1.4",
-    "cordova-plugin-fcm": "^2.1.2",
     "cordova-plugin-file": "^4.3.2",
     "cordova-plugin-geolocation": "^3.0.0",
     "cordova-plugin-googleplus": "^5.2.1",
@@ -97,12 +95,11 @@
       "cordova-plugin-googleplus": {
         "REVERSED_CLIENT_ID": "com.googleusercontent.apps.540411607255-e5k8htocogjmvmqqmj10nvvp9a5o9fii"
       },
-      "cordova-plugin-fcm": {},
       "cordova-plugin-printer": {},
       "cordova-plugin-network-information": {}
     },
     "platforms": [
-      "ios"
+      "android"
     ]
   }
 }

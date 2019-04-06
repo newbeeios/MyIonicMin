@@ -4,7 +4,7 @@ const spawn = require('child-process-promise').spawn
 
 
 exports.generateThumbnail = functions.storage.object()
-    .onChange(event => {
+    .onFinalize(event => {
         const object = event.data
         const filePath = object.name
         const fileName = filePath.split('/').pop()
@@ -48,3 +48,5 @@ exports.generateThumbnail = functions.storage.object()
 
 
     })
+
+
