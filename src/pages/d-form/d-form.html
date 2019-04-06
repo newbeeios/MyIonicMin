@@ -1,15 +1,19 @@
 
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Form {{formname}}</ion-title>
+  <ion-navbar color="primary">
+    <ion-title style="color:white"> <h1>{{formName}} </h1></ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding class="container"> 
-   
+
+  <div>
+    <label></label>
+  </div>
+
   <!-- <app-dynamic-form [questions]="(questions$ | async)"></app-dynamic-form> -->
   <div *ngIf="questions$">
   <app-dynamic-form  [formnamestring]="formName" [formId]="formKey" [questions]="(questions$ | async)"></app-dynamic-form>

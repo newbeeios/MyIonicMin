@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams,LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { FormGroup } from '@angular/forms';
 import { QuestionBase } from './../../providers/question-base';
 import { QuestionService } from './../../providers/question-service';
@@ -20,9 +20,9 @@ import { GpsQuestion } from './../../providers/question-gps';
 import { PictureQuestion } from './../../providers/question-picture';
 import { CheckboxQuestion } from './../../providers/question-checkbox';
 import { PickListQuestion } from './../../providers/question-picklist';
-import {DateQuestion} from './../../providers/question-date';
-import {TimeQuestion} from './../../providers/question-time';
-import {SignatureQuestion} from './../../providers/question-signature';
+import { DateQuestion } from './../../providers/question-date';
+import { TimeQuestion } from './../../providers/question-time';
+import { SignatureQuestion } from './../../providers/question-signature';
 
 
 
@@ -31,7 +31,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/toPromise';
 import { BehaviorSubject } from "rxjs/Rx";
-
 
 
 
@@ -45,15 +44,15 @@ import { BehaviorSubject } from "rxjs/Rx";
 
 
 
-export class DFormPage implements OnInit,OnChanges {
+export class DFormPage implements OnInit, OnChanges {
 
-   //@Input() questions: Observable<any>[]=[];
+  //@Input() questions: Observable<any>[]=[];
 
-    questions: QuestionBase<any>[]=[];
+  questions: QuestionBase<any>[] = [];
 
-    questions1$: QuestionBase<any>[]=[];
+  questions1$: QuestionBase<any>[] = [];
 
-    private _questions= new BehaviorSubject<QuestionBase<any>[]>([]);
+  private _questions = new BehaviorSubject<QuestionBase<any>[]>([]);
 
   //questions: BehaviorSubject<QuestionBase<any>[]> = new BehaviorSubject([]);
   //public questions: QuestionBase<any>[] = [];
@@ -64,75 +63,65 @@ export class DFormPage implements OnInit,OnChanges {
   payLoad = '';
   parameter1: any;
   questions$: Observable<any>;
-  formName='';
-  formKey='';
-  options: {key: string, value: string}[] = [];
+  formName: any;
+  formKey = '';
+  options: { key: string, value: string }[] = [];
   @Input()
   set data(value) {
-      // set the latest value for _data BehaviorSubject
-      this._questions.next(value);
+    // set the latest value for _data BehaviorSubject
+    this._questions.next(value);
   };
 
   get data() {
-      // get the latest value from _data BehaviorSubject
-      return this._questions.getValue();
+    // get the latest value from _data BehaviorSubject
+    return this._questions.getValue();
   }
 
 
-  constructor(public loadingCtrl: LoadingController,public navCtrl: NavController, public af: AngularFireDatabase, public navParams: NavParams, private qcs: QuestionService) {
+  constructor(public loadingCtrl: LoadingController, public navCtrl: NavController, public af: AngularFireDatabase, public navParams: NavParams, private qcs: QuestionService) {
+
     this.parameter1 = navParams.get('param1');
-    this.formName =  this.parameter1.formname;
+    this.formName = this.parameter1.displaytext;
     this.formKey = this.parameter1.$key;
-  
+
   }
+
 
 
   ngOnInit() {
-    this.formName =  this.parameter1.formname;
 
-    console.log("Form Name:"+this.formName);
-  //this.questions =  this.getQuestionsData();
+    console.log("Form Name:" + this.formName);
 
-  //this.questions$ = this.getQuestions("-L1yqzYrLrPzSqXdlHZM");
-  
+    this.getQuestionsAsync(this.parameter1.$key);
 
-
-  this.getQuestionsAsync(this.parameter1.$key);
-
-
-// this.questions$ = this.qcs.getQuestions$();
-
-//    console.log("OnInit of d-form")
-//    console.log(this.questions);
-    
   }
 
 
-  getQuestions(FormKey: string): Observable<QuestionBase<any>[]>  {
-    
-            return this.af.list('/elements', {
-                query: {
-                    limitToLast: 200,
-                    orderByChild: 'formid',
-                    equalTo: FormKey
-                }
-            }).map(snapshots=>{
-                const questions: QuestionBase<any>[]=[];
-    
-                snapshots.forEach(elementData => {
-                  questions.push(this.FilterControls(elementData))
-                    // questions.push(new TextboxQuestion({
-                    //     key: elementData.elementname,
-                    //     label: elementData.displaytext,
-                    //     value: elementData.elementvalue,
-                    //     required: false,
-                    //     order: elementData.sortorder
-                    // }))
-                })
-    
-                return questions;
-            })
-        }
+  getQuestions(FormKey: string): Observable<QuestionBase<any>[]> {
+
+    return this.af.list('/elements', {
+      query: {
+        limitToLast: 200,
+        orderByChild: 'formid',
+        equalTo: FormKey
+      }
+    }).map(snapshots => {
+      const questions: QuestionBase<any>[] = [];
+
+      snapshots.forEach(elementData => {
+        questions.push(this.FilterControls(elementData))
+        // questions.push(new TextboxQuestion({
+        //     key: elementData.elementname,
+        //     label: elementData.displaytext,
+        //     value: elementData.elementvalue,
+        //     required: false,
+        //     order: elementData.sortorder
+        // }))
+      })
+
+      return questions;
+    })
+  }
 
 
 
@@ -148,306 +137,302 @@ export class DFormPage implements OnInit,OnChanges {
       spinner: 'bubbles',
       content: 'Loading...'
     });
-  
+
     loading.present();
 
-        const dbQuestions$ = this.af.list('/elements', {
-          query: {
-            limitToLast: 200,
-            orderByChild: 'formid',
-            equalTo: FormKey
-          }
-        });
-    
-        this.questions$= dbQuestions$.map(snapshots => 
-          snapshots.map(data => 
-           this.FilterControls(data)
-          // new TextboxQuestion({
-          //   key: data.elementname,
-          //   label: data.displaytext,
-          //   value: data.elementvalue,
-          //   required: false,
-          //   order: data.sortorder
-          // })
-      
-        ));
+    const dbQuestions$ = this.af.list('/elements', {
+      query: {
+        limitToLast: 200,
+        orderByChild: 'formid',
+        equalTo: FormKey
+      }
+    });
 
-        this.questions$.subscribe(()=>loading.dismiss());
-      
-    }
+    this.questions$ = dbQuestions$.map(snapshots =>
+      snapshots.map(data =>
+        this.FilterControls(data)
+        // new TextboxQuestion({
+        //   key: data.elementname,
+        //   label: data.displaytext,
+        //   value: data.elementvalue,
+        //   required: false,
+        //   order: data.sortorder
+        // })
 
+      ));
 
-  ngOnChanges(data){
-
-   //this.questions = data;
+    this.questions$.subscribe(() => loading.dismiss());
 
   }
 
 
-FilterControls(elementData:any): QuestionBase<any> {
-  console.log("Inside FilterControls");
-console.log(elementData.elementtype);
+  ngOnChanges(data) {
 
-  switch (elementData.elementtype) {
-    case "Textbox":
+    //this.questions = data;
 
-    return new TextboxQuestion({
-        key: elementData.elementname,
-        label: elementData.displaytext,
-        value: elementData.elementvalue,
-        required: elementData.required?elementData.required:false,
-        order: elementData.sortorder
-      });
+  }
 
-    
 
-    case 'Dropdown':
- 
-   console.log(elementData.options);
-   
-   if(elementData.options==undefined)
-    {
-      return new DropdownQuestion({
-        key: elementData.elementname,
-        label: elementData.displaytext,
-        value: '',
-        required: elementData.required?elementData.required:false,
-        order: elementData.sortorder,
-        options: [] //this.options   //elementData.options  //optionsData
+  FilterControls(elementData: any): QuestionBase<any> {
+    console.log("Inside FilterControls");
+    console.log(elementData.elementtype);
 
-      });
+    switch (elementData.elementtype) {
+      case "Textbox":
 
-    }else{
-      return new DropdownQuestion({
-        key: elementData.elementname,
-        label: elementData.displaytext,
-        value: '',
-        required: elementData.required?elementData.required:false,
-        order: elementData.sortorder,
-        options: Object.keys(elementData.options).map(e=>elementData.options[e]) //this.options   //elementData.options  //optionsData
-
-      });
-    }
-
-    case 'PickList':
-    console.log("==========dropdown data======="+elementData.options);
-
-    if(elementData.options==undefined)
-      {
-        return new PickListQuestion({
+        return new TextboxQuestion({
           key: elementData.elementname,
           label: elementData.displaytext,
           value: elementData.elementvalue,
-          required: elementData.required?elementData.required:false,
-          options: [],//elementData.options,
+          required: elementData.required ? elementData.required : false,
           order: elementData.sortorder
         });
 
-      }else{
-      return new PickListQuestion({
-        key: elementData.elementname,
-        label: elementData.displaytext,
-        value: elementData.elementvalue,
-        options: Object.keys(elementData.options).map(e=>elementData.options[e]),//elementData.options,
-        order: elementData.sortorder,
-        required: elementData.required?elementData.required:false
-      });
-    }
+
+
+      case 'Dropdown':
+
+        console.log(elementData.options);
+
+        if (elementData.options == undefined) {
+          return new DropdownQuestion({
+            key: elementData.elementname,
+            label: elementData.displaytext,
+            value: '',
+            required: elementData.required ? elementData.required : false,
+            order: elementData.sortorder,
+            options: [] //this.options   //elementData.options  //optionsData
+
+          });
+
+        } else {
+          return new DropdownQuestion({
+            key: elementData.elementname,
+            label: elementData.displaytext,
+            value: '',
+            required: elementData.required ? elementData.required : false,
+            order: elementData.sortorder,
+            options: Object.keys(elementData.options).map(e => elementData.options[e]) //this.options   //elementData.options  //optionsData
+
+          });
+        }
+
+      case 'PickList':
+        console.log("==========dropdown data=======" + elementData.options);
+
+        if (elementData.options == undefined) {
+          return new PickListQuestion({
+            key: elementData.elementname,
+            label: elementData.displaytext,
+            value: elementData.elementvalue,
+            required: elementData.required ? elementData.required : false,
+            options: [],//elementData.options,
+            order: elementData.sortorder
+          });
+
+        } else {
+          return new PickListQuestion({
+            key: elementData.elementname,
+            label: elementData.displaytext,
+            value: elementData.elementvalue,
+            options: Object.keys(elementData.options).map(e => elementData.options[e]),//elementData.options,
+            order: elementData.sortorder,
+            required: elementData.required ? elementData.required : false
+          });
+        }
 
       case 'Multi-Select':
 
-      if(elementData.options==undefined)
-        {
+        if (elementData.options == undefined) {
           return new MultiSelectQuestion({
             key: elementData.elementname,
             label: elementData.displaytext,
             value: elementData.elementvalue,
             options: [],//elementData.options,
             order: elementData.sortorder,
-            required: elementData.required?elementData.required:false
+            required: elementData.required ? elementData.required : false
           });
-        }else{
+        } else {
           return new MultiSelectQuestion({
             key: elementData.elementname,
             label: elementData.displaytext,
             value: elementData.elementvalue,
-            required: elementData.required?elementData.required:false,
-            options: Object.keys(elementData.options).map(e=>elementData.options[e]),//elementData.options,
+            required: elementData.required ? elementData.required : false,
+            options: Object.keys(elementData.options).map(e => elementData.options[e]),//elementData.options,
             order: elementData.sortorder
           });
 
         }
 
-  
-    
-    case 'TextArea':
 
-      return new TextAreaQuestion({
-        key: elementData.elementname,
-        label: elementData.displaytext,
-        value: elementData.elementvalue,
-        required: elementData.required?elementData.required:false,
-        order: elementData.sortorder
 
-      });
+      case 'TextArea':
 
-     
-    case 'CheckBox':
+        return new TextAreaQuestion({
+          key: elementData.elementname,
+          label: elementData.displaytext,
+          value: elementData.elementvalue,
+          required: elementData.required ? elementData.required : false,
+          order: elementData.sortorder
 
-     return new CheckboxQuestion({
-        key: elementData.elementname,
-        label: elementData.displaytext,
-        value: elementData.elementvalue,
-        required: elementData.required?elementData.required:false,
-        order: elementData.sortorder
+        });
 
-      });
 
-     case 'Scanner':
-     
-   return  new ScannerQuestion({
+      case 'CheckBox':
+
+        return new CheckboxQuestion({
+          key: elementData.elementname,
+          label: elementData.displaytext,
+          value: elementData.elementvalue,
+          required: elementData.required ? elementData.required : false,
+          order: elementData.sortorder
+
+        });
+
+      case 'Scanner':
+
+        return new ScannerQuestion({
           key: elementData.elementname,
           label: elementData.displaytext,
           value: '',
-          required: elementData.required?elementData.required:false,
+          required: elementData.required ? elementData.required : false,
           order: elementData.sortorder
         });
 
-     case 'Gps':
+      case 'Gps':
         console.log("========================GPS=====================");
-    return new GpsQuestion({
+        return new GpsQuestion({
           key: elementData.elementname,
           label: elementData.displaytext,
           value: '',
-          required: elementData.required?elementData.required:false,
+          required: elementData.required ? elementData.required : false,
           order: elementData.sortorder
-  
+
         });
 
 
-    case 'Signature':
+      case 'Signature':
 
-    return new SignatureQuestion({
-      key: elementData.elementname,
-      label: elementData.displaytext,
-      value: '',
-      required: elementData.required?elementData.required:false,
-      order: elementData.sortorder
-
-    });
-
-    
-
-
-     case 'Segment':
-     console.log("========================SEGMENT=====================");
-     if(elementData.options==undefined)
-      {
-        return  new SegmentQuestion({
+        return new SignatureQuestion({
           key: elementData.elementname,
           label: elementData.displaytext,
-           options: [],
-           order: elementData.sortorder,
-           required: elementData.required?elementData.required:false
-         });
-      }else{
-        return  new SegmentQuestion({
-          key: elementData.elementname,
-          label: elementData.displaytext,
-           options: elementData.options,
-           order: elementData.sortorder,
-           required: elementData.required?elementData.required:false
-         });
-      }
+          value: '',
+          required: elementData.required ? elementData.required : false,
+          order: elementData.sortorder
 
-   
-    case 'YesNo':
-
-    return  new SegmentQuestion({
-      key: elementData.elementname,
-      label: elementData.displaytext,
-       options: [
-         { key: 'Yes', value: 'Yes' },
-         { key: 'No', value: 'No' },
-         { key: 'N/A', value: 'N/A' }
-       ],
-       order: elementData.sortorder,
-       required: elementData.required?elementData.required:false
-     });
+        });
 
 
-     case 'Gender':
-        
-      return  new SegmentQuestion({
+
+
+      case 'Segment':
+        console.log("========================SEGMENT=====================");
+        if (elementData.options == undefined) {
+          return new SegmentQuestion({
             key: elementData.elementname,
             label: elementData.displaytext,
-             options: [
-               { key: 'male', value: 'Male' },
-               { key: 'female', value: 'Female' },
-               { key: 'unknown', value: 'Unknown' }
-             ],
-             order: elementData.sortorder,
-             required: elementData.required?elementData.required:false
-           });
+            options: [],
+            order: elementData.sortorder,
+            required: elementData.required ? elementData.required : false
+          });
+        } else {
+          return new SegmentQuestion({
+            key: elementData.elementname,
+            label: elementData.displaytext,
+            options: elementData.options,
+            order: elementData.sortorder,
+            required: elementData.required ? elementData.required : false
+          });
+        }
+
+
+      case 'YesNo':
+
+        return new SegmentQuestion({
+          key: elementData.elementname,
+          label: elementData.displaytext,
+          options: [
+            { key: 'Yes', value: 'Yes' },
+            { key: 'No', value: 'No' },
+            { key: 'N/A', value: 'N/A' }
+          ],
+          order: elementData.sortorder,
+          required: elementData.required ? elementData.required : false
+        });
+
+
+      case 'Gender':
+
+        return new SegmentQuestion({
+          key: elementData.elementname,
+          label: elementData.displaytext,
+          options: [
+            { key: 'male', value: 'Male' },
+            { key: 'female', value: 'Female' },
+            { key: 'unknown', value: 'Unknown' }
+          ],
+          order: elementData.sortorder,
+          required: elementData.required ? elementData.required : false
+        });
 
 
       case 'Time':
-      
-      return new TimeQuestion({
-        key: elementData.elementname,
-        label: elementData.displaytext,
-        value: elementData.value,
-        required: elementData.required?elementData.required:false,
-        order: elementData.sortorder
-        
 
-      });
+        return new TimeQuestion({
+          key: elementData.elementname,
+          label: elementData.displaytext,
+          value: elementData.value,
+          required: elementData.required ? elementData.required : false,
+          order: elementData.sortorder
+
+
+        });
 
       case 'Date':
-      
-      return new DateQuestion({
-        key: elementData.elementname,
-        label: elementData.displaytext,
-        value: new Date().toISOString(),  //elementData.value,
-        required: elementData.required?elementData.required:false,
-        order: elementData.sortorder
 
-      });
+        return new DateQuestion({
+          key: elementData.elementname,
+          label: elementData.displaytext,
+          value: new Date().toISOString(),  //elementData.value,
+          required: elementData.required ? elementData.required : false,
+          order: elementData.sortorder
+
+        });
 
       case 'Photo':
-      return new PictureQuestion({
-        key: elementData.elementname,
-        label: elementData.displaytext,
-        value: elementData.value,
-        required: elementData.required?elementData.required:false,
-        order: elementData.sortorder
+        return new PictureQuestion({
+          key: elementData.elementname,
+          label: elementData.displaytext,
+          value: elementData.value,
+          required: elementData.required ? elementData.required : false,
+          order: elementData.sortorder
 
-      });
+        });
 
       default:
-      return new TextboxQuestion({
-        key: elementData.elementname,
-        label: elementData.displaytext,
-        value: elementData.elementvalue,
-        required: elementData.required?elementData.required:false,
-        order: elementData.sortorder
-      });
-      
+        return new TextboxQuestion({
+          key: elementData.elementname,
+          label: elementData.displaytext,
+          value: elementData.elementvalue,
+          required: elementData.required ? elementData.required : false,
+          order: elementData.sortorder
+        });
+
+
+    }
+
+
+
+
+
+
 
   }
 
 
-
-
-
-
-
-}
-
-
   getQuestionsData(): QuestionBase<any>[] {
 
-   console.log("getQuestionsData Executed");
+    console.log("getQuestionsData Executed");
 
     this.af.list('/elements/').subscribe(
       res => {
@@ -535,7 +520,7 @@ console.log(elementData.elementtype);
 
     );
 
-    return  this.questions;
+    return this.questions;
 
 
   }

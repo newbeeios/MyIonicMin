@@ -29,7 +29,7 @@
     <!-- <ion-spinner  *ngIf="isLoading" name="bubbles"></ion-spinner> -->
 
   <ion-item-sliding *ngFor="let item of shoppingItems | async">
-  <ion-item  (click)="goToInputForm($event,item)">
+  <ion-item  (click)="goToInputForm($event,item)" >
     <ion-thumbnail item-start>
       <img src="{{item.imageurl}}">
     </ion-thumbnail>
