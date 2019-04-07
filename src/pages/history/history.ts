@@ -12,6 +12,7 @@ import { FormControl } from '@angular/forms';
 import { AuthService } from './../../providers/auth.service';
 import { DataPage } from '../data/data';
 import { Printer, PrintOptions } from '@ionic-native/printer';
+import {EmailComposer} from '@ionic-native/email-composer/ngx';
 // import * as jsPDF from 'jspdf'; 
 // import 'jspdf-autotable';
 

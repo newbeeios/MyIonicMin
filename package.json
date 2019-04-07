@@ -24,7 +24,10 @@
     "@ionic-native/camera": "^4.4.2",
     "@ionic-native/core": "3.12.1",
     "@ionic-native/device": "^4.6.0",
+    "@ionic-native/email-composer": "^5.3.0",
     "@ionic-native/fcm": "^4.6.0",
+    "@ionic-native/file": "^5.3.0",
+    "@ionic-native/file-opener": "^5.3.0",
     "@ionic-native/geolocation": "^4.4.2",
     "@ionic-native/google-plus": "^4.6.0",
     "@ionic-native/network": "^4.6.0",
@@ -44,6 +47,7 @@
     "cordova-plugin-console": "^1.0.5",
     "cordova-plugin-device": "^1.1.4",
     "cordova-plugin-file": "^4.3.2",
+    "cordova-plugin-file-opener2": "^2.2.0",
     "cordova-plugin-geolocation": "^3.0.0",
     "cordova-plugin-googleplus": "^5.2.1",
     "cordova-plugin-network-information": "^2.0.1",
@@ -57,6 +61,7 @@
     "ionic-angular": "3.6.0",
     "ionic-plugin-keyboard": "^2.2.1",
     "ionicons": "3.0.0",
+    "pdfmake": "^0.1.54",
     "phonegap-plugin-barcodescanner": "^7.0.0",
     "phonegap-plugin-push": "^2.2.2",
     "rxjs": "5.4.0",
@@ -96,7 +101,11 @@
         "REVERSED_CLIENT_ID": "com.googleusercontent.apps.540411607255-e5k8htocogjmvmqqmj10nvvp9a5o9fii"
       },
       "cordova-plugin-printer": {},
-      "cordova-plugin-network-information": {}
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-file-opener2": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+      },
+      "cordova-plugin-file": {}
     },
     "platforms": [
       "android"

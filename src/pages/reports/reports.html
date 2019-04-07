@@ -1,19 +1,16 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>
-      Reports (Available with Pro Version ONLY)
+      Reports
     </ion-title>
   </ion-navbar>
 </ion-header>
  
 <ion-content class="container">
 
-  <ion-card>
-    <ion-card-header><b></b></ion-card-header>
-  </ion-card>
-    <ion-card>
+    <ion-card style="display:none;">
       <ion-card-header>
-        Bar Chart
+        Chart-Form Submissions by you
       </ion-card-header>
       <ion-card-content>
         <canvas #barCanvas></canvas>
@@ -22,20 +19,13 @@
  
     <ion-card>
       <ion-card-header>
-        Doughnut Chart
+        Your Form Submissions 
       </ion-card-header>
       <ion-card-content>
         <canvas #doughnutCanvas></canvas>
       </ion-card-content>
     </ion-card>
  
-    <ion-card>
-      <ion-card-header>
-        Line Chart
-      </ion-card-header>
-      <ion-card-content>
-        <canvas #lineCanvas></canvas>
-      </ion-card-content>
-    </ion-card>
+ 
  
 </ion-content>

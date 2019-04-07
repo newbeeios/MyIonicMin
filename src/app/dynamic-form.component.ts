@@ -145,6 +145,11 @@ export class DynamicFormComponent implements OnChanges {
                 "devicemanufacturer": this.device.manufacturer
             });
 
+            var adaRankRef = firebase.database().ref('forms/' + this.formId + '/datacount');
+            adaRankRef.transaction(function (currentRank) {
+                return currentRank == null ? 1 : currentRank + 1;
+            });
+
 
 
         if (inserted != null) {

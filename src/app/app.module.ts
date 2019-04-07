@@ -8,6 +8,11 @@ import { Camera } from '@ionic-native/camera';
 import { Device } from '@ionic-native/device';
 import { Printer } from '@ionic-native/printer';
 import { Network } from '@ionic-native/network';
+import {EmailComposer} from '@ionic-native/email-composer/ngx';
+import {File} from '@ionic-native/file/ngx';
+import {FileOpener} from '@ionic-native/file-opener/ngx';
+
+
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
@@ -126,6 +131,9 @@ export const firebaseConfig={
     Camera,
     Printer,
     Network,
+    EmailComposer,
+    File,
+    FileOpener,
     AuthService,
     SettingsProvider,
     GooglePlus,

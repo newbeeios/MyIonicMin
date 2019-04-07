@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, Platform } from 'ionic-angular';
 import { Printer, PrintOptions } from '@ionic-native/printer';
 import firebase from 'firebase';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from "rxjs/Rx";
 import { QuestionBase } from './../../providers/question-base';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { File } from '@ionic-native/file/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { isRightSide } from 'ionic-angular/umd/util/util';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @IonicPage()
 @Component({
@@ -23,7 +29,15 @@ export class DataPage {
   columns: any[] = [];
   formdata: any;
   formName: any;
-  constructor(private printer: Printer, public af: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, private loadingCtrl: LoadingController, private alertCtrl: AlertController) {
+  pdfObj = null;
+  columnDataForPdf: any[] = [];
+  columnRelDataForPdf: any[] = [];
+
+  constructor(private printer: Printer, public af: AngularFireDatabase,
+    public navCtrl: NavController, public navParams: NavParams,
+    private loadingCtrl: LoadingController, private alertCtrl: AlertController,
+    private file: File, private fileOpender: FileOpener, private plt: Platform
+  ) {
     this.myPhotosRef = firebase.storage().ref();
     this.formData = navParams.get('param1');
 
@@ -48,6 +62,7 @@ export class DataPage {
 
         snapshot.forEach((childSnapshot) => {
           this.columns.push({ columnDef: childSnapshot.elementname, elementtype: childSnapshot.elementtype, header: childSnapshot.displaytext, cell: (element: any) => `${element.elementname}` });
+          this.columnDataForPdf.push(childSnapshot.displaytext);
           return false;
         });
       }
@@ -64,7 +79,7 @@ export class DataPage {
           this.getImageUrl(this.formData[key], key);
         }
 
-        console.log(key);
+        //console.log(key);
       }
 
 
@@ -117,7 +132,7 @@ export class DataPage {
             (<HTMLImageElement>document.querySelector("." + CurrentKey)).src = url;
 
           }).catch(function (error) {
-            alert(error);
+
             console.log(error);
           });
 
@@ -151,7 +166,7 @@ export class DataPage {
         storageRef.child('images/' + imageName).getDownloadURL().then(function (url) {
           // firebase.storage().ref(imageName).getDownloadURL().then(function (url) {
 
-          alert(url);
+          //alert(url);
           var CurrentKey = ctrlKey;
           imageURL = url;
 
@@ -162,7 +177,7 @@ export class DataPage {
           console.log("Inside IMAGE URL" + imageURL);
 
         }).catch(function (error) {
-          alert(error);
+          //alert(error);
           console.log(error);
         });
 
@@ -230,11 +245,93 @@ export class DataPage {
   }
 
 
+  createPdf() {
+
+    for (let item of this.columns) {
+
+      this.columnRelDataForPdf.push(this.formData[item.columnDef])
+
+    }
+
+    console.log("Inside create pdf");
+
+    console.log(this.columnDataForPdf);
+    console.log(this.columnRelDataForPdf);
+
+
+    var bodyData = [];
+    var dataRowHeader = [];
+    dataRowHeader.push(this.formName)
+    dataRowHeader.push('')
+    bodyData.push(dataRowHeader);
+
+    for (let item of this.columns) {
+
+      var dataRow = [];
+
+      dataRow.push(item.header);
+      dataRow.push(this.formdata[item.columnDef]);
+      bodyData.push(dataRow)
+
+    }
+
+
+  
+
+
+
+    var docDefinition = {
+      content: [
+        {
+          layout: 'lightHorizontalLines', // optional
+          table: {
+            // headers are automatically repeated if the table spans over multiple pages
+            // you can declare how many rows should be treated as headers
+            headerRows: 1,
+            widths: ['*', '*'],
+
+            body: bodyData
+          }
+        }
+      ]
+    };
+
+
+    this.pdfObj = pdfMake.createPdf(docDefinition);
+  }
+
+
   printDisabled() {
-    this.presentAlert();
+    //////PDF CREATION LOGIC SAVED FOR PRO VERSION
+    if (this.plt.is('cordova')) {
+
+      this.pdfObj.getBuffer((buffer) => {
+
+        var utf8 = new Uint8Array(buffer);
+        var binaryArray = utf8.buffer;
+        var blob = new Blob([binaryArray], { type: 'application/pdf' });
+
+        this.file.writeFile(this.file.dataDirectory, this.formName + '.pdf', blob, { replace: true }).then(fileEntry => {
+
+          this.fileOpender.open(this.file.dataDirectory + this.formName + '.pdf', 'application/pdf');
+        })
+
+      })
+
+    } else {
+      console.log("Inside download");
+      this.createPdf();
+      this.pdfObj.download();
+
+    }
+
+    //this.presentAlert();
   }
 
   print() {
+
+
+
 
     this.printer.isAvailable().then(function () {
       this.printer.print("https://www.techiediaries.com").then(function () {
