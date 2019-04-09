@@ -350,7 +350,8 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
         this.myPhotoURL = savedPicture.downloadURL;
 
         //this.form.get(key).setValue(this.myPhotoURL);
-        this.form.get(key).setValue('thumb_' + NewGUID + '.png');
+        this.form.get(key).setValue( NewGUID + '.png');
+        //this.form.get(key).setValue('thumb_' + NewGUID + '.png');
         loader.dismiss();
 
       });

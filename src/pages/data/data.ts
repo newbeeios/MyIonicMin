@@ -247,6 +247,7 @@ export class DataPage {
 
   createPdf() {
 
+
     for (let item of this.columns) {
 
       this.columnRelDataForPdf.push(this.formData[item.columnDef])
@@ -304,7 +305,8 @@ export class DataPage {
   printDisabled() {
     //////PDF CREATION LOGIC SAVED FOR PRO VERSION
     if (this.plt.is('cordova')) {
-
+     
+      this.createPdf(); // create the pdf document first
       this.pdfObj.getBuffer((buffer) => {
 
         var utf8 = new Uint8Array(buffer);

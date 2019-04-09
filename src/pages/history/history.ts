@@ -12,9 +12,10 @@ import { FormControl } from '@angular/forms';
 import { AuthService } from './../../providers/auth.service';
 import { DataPage } from '../data/data';
 import { Printer, PrintOptions } from '@ionic-native/printer';
-import {EmailComposer} from '@ionic-native/email-composer/ngx';
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
 // import * as jsPDF from 'jspdf'; 
 // import 'jspdf-autotable';
+import * as _ from "lodash";
 
 @Component({
   selector: 'page-history',
@@ -22,26 +23,41 @@ import {EmailComposer} from '@ionic-native/email-composer/ngx';
 })
 export class HistoryPage {
 
-  historyItems: FirebaseListObservable<any[]>;
+  historyItems: any;  //FirebaseListObservable<any[]>;
+  filteredHistoryItems: any;
+
+  formname: string;
+
+  // Active filter rules
+
+  filters = {}
+
+
+
   isLoading: boolean = false;
   searchControl: FormControl;
   searchText: string = '';
+  loading: any;
 
-  constructor(public printer: Printer, private authSer: AuthService, 
+  formItems: FirebaseListObservable<any[]>;
+
+  constructor(public printer: Printer, private authSer: AuthService,
     public navCtrl: NavController, public firebaseProvider: FirebaseProvider,
-     public alertCtrl: AlertController, public loadingCtrl: LoadingController, 
-     public toastCtrl: ToastController, private settings: SettingsProvider,
-      private af: AngularFireDatabase) {
+    public alertCtrl: AlertController, public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController, private settings: SettingsProvider,
+    private af: AngularFireDatabase) {
     this.searchControl = new FormControl();
 
+    var items = [];
 
-    let loading = this.loadingCtrl.create({
+    this.loading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: 'Loading...'
     });
-    loading.present();
+    this.loading.present();
 
-    this.historyItems = this.af.list('/data', {
+
+    this.formItems = this.af.list('/forms', {
       query: {
         limitToLast: 2000,
         orderByChild: 'createdby',
@@ -50,63 +66,112 @@ export class HistoryPage {
       }
     });
 
-    this.historyItems.subscribe(() => {
-      loading.dismiss();
-    }
-    //this.isLoading = false
-  );
+
+
+    //   this.historyItems.subscribe(() => {
+    //     loading.dismiss();
+    //   }
+    //   //this.isLoading = false
+    // );
 
   }
 
   ionViewDidLoad() {
+
+
+    this.af.list('/data', {
+      query: {
+        limitToLast: 2000,
+        orderByChild: 'createdby',
+        equalTo: this.authSer.userDetails.email //,
+        //startAt: this.searchText
+      }
+    }).subscribe(history => {
+      this.historyItems = history;
+      this.loading.dismiss();
+      this.applyFilters();
+    });
+
+
+
     console.log('ionViewDidLoad HistoryPage');
   }
 
-  setFilteredItems() {
+  private applyFilters() {
 
-    let loading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: 'Loading...'
-    });
-    loading.present();
+    this.filteredHistoryItems = _.filter(this.historyItems, _.conforms(this.filters))
 
-    if (this.searchText != '') {
-      this.isLoading = true;
-      console.log(this.searchText);
 
-      this.historyItems = this.af.list('/forms', {
-        query: {
-          limitToLast: 2000,
-          orderByChild: 'createdby',
-          equalTo: this.authSer.userDetails.email, //,
-          startAt: this.searchText
-        }
-      });
+  }
 
-      this.historyItems.subscribe(() => {
-        loading.dismiss();
-      }
-      //this.isLoading = false
-    );
+  filterExact(property: string, rule: any) {
+   
+    if (rule == "All") {
+ 
+      this.removeFilter(property);
+      this.formname="All";
+      return false;
 
-    }
-    else {
-      this.historyItems = this.af.list('/forms', {
-        query: {
-          limitToLast: 2000,
-          orderByChild: 'createdby',
-          equalTo: this.authSer.userDetails.email, //,
-          startAt: this.searchText
-        }
-      });
-
-      this.historyItems.subscribe(() => {
-        loading.dismiss();
-      }
-      //this.isLoading = false
-    );
+    } else {
+      this.filters[property] = val => val == rule
+      this.applyFilters()
     }
   }
+
+  removeFilter(property: string) {
+
+    delete this.filters[property]
+    this[property] = null
+    this.applyFilters();
+  }
+
+
+
+  // setFilteredItems() {
+
+  //   let loading = this.loadingCtrl.create({
+  //     spinner: 'bubbles',
+  //     content: 'Loading...'
+  //   });
+  //   loading.present();
+
+  //   if (this.searchText != '') {
+  //     this.isLoading = true;
+  //     console.log(this.searchText);
+
+  //     this.historyItems = this.af.list('/forms', {
+  //       query: {
+  //         limitToLast: 2000,
+  //         orderByChild: 'createdby',
+  //         equalTo: this.authSer.userDetails.email, //,
+  //         startAt: this.searchText
+  //       }
+  //     });
+
+  //     this.historyItems.subscribe(() => {
+  //       loading.dismiss();
+  //     }
+  //     //this.isLoading = false
+  //   );
+
+  //   }
+  //   else {
+  //     this.historyItems = this.af.list('/forms', {
+  //       query: {
+  //         limitToLast: 2000,
+  //         orderByChild: 'createdby',
+  //        // equalTo: this.authSer.userDetails.email, //,
+  //         //startAt: this.searchText
+  //       }
+  //     });
+
+  //     this.historyItems.subscribe(() => {
+  //       loading.dismiss();
+  //     }
+  //     //this.isLoading = false
+  //   );
+  //   }
+  // }
 
 
 
@@ -117,80 +182,15 @@ export class HistoryPage {
 
 
 
-ShowAlert(Message:any){
-  let alert = this.alertCtrl.create({
-    title: "Method",
-    subTitle: Message,
-    buttons: ['Dismiss']
-  });
-  alert.present();
-}
-
-
-
-  print() {
-
-    console.log("===========Inside print function=================")
-
-    this.printer.isAvailable().then(function () {
-      this.printer.print("<html><head></head><body><h1>Test Print with HTML body</h1></body></html>").then(function () {
-
-        console.log("==================Print successful===================");
-        //this.ShowAlert("Print Successful");
-
-        // let alert1 = this.alertCtrl.create({
-        //   title: "Success",
-        //   subTitle: "Printed Successfully",
-        //   buttons: ['Dismiss']
-        // });
-        // alert1.present();
-
-
-      }, function () {
-        console.log("========================Unable to print=============================");
-
-this.ShowAlert("Unable to print");
-
-      });
-    }, function () {
-      //this.ShowAlert("printing is unavailable");
-      console.log("===========================printing is unavailable=====================");
-
-
-
-
+  ShowAlert(Message: any) {
+    let alert = this.alertCtrl.create({
+      title: "Method",
+      subTitle: Message,
+      buttons: ['Dismiss']
     });
-
+    alert.present();
   }
 
-  // download(record:any) {
 
-  //       let doc = new jsPDF();
-
-  //       var col = ["Field Name", "User Input"];
-  //       var rows = [];
-  //       let formName:string;
-
-  //       for (var key in record) {
-  //         var temp = [key, record[key]];
-  //         if(key=="formname" || key=="formid")
-  //           {
-  //               if(key=="formname"){formName=record[key]}
-  //               continue;
-  //           }
-
-  //         rows.push(temp);
-
-  //       }
-
-  //        doc.text(formName, 15, 10)
-
-
-  //        doc.autoTable(col, rows); 
-
-  //        doc.save('FirstPdf.pdf');
-
-
-  //     }
 
 }
