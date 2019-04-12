@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController,AlertController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { AuthService } from './../../providers/auth.service';
 import { LoginPage } from '../login/login';
+import { Platform } from 'ionic-angular';
+
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 @Component({
   selector: 'settings',
@@ -12,9 +16,15 @@ export class SettingsComponent {
   text: string;
   userDetails: any;
 
-  constructor(private _AuthService: AuthService,public navCtrl: NavController,private alertCtrl:AlertController ) {
-    console.log('Hello SettingsComponent Component');
-    this.text = 'Hello World';
+  url = 'https://minuteforms.com';
+
+  constructor(private _AuthService: AuthService, public navCtrl: NavController,
+    private alertCtrl: AlertController,
+    private socialSharing: SocialSharing, private file: File,
+    private plt: Platform
+  ) {
+
+    this.text = 'Minute Forms';
 
     this.userDetails = _AuthService.userDetails;
 
@@ -31,7 +41,7 @@ export class SettingsComponent {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-         
+
           }
         },
         {
@@ -41,12 +51,12 @@ export class SettingsComponent {
             this._AuthService.logout().then((res) => {
               this.navCtrl.setRoot(LoginPage);
               console.log("logout method fired Signed Out");
-              this._AuthService.user=null;
-          
-          
+              this._AuthService.user = null;
+
+
             }
             );
-            
+
           }
         }
       ]
@@ -54,16 +64,83 @@ export class SettingsComponent {
     alert.present();
   }
 
-  logout(){
-
+  logout() {
     this.presentConfirm();
-
-
-
- 
-
   }
 
+
+  shareTwitter() {
+    if (this.plt.is('android')) {
+      this.url = "https://play.google.com/store/apps/details?id=io.minuteforms.com"
+    }
+
+    this.socialSharing.shareViaTwitter("", "", this.url).then(() => {
+      console.log("Twitter share success");
+    }).catch((e) => {
+      alert(e.message);
+    });
+  }
+
+
+
+  // async shareTwitter() {
+  //   // Either URL or Image
+  //   this.socialSharing.shareViaTwitter(null, null, this.url).then(() => {
+  //     // Success
+  //   }).catch((e) => {
+  //     // Error!
+  //   });
+  // }
+
+  async shareWhatsApp() {
+    if (this.plt.is('android')) {
+      this.url = "https://play.google.com/store/apps/details?id=io.minuteforms.com"
+    }
+
+    // Text + Image or URL works
+    this.socialSharing.shareViaWhatsApp(this.text, null, this.url).then(() => {
+      // Success
+    }).catch((e) => {
+      alert(e.message);
+    });
+  }
+
+  async resolveLocalFile() {
+    return this.file.copyFile(`${this.file.applicationDirectory}www/assets/imgs/`, 'icon.png', this.file.cacheDirectory, `${new Date().getTime()}.jpg`);
+  }
+
+  removeTempFile(name) {
+    this.file.removeFile(this.file.cacheDirectory, name);
+  }
+
+  async shareEmail() {
+    let file = await this.resolveLocalFile();
+
+    if (this.plt.is('android')) {
+      this.url = "https://play.google.com/store/apps/details?id=io.minuteforms.com"
+    }
+
+    this.socialSharing.shareViaEmail(this.text, 'Minute Forms', ['saimon@devdactic.com'], null, null, file.nativeURL).then(() => {
+      this.removeTempFile(file.name);
+    }).catch((e) => {
+      alert(e.message);
+    });
+  }
+
+  async shareFacebook() {
+    let file = await this.resolveLocalFile();
+
+    if (this.plt.is('android')) {
+      this.url = "https://play.google.com/store/apps/details?id=io.minuteforms.com"
+    }
+
+    // Image or URL works
+    this.socialSharing.shareViaFacebook(null, file.nativeURL, null).then(() => {
+      this.removeTempFile(file.name);
+    }).catch((e) => {
+      alert(e.message);
+    });
+  }
 
 
 }

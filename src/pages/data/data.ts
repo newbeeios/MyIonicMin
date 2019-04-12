@@ -32,6 +32,7 @@ export class DataPage {
   pdfObj = null;
   columnDataForPdf: any[] = [];
   columnRelDataForPdf: any[] = [];
+  loader:any;
 
   constructor(private printer: Printer, public af: AngularFireDatabase,
     public navCtrl: NavController, public navParams: NavParams,
@@ -96,11 +97,11 @@ export class DataPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad DataPage');
 
-    let loader = this.loadingCtrl.create({
+     this.loader = this.loadingCtrl.create({
       spinner: "bubbles",
       content: "Loading...",
     });
-    loader.present();
+    this.loader.present();
 
     let formName: string;
 
@@ -196,7 +197,7 @@ export class DataPage {
 
     }
 
-    loader.dismiss();
+    this.loader.dismiss();
 
 
     let options: PrintOptions = {
@@ -313,10 +314,13 @@ export class DataPage {
         var binaryArray = utf8.buffer;
         var blob = new Blob([binaryArray], { type: 'application/pdf' });
 
-        this.file.writeFile(this.file.dataDirectory, this.formName + '.pdf', blob, { replace: true }).then(fileEntry => {
+        this.saveAndOpenPdf(blob,"Form.pdf");
+        // this.file.writeFile(this.file.externalDataDirectory, this.formName + '.pdf', blob, { replace: true }).then(fileEntry => {
 
-          this.fileOpender.open(this.file.dataDirectory + this.formName + '.pdf', 'application/pdf');
-        })
+        //   this.fileOpender.open(this.file.externalDataDirectory + this.formName + '.pdf', 'application/pdf');
+        // }).catch((e) => {
+        //   alert(e.message);
+        // });
 
       })
 
@@ -329,6 +333,62 @@ export class DataPage {
 
     //this.presentAlert();
   }
+
+
+  saveAndOpenPdf(pdf: any, filename: string) {
+    this.loader.present();
+
+    const writeDirectory = this.plt.is('ios') ? this.file.dataDirectory : this.file.externalDataDirectory;
+   
+    this.file.writeFile(writeDirectory, filename, pdf, {replace: true})
+    .then(() => {
+        this.loader.dismiss();
+        this.fileOpender.open(writeDirectory + filename, 'application/pdf')
+            .catch(() => {
+                console.log('Error opening pdf file');
+                this.loader.dismiss();
+            });
+    })
+    .catch(() => {
+        console.error('Error writing pdf file');
+        this.loader.dismiss();
+    });
+    // this.file.writeFile(writeDirectory, filename, this.convertBaseb64ToBlob(pdf, 'application/pdf'), {replace: true})
+    //   .then(() => {
+    //       this.loader.dismiss();
+    //       this.fileOpender.open(writeDirectory + filename, 'application/pdf')
+    //           .catch(() => {
+    //               console.log('Error opening pdf file');
+    //               this.loader.dismiss();
+    //           });
+    //   })
+    //   .catch(() => {
+    //       console.error('Error writing pdf file');
+    //       this.loader.dismiss();
+    //   });
+  }
+
+
+  convertBaseb64ToBlob(b64Data, contentType): Blob {
+    contentType = contentType || '';
+    const sliceSize = 512;
+    b64Data = b64Data.replace(/^[^,]+,/, '');
+    b64Data = b64Data.replace(/\s/g, '');
+    const byteCharacters = window.atob(b64Data);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+         const slice = byteCharacters.slice(offset, offset + sliceSize);
+         const byteNumbers = new Array(slice.length);
+         for (let i = 0; i < slice.length; i++) {
+             byteNumbers[i] = slice.charCodeAt(i);
+         }
+         const byteArray = new Uint8Array(byteNumbers);
+         byteArrays.push(byteArray);
+    }
+   return new Blob(byteArrays, {type: contentType});
+}
+
+
 
   print() {
 

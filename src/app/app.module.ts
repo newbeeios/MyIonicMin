@@ -55,6 +55,8 @@ import { FCM } from '@ionic-native/fcm';
 
 import { SignaturePage } from '../pages/signature/signature';
 import { SignaturePadModule } from 'angular2-signaturepad';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+
 
 
 export const firebaseConfig={
@@ -134,6 +136,7 @@ export const firebaseConfig={
     EmailComposer,
     File,
     FileOpener,
+    SocialSharing,
     AuthService,
     SettingsProvider,
     GooglePlus,
