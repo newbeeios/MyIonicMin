@@ -1,8 +1,9 @@
 {
   "name": "MinuteFormsTabsIonic",
-  "app_id": "7cec051b",
-  "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "type": "ionic-angular",
+  "id": "7cec051b",
+  "app_id": ""
 }
