@@ -1,0 +1,77 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Create Questions</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="container">
+<ion-item>
+    <ion-label>
+      <h1> {{formname}}</h1> 
+          </ion-label>
+</ion-item>
+
+
+  <form [formGroup]="myform" (ngSubmit)="onSubmit()">
+
+
+
+
+
+    <ion-item>
+      <ion-label stacked>Question Name</ion-label>
+      <ion-input type="text" formControlName="elementname"></ion-input>
+    </ion-item>
+
+
+
+    <ion-item>
+      <ion-label stacked>Question Text</ion-label>
+      <ion-input type="text" formControlName="displaytext"></ion-input>
+    </ion-item>
+
+
+
+
+    <ion-item no-lines>
+        <ion-label stacked>Question Type</ion-label>
+      <ion-select formControlName="elementtype">
+
+        <ion-option *ngFor="let opt of elementTypes" [value]="opt.value">{{opt.value}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+
+    <ion-item>
+     
+      <ion-item no-lines>
+        <ion-checkbox formControlName="required" color="dark" checked="false">
+          Required Field ?
+         </ion-checkbox>
+      </ion-item>
+    </ion-item>
+
+
+
+
+    <div class="row" style="padding-top:10px;">
+
+
+      <button ion-button type="submit" color="primary">Submit</button>
+      <button ion-button type="button" color="danger" (click)="onNoClick()">Cancel</button>
+    </div>
+
+
+
+
+
+
+  </form>
+
+
+
+
+</ion-content>

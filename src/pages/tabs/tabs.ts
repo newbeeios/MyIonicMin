@@ -7,6 +7,7 @@ import {SettingsComponent} from '../settings/settings';
 import {ReportsPage} from '../reports/reports';
 import {HistoryPage} from '../history/history';
 
+
 @Component({
   templateUrl: 'tabs.html'
 })
@@ -16,6 +17,7 @@ export class TabsPage {
   tab2Root = HistoryPage; //AboutPage;
   tab3Root = SettingsComponent;
   tab4Root = ReportsPage;
+
 
   constructor() {
 

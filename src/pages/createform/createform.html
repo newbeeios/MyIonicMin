@@ -1,0 +1,36 @@
+
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Create Form</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="container"  >
+
+     <form [formGroup]="myform" (ngSubmit)="onSubmit()">
+
+        <ion-item >
+            <ion-label stacked>Form Name</ion-label>
+            <ion-input type="text" formControlName="displaytext"></ion-input>     
+          </ion-item>
+        
+          <ion-item >
+            <ion-label stacked>Description</ion-label>
+            <ion-textarea  formControlName="description"></ion-textarea>  
+          </ion-item>
+        
+          <ion-item >
+            <ion-label stacked>Sort Order</ion-label>
+            <ion-input type="number"  formControlName="sortorder"></ion-input>     
+          </ion-item>
+        
+        
+          
+          <button ion-button full color="secondary" round type="submit">CREATE FORM</button>
+    </form> 
+ 
+
+</ion-content>

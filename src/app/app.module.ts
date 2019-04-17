@@ -44,6 +44,9 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { SettingsProvider } from './../providers/settings/settings';
 
 import {SettingsComponent} from '../pages/settings/settings';
+import {CreateformPage} from '../pages/createform/createform';
+import {CreatequestionsPage} from '../pages/createquestions/createquestions';
+
 
 
 
@@ -91,7 +94,9 @@ export const firebaseConfig={
     DataPage,
     GoogleloginComponent,
     SignaturePage,
-    HistoryPage
+    HistoryPage,
+    CreateformPage,
+    CreatequestionsPage
   ],
   imports: [
     BrowserModule,
@@ -120,7 +125,9 @@ export const firebaseConfig={
     DataPage,
     GoogleloginComponent,
     SignaturePage,
-    HistoryPage
+    HistoryPage,
+    CreateformPage,
+    CreatequestionsPage
   ],
   providers: [
     StatusBar,

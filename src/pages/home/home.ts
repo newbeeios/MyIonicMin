@@ -4,6 +4,8 @@ import { NavController } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { DynamicFormPage } from '../dynamicform/dynamicform';
 import { DFormPage } from '../d-form/d-form';
+import {CreateformPage} from '../createform/createform';
+import {CreatequestionsPage} from '../createquestions/createquestions';
 import { AlertController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
@@ -54,6 +56,14 @@ export class HomePage {
 
     });
 
+
+  }
+
+  AddQuestions(formdata:any){
+   
+   this.navCtrl.push(CreatequestionsPage,{
+    data: formdata
+  });
 
   }
 
@@ -140,6 +150,9 @@ export class HomePage {
   removeItem(id) {
     this.firebaseProvider.removeItem(id);
   }
+  deleteForm(){
+    alert("Form Deleted");
+  }
 
   goToInputForm($event, formI) {
     this.navCtrl.push(DFormPage, { param1: formI });
@@ -149,6 +162,14 @@ export class HomePage {
     //this.showAlert();
 
   }
+
+  CreateNewForm(){
+
+  this.navCtrl.push(CreateformPage);
+
+
+  }
+
 
   showAlert() {
     let alert = this.alertCtrl.create({
