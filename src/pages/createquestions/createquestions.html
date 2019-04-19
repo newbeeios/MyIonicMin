@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>Create Questions</ion-title>
+    <ion-title>{{formname}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -10,31 +10,22 @@
 <ion-content padding class="container">
 <ion-item>
     <ion-label>
-      <h1> {{formname}}</h1> 
+      <h1>Add Question</h1> 
           </ion-label>
 </ion-item>
 
 
   <form [formGroup]="myform" (ngSubmit)="onSubmit()">
 
-
-
-
-
     <ion-item>
       <ion-label stacked>Question Name</ion-label>
       <ion-input type="text" formControlName="elementname"></ion-input>
     </ion-item>
 
-
-
     <ion-item>
-      <ion-label stacked>Question Text</ion-label>
-      <ion-input type="text" formControlName="displaytext"></ion-input>
+        <ion-label stacked>Question Text</ion-label>
+        <ion-textarea type="text" formControlName="displaytext" ></ion-textarea>
     </ion-item>
-
-
-
 
     <ion-item no-lines>
         <ion-label stacked>Question Type</ion-label>
@@ -45,14 +36,16 @@
     </ion-item>
 
 
-    <ion-item>
-     
+
+    
+       
       <ion-item no-lines>
+          <ion-label>Required Field ?</ion-label>
         <ion-checkbox formControlName="required" color="dark" checked="false">
-          Required Field ?
+          
          </ion-checkbox>
       </ion-item>
-    </ion-item>
+
 
 
 

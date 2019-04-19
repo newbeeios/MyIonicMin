@@ -125,6 +125,33 @@ export class HomePage {
   }
 
 
+  deleteForm(formKey:any){
+
+    let alert = this.alertCtrl.create({
+      title: 'Confirm delete',
+      message: 'Do you want delete this form?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+           
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.firebaseProvider.removeItem(formKey);
+          }
+        }
+      ]
+    });
+    alert.present();
+
+    
+    
+  }
+
 
   updateForms() {
    
@@ -150,9 +177,7 @@ export class HomePage {
   removeItem(id) {
     this.firebaseProvider.removeItem(id);
   }
-  deleteForm(){
-    alert("Form Deleted");
-  }
+ 
 
   goToInputForm($event, formI) {
     this.navCtrl.push(DFormPage, { param1: formI });
@@ -163,9 +188,9 @@ export class HomePage {
 
   }
 
-  CreateNewForm(){
+  CreateNewForm(item:any){
 
-  this.navCtrl.push(CreateformPage);
+  this.navCtrl.push(CreateformPage,{data: item});
 
 
   }

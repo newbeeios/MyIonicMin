@@ -46,6 +46,7 @@ import { SettingsProvider } from './../providers/settings/settings';
 import {SettingsComponent} from '../pages/settings/settings';
 import {CreateformPage} from '../pages/createform/createform';
 import {CreatequestionsPage} from '../pages/createquestions/createquestions';
+import {OcrscannerpagePage} from '../pages/ocrscannerpage/ocrscannerpage';
 
 
 
@@ -96,7 +97,8 @@ export const firebaseConfig={
     SignaturePage,
     HistoryPage,
     CreateformPage,
-    CreatequestionsPage
+    CreatequestionsPage,
+    OcrscannerpagePage
   ],
   imports: [
     BrowserModule,
@@ -127,7 +129,8 @@ export const firebaseConfig={
     SignaturePage,
     HistoryPage,
     CreateformPage,
-    CreatequestionsPage
+    CreatequestionsPage,
+    OcrscannerpagePage
   ],
   providers: [
     StatusBar,

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
- import { FormControl, FormGroup, Validators, FormBuilder,FormGroupDirective, NgForm } from '@angular/forms';
- import { AuthService } from './../../providers/auth.service';
- import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { FormControl, FormGroup, Validators, FormBuilder, FormGroupDirective, NgForm } from '@angular/forms';
+import { AuthService } from './../../providers/auth.service';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs';
-import {  Loading, LoadingController, AlertController,  } from 'ionic-angular';
+import { Loading, LoadingController, AlertController, } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -18,35 +18,66 @@ export class CreateformPage {
   user: Observable<firebase.User>;
   form: FirebaseListObservable<any[]>;
   isEdit: boolean = false;
+  formdata: any;
+  formname: string;
+  title:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public authService: AuthService,
-     public afAuth: AngularFireAuth,
-    public af: AngularFireDatabase, 
+    public afAuth: AngularFireAuth,
+    public af: AngularFireDatabase,
     private fb: FormBuilder,
     public loadingCtrl: LoadingController,
-     public alertCtrl: AlertController
+    public alertCtrl: AlertController
   ) {
+
+    this.formdata = navParams.get('data');
+    if(this.formdata!=null){
+    this.formname = this.formdata.displaytext;
+    }
 
     this.form = af.list('/forms/', {
       query: {
-          limitToLast: 50
+        limitToLast: 50
       }
-  });
+    });
 
 
     this.user = this.afAuth.authState;
 
-    this.myform = this.fb.group({
-      id: 0,
-      isedit: false,
-      formname: ['', Validators.compose([Validators.required, Validators.minLength(5)])],
-      displaytext: ['', Validators.required],
-      description: ['', Validators.required],
-      sortorder: [''],
-      imageurl: ['https://image.flaticon.com/icons/svg/123/123390.svg']
 
-    });
+    if (this.formdata == null) {
+      this.title ="Create Form";
+
+      this.myform = this.fb.group({
+        id: 0,
+        isedit: false,
+        formname: ['', Validators.compose([Validators.required, Validators.minLength(5)])],
+        displaytext: ['', Validators.required],
+        description: ['', Validators.required],
+        sortorder: [''],
+        imageurl: ['https://image.flaticon.com/icons/svg/123/123390.svg']
+
+      });
+
+    } else {
+      this.title ="Edit "+this.formdata.displaytext;
+      this.isEdit = true;
+      this.myform = this.fb.group({
+        id: this.formdata.$key,
+        isedit: true,
+        formname: [this.formdata.formname, Validators.compose([Validators.required, Validators.minLength(5)])],
+        displaytext: [this.formdata.displaytext, Validators.required],
+        description: [this.formdata.description, Validators.required],
+        sortorder: [this.formdata.sortorder],
+        imageurl: this.formdata.imageurl
+
+      });
+
+    }
+
+
+
 
 
   }
@@ -62,24 +93,53 @@ export class CreateformPage {
 
   onSubmit() {
 
-   var newKey = this.form.push(this.myform.value).key;
+    if (this.formdata != null) {
 
-    this.af.object('/forms/' + newKey)
-      .update({
-        "createdby": this.authService.userDetails.email,
-        "createddate": new Date().getDate() + '-' + this.getMonth(new Date().getMonth()) + '-' + new Date().getFullYear(),
-        "createdtime(HH:MM:SS)": new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds()
-      });
+      var data = this.af.object('/forms/' + this.formdata.$key)
+        .update({
+          "description": this.myform.value.description,
+          "displaytext": this.myform.value.displaytext,
+          "formname": this.myform.value.formname,
+          "id": 0,
+          "imageurl": this.myform.value.imageurl,
+          "isedit": true,
+          "sortorder": this.myform.value.sortorder,
+          "updatedby": this.authService.userDetails.email,
+          "updateddate": new Date().getDate() + '-' + this.getMonth(new Date().getMonth() + 1) + '-' + new Date().getFullYear(),
+          "updatedtime(HH:MM:SS)": new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds()
+        });
 
-      let alert = this.alertCtrl.create({
-        title: 'Success',
-        subTitle: 'Form Created',
-        buttons: ['Dismiss']
-      });
+        let alert = this.alertCtrl.create({
+          title: 'Success',
+          subTitle: 'Form Updated',
+          buttons: ['Dismiss']
+        });
+    
+        alert.present();
 
-      alert.present();
+    } else {
 
-      this.navCtrl.pop();
+      var newKey = this.form.push(this.myform.value).key;
+
+      this.af.object('/forms/' + newKey)
+        .update({
+          "createdby": this.authService.userDetails.email,
+          "createddate": new Date().getDate() + '-' + this.getMonth(new Date().getMonth()) + '-' + new Date().getFullYear(),
+          "createdtime(HH:MM:SS)": new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds()
+        });
+
+        let alert = this.alertCtrl.create({
+          title: 'Success',
+          subTitle: 'Form Created',
+          buttons: ['Dismiss']
+        });
+    
+        alert.present();
+    }
+
+   
+
+    this.navCtrl.pop();
   }
 
 

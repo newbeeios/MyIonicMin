@@ -16,8 +16,8 @@
                 <ion-segment-button [value]="No">No</ion-segment-button>
             </ion-segment>
 
-            <ion-segment no-lines *ngSwitchCase="'segment'" [formControlName]="question.key">
-                <ion-segment-button *ngFor="let opt of question.options" [value]="opt.value">
+            <ion-segment no-lines *ngSwitchCase="'segment'" [formControlName]="question.key" >
+                <ion-segment-button style="color:black;" *ngFor="let opt of question.options" [value]="opt.value">
                     {{opt.value}}
                 </ion-segment-button>
             </ion-segment>
@@ -106,11 +106,11 @@
 
             </div>
 
-            <div *ngSwitchCase="'sign'" style="border-color:white;border-width:2px;border-style:dotted">
+            <div *ngSwitchCase="'sign'" style="border-color:black;border-width:2px;border-style:dotted">
 
                 <signature-pad [options]="signaturePadOptions" id="signatureCanvas"></signature-pad>
                 <ion-list>
-                    <ion-item>
+                    <ion-item style="display:none;">
                         <ion-input [readonly]="true" type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
                     </ion-item>
                 </ion-list>
