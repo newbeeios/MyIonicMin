@@ -113,6 +113,7 @@ export class HistoryPage {
       return false;
 
     } else {
+      
       this.filters[property] = val => val == rule
       this.applyFilters()
     }
@@ -124,55 +125,6 @@ export class HistoryPage {
     this[property] = null
     this.applyFilters();
   }
-
-
-
-  // setFilteredItems() {
-
-  //   let loading = this.loadingCtrl.create({
-  //     spinner: 'bubbles',
-  //     content: 'Loading...'
-  //   });
-  //   loading.present();
-
-  //   if (this.searchText != '') {
-  //     this.isLoading = true;
-  //     console.log(this.searchText);
-
-  //     this.historyItems = this.af.list('/forms', {
-  //       query: {
-  //         limitToLast: 2000,
-  //         orderByChild: 'createdby',
-  //         equalTo: this.authSer.userDetails.email, //,
-  //         startAt: this.searchText
-  //       }
-  //     });
-
-  //     this.historyItems.subscribe(() => {
-  //       loading.dismiss();
-  //     }
-  //     //this.isLoading = false
-  //   );
-
-  //   }
-  //   else {
-  //     this.historyItems = this.af.list('/forms', {
-  //       query: {
-  //         limitToLast: 2000,
-  //         orderByChild: 'createdby',
-  //        // equalTo: this.authSer.userDetails.email, //,
-  //         //startAt: this.searchText
-  //       }
-  //     });
-
-  //     this.historyItems.subscribe(() => {
-  //       loading.dismiss();
-  //     }
-  //     //this.isLoading = false
-  //   );
-  //   }
-  // }
-
 
 
   download(data: any) {

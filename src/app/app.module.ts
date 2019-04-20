@@ -47,8 +47,8 @@ import {SettingsComponent} from '../pages/settings/settings';
 import {CreateformPage} from '../pages/createform/createform';
 import {CreatequestionsPage} from '../pages/createquestions/createquestions';
 import {OcrscannerpagePage} from '../pages/ocrscannerpage/ocrscannerpage';
-
-
+import {CreatedropdownsPage} from '../pages/createdropdowns/createdropdowns';
+import {DynamicadminquestionsPage} from '../pages/dynamicadminquestions/dynamicadminquestions';
 
 
 import {GooglePlus} from '@ionic-native/google-plus';
@@ -98,7 +98,9 @@ export const firebaseConfig={
     HistoryPage,
     CreateformPage,
     CreatequestionsPage,
-    OcrscannerpagePage
+    OcrscannerpagePage,
+    CreatedropdownsPage,
+    DynamicadminquestionsPage
   ],
   imports: [
     BrowserModule,
@@ -130,7 +132,9 @@ export const firebaseConfig={
     HistoryPage,
     CreateformPage,
     CreatequestionsPage,
-    OcrscannerpagePage
+    OcrscannerpagePage,
+    CreatedropdownsPage,
+    DynamicadminquestionsPage
   ],
   providers: [
     StatusBar,

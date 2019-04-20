@@ -15,6 +15,7 @@
 </ion-item>
 
 
+
   <form [formGroup]="myform" (ngSubmit)="onSubmit()">
 
     <ion-item>
@@ -53,7 +54,7 @@
     <div class="row" style="padding-top:10px;">
 
 
-      <button ion-button type="submit" color="primary">Submit</button>
+      <button ion-button type="submit" color="primary" [disabled]="!myform.valid">Submit</button>
       <button ion-button type="button" color="danger" (click)="onNoClick()">Cancel</button>
     </div>
 

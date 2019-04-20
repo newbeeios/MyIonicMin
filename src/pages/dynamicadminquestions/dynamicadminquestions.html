@@ -1,0 +1,47 @@
+<ion-header>
+    <ion-navbar color="primary">
+      <ion-title>{{formname}} Questions</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+
+  
+  <ion-content class="container">
+
+      <ion-fab bottom right>
+          <button ion-fab size="large" color="primary"  (click)="editQuestion()">
+            <ion-icon name="add-circle" size="large"></ion-icon>
+          </button>
+        </ion-fab>
+
+    <ion-list>
+      <ion-item-sliding *ngFor="let item of data | async">
+        <ion-item>
+            <h2>{{item.displaytext}}  <i *ngIf="item.required==true" style="color:red;">*</i>     </h2>
+
+
+            <ion-icon name="text" *ngIf="item.elementtype=='Textbox'" ></ion-icon>
+            <ion-icon name="text" *ngIf="item.elementtype=='TextArea' " ></ion-icon>
+            <ion-icon name="text" *ngIf="item.elementtype=='TextArea' " ></ion-icon>
+            <ion-icon name="barcode" *ngIf="item.elementtype=='Scanner'" ></ion-icon>
+            <ion-icon name="man" *ngIf="item.elementtype=='Gender'" ></ion-icon>
+            <ion-icon name="woman" *ngIf="item.elementtype=='Gender'" ></ion-icon>
+            <ion-icon name="finger-print" *ngIf="item.elementtype=='Signature'" ></ion-icon>
+            <ion-icon name="checkmark" *ngIf="item.elementtype=='YesNo'" ></ion-icon>
+            <ion-icon name="close" *ngIf="item.elementtype=='YesNo'" ></ion-icon>
+            <ion-icon name="list-box" *ngIf="item.elementtype=='Dropdown' || item.elementtype=='Multi-Select' " ></ion-icon>
+            <ion-icon name="checkbox-outline" *ngIf="item.elementtype=='Multi-Select'" ></ion-icon>
+            <ion-icon name="pin" *ngIf="item.elementtype=='Gps'" ></ion-icon>
+            <ion-icon name="checkbox-outline" *ngIf="item.elementtype=='Checkbox'" ></ion-icon>
+            <ion-icon name="mail" *ngIf="item.elementtype=='Email'" ></ion-icon>
+            <ion-icon name="alarm" *ngIf="item.elementtype=='Time'" ></ion-icon>
+            <ion-icon name="calendar" *ngIf="item.elementtype=='Date'" ></ion-icon>
+            <p style="font-weight:bold;color:#488aff;">{{item.elementtype}}</p>
+        </ion-item>
+        <ion-item-options side="right">
+            <button ion-button (click)="editQuestion(item)">Edit</button>
+        <button ion-button color="danger" (click)="deleteQuestion(item)">Delete</button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </ion-content>

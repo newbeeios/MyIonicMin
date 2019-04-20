@@ -11,20 +11,20 @@
 
   <ion-grid>
     <ion-row>
-      <ion-label col-10>
+      <ion-label col-12>
         <h1 style="font-weight:bold;color:#428bca">{{formName}}</h1>
       </ion-label>
     </ion-row>
     <ion-row *ngFor="let column of columns">
       <ion-col col-3 class="Label">{{ column.header }}</ion-col>
-      <ion-col col-8 *ngIf="column.elementtype == 'Photo' || column.elementtype == 'Signature'" >
+      <ion-col col-9 *ngIf="column.elementtype == 'Photo' || column.elementtype == 'Signature'" >
         <ion-thumbnail item-start>
           <img class="{{column.columnDef}}" src="">
         </ion-thumbnail>
       </ion-col>
 
 
-      <ion-col col-8 item-end *ngIf="column.elementtype != 'Photo' && column.elementtype != 'Signature'">
+      <ion-col col-9 item-end *ngIf="column.elementtype != 'Photo' && column.elementtype != 'Signature'">
         {{ formdata[column.columnDef] }}
       </ion-col>
 

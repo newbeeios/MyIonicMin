@@ -1,9 +1,11 @@
 <div *ngIf="form">
     <div [formGroup]="form" style="padding-top:0px">
 
-        <ion-label stacked text-left style="color:black;padding-bottom:2px;">{{question.label}}</ion-label>
+        <ion-label stacked text-left style="color:black;padding-bottom:2px;">{{question.label}}
+                <i *ngIf="question.required==true" style="color:red;">*</i> 
+        </ion-label>
 
-
+       
 
         <div [ngSwitch]="question.controlType">
 
@@ -134,8 +136,8 @@
 
 
 
-
-        <ion-label text-left color="danger" class="errorMessage" *ngIf="!isValid && (isDirty || isTouched)">{{question.label}} is required</ion-label>
+        <!-- {{question.label}} -->
+        <ion-label text-left color="danger" class="errorMessage" *ngIf="!isValid && (isDirty || isTouched)">This field is required</ion-label>
 
 
     </div>

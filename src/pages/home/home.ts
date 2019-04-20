@@ -4,14 +4,15 @@ import { NavController } from 'ionic-angular';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { DynamicFormPage } from '../dynamicform/dynamicform';
 import { DFormPage } from '../d-form/d-form';
-import {CreateformPage} from '../createform/createform';
-import {CreatequestionsPage} from '../createquestions/createquestions';
+import { CreateformPage } from '../createform/createform';
+import { CreatequestionsPage } from '../createquestions/createquestions';
 import { AlertController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { SettingsProvider } from './../../providers/settings/settings';
 import { FormControl } from '@angular/forms';
 import { AuthService } from './../../providers/auth.service';
+import {DynamicadminquestionsPage} from '../dynamicadminquestions/dynamicadminquestions';
 
 @Component({
   selector: 'page-home',
@@ -24,9 +25,9 @@ export class HomePage {
   selectedTheme: String;
   searchControl: FormControl;
   searching: any = false;
-  isLoading:boolean=false;
+  isLoading: boolean = false;
 
-  constructor(private authSer: AuthService,public navCtrl: NavController, public firebaseProvider: FirebaseProvider, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private settings: SettingsProvider, private af: AngularFireDatabase ) {
+  constructor(private authSer: AuthService, public navCtrl: NavController, public firebaseProvider: FirebaseProvider, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private settings: SettingsProvider, private af: AngularFireDatabase) {
     this.searchControl = new FormControl();
     //this.shoppingItems = this.firebaseProvider.getShoppingItems();
     //this.shoppingItems.subscribe(()=> this.isLoading=false);
@@ -50,7 +51,7 @@ export class HomePage {
 
     this.searchControl.valueChanges.debounceTime(700).subscribe(search => {
 
-      
+
       this.setFilteredItems();
       //this.searching = false;
 
@@ -59,11 +60,16 @@ export class HomePage {
 
   }
 
-  AddQuestions(formdata:any){
-   
-   this.navCtrl.push(CreatequestionsPage,{
-    data: formdata
-  });
+  AddQuestions(formdata: any) {
+
+    // this.navCtrl.push(CreatequestionsPage, {
+    //   data: formdata
+    // });
+
+    this.navCtrl.push(DynamicadminquestionsPage, {
+      data: formdata
+    });
+    
 
   }
 
@@ -84,9 +90,9 @@ export class HomePage {
       this.searching = true;
       console.log(this.searchText);
 
-    
-    
-      
+
+
+
 
       this.shoppingItems = this.af.list('/forms', {
         query: {
@@ -97,35 +103,35 @@ export class HomePage {
         }
       });
 
-      this.shoppingItems.subscribe(()=> {
-      this.isLoading=false;
-      //loading.dismiss();
-    }
-    );
+      this.shoppingItems.subscribe(() => {
+        this.isLoading = false;
+        //loading.dismiss();
+      }
+      );
 
       this.searching = false;
 
     }
     else {
-      this.shoppingItems = this.af.list('/forms',{
+      this.shoppingItems = this.af.list('/forms', {
         query: {
           limitToLast: 2000,
           orderByChild: 'createdby',
           equalTo: this.authSer.userDetails.email //,
           //startAt: this.searchText
         }
-        });
+      });
 
-        this.shoppingItems.subscribe(()=> {
+      this.shoppingItems.subscribe(() => {
         //loading.dismiss();
-        }
-      //  this.isLoading=false
+      }
+        //  this.isLoading=false
       );
     }
   }
 
 
-  deleteForm(formKey:any){
+  deleteForm(formKey: any) {
 
     let alert = this.alertCtrl.create({
       title: 'Confirm delete',
@@ -135,7 +141,7 @@ export class HomePage {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-           
+
           }
         },
         {
@@ -148,13 +154,13 @@ export class HomePage {
     });
     alert.present();
 
-    
-    
+
+
   }
 
 
   updateForms() {
-   
+
     let queryTextLower = this.searchText.toLowerCase();
     let filteredItems = [];
     this.shoppingItems = this.af.list('/forms', {
@@ -177,7 +183,7 @@ export class HomePage {
   removeItem(id) {
     this.firebaseProvider.removeItem(id);
   }
- 
+
 
   goToInputForm($event, formI) {
     this.navCtrl.push(DFormPage, { param1: formI });
@@ -188,9 +194,9 @@ export class HomePage {
 
   }
 
-  CreateNewForm(item:any){
+  CreateNewForm(item: any) {
 
-  this.navCtrl.push(CreateformPage,{data: item});
+    this.navCtrl.push(CreateformPage, { data: item });
 
 
   }
