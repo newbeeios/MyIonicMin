@@ -32,9 +32,17 @@ export class CreatedropdownsPage {
     public afAuth: AngularFireAuth, public af: AngularFireDatabase,
     private fb: FormBuilder) {
 
-   
+
     this.dpdata = navParams.get('data');
-    this.newKey = navParams.get('newKey');
+
+    if (navParams.get('newKey') == null) {  // While editing
+      this.newKey = navParams.get('newKey');
+    } else {   // After creating the new element from create question page
+      this.newKey = this.dpdata.$key;
+    }
+
+
+
 
     this.dropdownname = this.dpdata.displaytext;
 
@@ -70,7 +78,7 @@ export class CreatedropdownsPage {
   }
 
 
-  removeItem(item:any){
+  removeItem(item: any) {
     this.dropdown.remove(item.$key);
     //firebase.database().ref('elements/' + this.newKey + '/' + 'options').remove(item.$key);
 

@@ -5,6 +5,7 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { AlertController } from 'ionic-angular';
 import { AuthService } from './../../providers/auth.service';
 import {CreatequestionsPage} from '../createquestions/createquestions';
+import {CreatedropdownsPage} from '../createdropdowns/createdropdowns';
 
 @Component({
   selector: 'page-dynamicadminquestions',
@@ -44,6 +45,11 @@ export class DynamicadminquestionsPage {
 
     this.navCtrl.push(CreatequestionsPage,{formInfo:this.formdata ,questionInfo:elementInfo});
 
+  }
+
+  editList(listInfo:any){
+    
+    this.navCtrl.push(CreatedropdownsPage,{data:listInfo});
   }
 
 

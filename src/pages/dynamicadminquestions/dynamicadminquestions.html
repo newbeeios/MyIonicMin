@@ -39,6 +39,7 @@
             <p style="font-weight:bold;color:#488aff;">{{item.elementtype}}</p>
         </ion-item>
         <ion-item-options side="right">
+          <button ion-button (click)="editList(item)" *ngIf="item.elementtype=='Dropdown' || item.elementtype=='Multi-Select' " color="dark">Edit List</button>
             <button ion-button (click)="editQuestion(item)">Edit</button>
         <button ion-button color="danger" (click)="deleteQuestion(item)">Delete</button>
         </ion-item-options>
