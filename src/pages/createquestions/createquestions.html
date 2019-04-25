@@ -10,7 +10,7 @@
 <ion-content padding class="container">
 <ion-item>
     <ion-label>
-      <h1>Add Question</h1> 
+      <h1>Question</h1> 
           </ion-label>
 </ion-item>
 
@@ -24,7 +24,7 @@
     </ion-item>
 
     <ion-item>
-        <ion-label stacked>Question Text</ion-label>
+        <ion-label stacked>Question Text</ion-label>  
         <ion-textarea type="text" formControlName="displaytext" ></ion-textarea>
     </ion-item>
 
@@ -52,13 +52,14 @@
 
 
     <div class="row" style="padding-top:10px;">
-
-
       <button ion-button type="submit" color="primary" [disabled]="!myform.valid">Submit</button>
       <button ion-button type="button" color="danger" (click)="onNoClick()">Cancel</button>
+      <button ion-button type="button" color="default" (click)="selectSource()">Scan Text From Image </button>
     </div>
 
-
+     <div class="row">
+     
+     </div>
 
 
 

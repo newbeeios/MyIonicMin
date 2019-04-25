@@ -32,12 +32,12 @@ export class DataPage {
   pdfObj = null;
   columnDataForPdf: any[] = [];
   columnRelDataForPdf: any[] = [];
-  loader:any;
+  loader: any;
 
   constructor(private printer: Printer, public af: AngularFireDatabase,
     public navCtrl: NavController, public navParams: NavParams,
     private loadingCtrl: LoadingController, private alertCtrl: AlertController,
-    private file: File, private fileOpender: FileOpener, private plt: Platform
+    private file: File, private fileOpener: FileOpener, private plt: Platform
   ) {
     this.myPhotosRef = firebase.storage().ref();
     this.formData = navParams.get('param1');
@@ -97,7 +97,7 @@ export class DataPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad DataPage');
 
-     this.loader = this.loadingCtrl.create({
+    this.loader = this.loadingCtrl.create({
       spinner: "bubbles",
       content: "Loading...",
     });
@@ -272,13 +272,13 @@ export class DataPage {
       var dataRow = [];
 
       dataRow.push(item.header);
-      dataRow.push(this.formdata[item.columnDef]);
+      dataRow.push(this.formdata[item.columnDef] == undefined ? "" : this.formdata[item.columnDef]);
       bodyData.push(dataRow)
 
     }
 
 
-  
+
 
 
 
@@ -303,10 +303,10 @@ export class DataPage {
   }
 
 
-  printDisabled() {
+  print() {
     //////PDF CREATION LOGIC SAVED FOR PRO VERSION
-    if (this.plt.is('cordova')) {
-     
+    if (this.plt.is('ios') || this.plt.is('android') || this.plt.is('windows')) {
+
       this.createPdf(); // create the pdf document first
       this.pdfObj.getBuffer((buffer) => {
 
@@ -314,7 +314,7 @@ export class DataPage {
         var binaryArray = utf8.buffer;
         var blob = new Blob([binaryArray], { type: 'application/pdf' });
 
-        this.saveAndOpenPdf(blob,"Form.pdf");
+        this.saveAndOpenPdf(blob, "Form.pdf");
         // this.file.writeFile(this.file.externalDataDirectory, this.formName + '.pdf', blob, { replace: true }).then(fileEntry => {
 
         //   this.fileOpender.open(this.file.externalDataDirectory + this.formName + '.pdf', 'application/pdf');
@@ -338,21 +338,22 @@ export class DataPage {
   saveAndOpenPdf(pdf: any, filename: string) {
     this.loader.present();
 
-    const writeDirectory = this.plt.is('ios') ? this.file.dataDirectory : this.file.externalDataDirectory;
-   
-    this.file.writeFile(writeDirectory, filename, pdf, {replace: true})
-    .then(() => {
+    const writeDirectory = this.plt.is('ios') ? this.file.documentsDirectory : this.file.dataDirectory;
+
+    this.file.writeFile(writeDirectory, filename, pdf, { replace: true })
+      .then(() => {
         this.loader.dismiss();
-        this.fileOpender.open(writeDirectory + filename, 'application/pdf')
-            .catch(() => {
-                console.log('Error opening pdf file');
-                this.loader.dismiss();
-            });
-    })
-    .catch(() => {
+        this.fileOpener.open(writeDirectory + filename, 'application/pdf')
+          .catch(() => {
+            console.log('Error opening pdf file');
+            this.loader.dismiss();
+
+          });
+      })
+      .catch(() => {
         console.error('Error writing pdf file');
         this.loader.dismiss();
-    });
+      });
     // this.file.writeFile(writeDirectory, filename, this.convertBaseb64ToBlob(pdf, 'application/pdf'), {replace: true})
     //   .then(() => {
     //       this.loader.dismiss();
@@ -377,20 +378,20 @@ export class DataPage {
     const byteCharacters = window.atob(b64Data);
     const byteArrays = [];
     for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-         const slice = byteCharacters.slice(offset, offset + sliceSize);
-         const byteNumbers = new Array(slice.length);
-         for (let i = 0; i < slice.length; i++) {
-             byteNumbers[i] = slice.charCodeAt(i);
-         }
-         const byteArray = new Uint8Array(byteNumbers);
-         byteArrays.push(byteArray);
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
     }
-   return new Blob(byteArrays, {type: contentType});
-}
+    return new Blob(byteArrays, { type: contentType });
+  }
 
 
 
-  print() {
+  printToWirelessPrinter() {
 
 
 

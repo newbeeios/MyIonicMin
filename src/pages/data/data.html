@@ -4,10 +4,59 @@
     <ion-title>Submitted Data</ion-title>
   </ion-navbar>
 
+  
 </ion-header>
 
 
+
 <ion-content>
+
+    <ion-list>
+
+      <ion-item>
+          <ion-label style="color:black;">{{formName}}</ion-label>
+      </ion-item>
+
+        
+          <ion-item-sliding *ngFor="let column of columns">
+          <ion-item>
+              <ion-grid>
+                  <ion-row>
+                    <ion-col>
+                        <h2 text-wrap style="color:#488aff;padding-bottom: 5px;"> {{column.header}}</h2>
+                        <h5 text-wrap *ngIf="column.elementtype != 'Photo' && column.elementtype != 'Signature'"> {{ formdata[column.columnDef] }} </h5>
+
+                       
+                            <ion-thumbnail item-start *ngIf="column.elementtype == 'Photo' || column.elementtype == 'Signature'">
+                              <img class="{{column.columnDef}}" src="">
+                            </ion-thumbnail>
+                      
+                    
+                
+                        <!-- <h4> <b>DATE:</b>  {{item.createddate}}</h4>
+                        <h4> <b>TIME:</b>  {{item.createdtime}}</h4> -->
+                    </ion-col>
+                   
+                  </ion-row>
+                 
+                </ion-grid>
+       
+           
+
+          </ion-item>
+          </ion-item-sliding>
+        
+        </ion-list>
+
+        <!-- <ion-fab bottom right>
+            <button ion-fab size="large" color="secondary" (click)="print()">
+              <ion-icon name="cloud-download" size="large"></ion-icon>
+            </button>
+          </ion-fab> -->
+
+</ion-content>
+<!-- 
+<ion-content padding class="container">
 
   <ion-grid>
     <ion-row>
@@ -17,46 +66,42 @@
     </ion-row>
     <ion-row *ngFor="let column of columns">
       <ion-col col-3 class="Label">{{ column.header }}</ion-col>
-      <ion-col col-9 *ngIf="column.elementtype == 'Photo' || column.elementtype == 'Signature'" >
+      <ion-col col-9 *ngIf="column.elementtype == 'Photo' || column.elementtype == 'Signature'">
         <ion-thumbnail item-start>
           <img class="{{column.columnDef}}" src="">
         </ion-thumbnail>
       </ion-col>
 
-
       <ion-col col-9 item-end *ngIf="column.elementtype != 'Photo' && column.elementtype != 'Signature'">
         {{ formdata[column.columnDef] }}
       </ion-col>
 
-
-
     </ion-row>
-  </ion-grid>
+  </ion-grid> 
+
+  <div *ngFor="let column of columns">
+    <div>
+      <div col-12>{{column.header}}</div>
+      <div col-12 >
+        <div  *ngIf="column.elementtype == 'Photo' || column.elementtype == 'Signature'">
+          <ion-thumbnail item-start>
+            <img class="{{column.columnDef}}" src="">
+          </ion-thumbnail>
+        </div>
+      </div>
+
+      <div  col-12 item-end *ngIf="column.elementtype != 'Photo' && column.elementtype != 'Signature'">
+        {{ formdata[column.columnDef] }}
+      </div>
+    </div>
+  </div>
 
 
-  <!-- <ion-grid>
-    <ion-row *ngFor="let item of data">
-
-      <ion-col col-3 class="Label">{{item.key}}</ion-col>
-      <ion-col col-9 *ngIf="item.key.includes('Photo_') || item.key.includes('Sign_')">
-        <ion-thumbnail item-start>
-          <img class="{{item.key}}" src="">
-        </ion-thumbnail>
-      </ion-col>
-      <ion-col col-9 item-end *ngIf="!item.key.includes('Photo_') && !item.key.includes('Sign_')">{{item.value}}
-      </ion-col>
-
-    </ion-row>
-  </ion-grid> -->
 
 
-  <ion-fab bottom right>
-    <button ion-fab size="large" color="primary" (click)="printDisabled()">
-      <ion-icon name="cloud-download" size="large"></ion-icon>
-    </button>
-  </ion-fab>
-
-  <!-- {{formData | json}} -->
 
 
-</ion-content>
+
+
+
+</ion-content> -->

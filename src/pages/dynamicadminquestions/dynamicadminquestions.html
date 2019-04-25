@@ -9,7 +9,7 @@
   <ion-content class="container">
 
       <ion-fab bottom right>
-          <button ion-fab size="large" color="primary"  (click)="editQuestion()">
+          <button ion-fab size="large" color="secondary"  (click)="editQuestion()">
             <ion-icon name="add-circle" size="large"></ion-icon>
           </button>
         </ion-fab>
@@ -17,7 +17,7 @@
     <ion-list>
       <ion-item-sliding *ngFor="let item of data | async">
         <ion-item>
-            <h2>{{item.displaytext}}  <i *ngIf="item.required==true" style="color:red;">*</i>     </h2>
+            <h2 text-wrap>{{item.displaytext}}  <i *ngIf="item.required==true" style="color:red;">*</i>     </h2>
 
 
             <ion-icon name="text" *ngIf="item.elementtype=='Textbox'" ></ion-icon>

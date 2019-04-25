@@ -35,13 +35,13 @@ export class CreatedropdownsPage {
 
     this.dpdata = navParams.get('data');
 
-    if (navParams.get('newKey') == null) {  // While editing
+    if (navParams.get('newKey') != undefined) {  // While editing
       this.newKey = navParams.get('newKey');
     } else {   // After creating the new element from create question page
       this.newKey = this.dpdata.$key;
     }
 
-
+    debugger;
 
 
     this.dropdownname = this.dpdata.displaytext;

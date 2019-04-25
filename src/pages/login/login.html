@@ -3,64 +3,56 @@
 
   <h2 style="color:white;font-weight:bold;">Minute Forms</h2>
 
-    <ion-card style="margin-top:40px;"> 
-        <ion-card-header>
+    <!-- <ion-card style="margin-top:40px;">  -->
+        <!-- <ion-card-header>
           
         </ion-card-header>
-        <ion-card-content>
+        <ion-card-content> -->
     
          <form [formGroup]="login" (ngSubmit)="LoginRegular()">
     
             <ion-item>
-                <ion-label floating style="font-size:18px;"><ion-icon name="mail" style="color:gold"></ion-icon> Email</ion-label>
+                <ion-label floating style="font-size:18px;color:white;"><ion-icon name="mail" style="color:white"></ion-icon> Email</ion-label>
                 <ion-input type="email"  formControlName="email"></ion-input>
             </ion-item>
     
     
-            <ion-item *ngIf="!login.controls.email.valid  && (login.controls.email.dirty)">
-                <p style="color: orange">Please enter valid Email.</p>
+            <ion-item no-lines *ngIf="!login.controls.email.valid  && (login.controls.email.dirty)">
+                <p style="color: red">Please enter valid Email.</p>
             </ion-item>
     
             <ion-item>
-                <ion-label floating style="font-size:18px;"><ion-icon name="key" style="color:gold"></ion-icon> Password</ion-label>
+                <ion-label floating style="font-size:18px;color:white;"><ion-icon name="key" style="color:white"></ion-icon> Password</ion-label>
                 <ion-input type="password"  formControlName="password"></ion-input>
             </ion-item>
     
-            <ion-item *ngIf="!login.controls.password.valid  && (login.controls.password.dirty)">
-                <p style="color: orange">Please enter Password.</p>
+            <ion-item no-lines  *ngIf="!login.controls.password.valid  && (login.controls.password.dirty)">
+                <p style="color: red">Please enter Password.</p>
             </ion-item>
-            <ion-item *ngIf="invalidPassword">
+            <ion-item no-lines *ngIf="invalidPassword">
               <p style="color: red"><ion-icon name="bulb" style="color:red"></ion-icon> Invalid Credentials</p>
             </ion-item>
         
        <ion-grid>
         <ion-row>
-          <ion-col col-3 offset-1>
-            
-          <button type="submit" ion-button color="secondary"[disabled]="!login.valid"  class="button-rounded" block> LOGIN</button>
-          
-           </ion-col>
-           <ion-col col-3 offset-3>
-             <button ion-button color="primary"   ion-left block (click)='SignUpPage()' class="button-rounded">
+            <button type="submit" ion-button color="primary" [disabled]="!login.valid" block > LOGIN</button>
+
+      
+             <button ion-button color="secondary"   ion-left block (click)='SignUpPage()' >
                <ion-icon style="padding-right:10px"></ion-icon> <!--name="logo-facebook" -->
                <div>Sign Up</div>
             </button>
-           </ion-col>
+    
         </ion-row>
 
-        <ion-row>
-         <ion-col>
-            <button type="button" ion-button color="danger" ion-left block  (click)="LoginClick()"><ion-icon name="logo-google" style="padding-right:5px;"></ion-icon>Login with Google</button>
-         </ion-col>
 
-        </ion-row>
 
         <ion-row>
 
           <ion-col>
             <button type="button" ion-button color="primary"  ion-left block (click)="Reset()">
-              <!-- <ion-icon name="logo-google" style="padding-right:10px"></ion-icon> -->
-              <div><ion-icon ios="ios-lock" md="md-lock"></ion-icon> Reset Password</div>
+             
+              <div><ion-icon ios="ios-lock" md="md-lock"></ion-icon> Forgot Password</div>
            </button>
           </ion-col>
         </ion-row>
@@ -74,9 +66,9 @@
     
     
             </form>
-        </ion-card-content>
+        <!-- </ion-card-content>
     
-      </ion-card>
+      </ion-card> -->
      
    
 </ion-content>

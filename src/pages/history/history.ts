@@ -134,6 +134,33 @@ export class HistoryPage {
 
 
 
+  deleteRecord(data: any) {
+
+    let alert = this.alertCtrl.create({
+      title: 'Confirm delete',
+      message: 'Do you want delete this record?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.af.list('/data/').remove(data.$key);
+          }
+        }
+      ]
+    });
+    alert.present();
+
+
+
+  }
+
   ShowAlert(Message: any) {
     let alert = this.alertCtrl.create({
       title: "Method",

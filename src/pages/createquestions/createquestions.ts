@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController,ActionSheetController, NavParams } from 'ionic-angular';
 import { FormControl, FormGroup, Validators, FormBuilder, FormGroupDirective, NgForm } from '@angular/forms';
 import { AuthService } from './../../providers/auth.service';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
@@ -7,6 +7,9 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs';
 import { Loading, LoadingController, AlertController, } from 'ionic-angular';
 import { CreatedropdownsPage } from '../createdropdowns/createdropdowns';
+import { Camera, PictureSourceType } from '@ionic-native/camera';
+import * as Tesseract from 'tesseract.js';
+
 
 @IonicPage()
 @Component({
@@ -15,6 +18,8 @@ import { CreatedropdownsPage } from '../createdropdowns/createdropdowns';
 })
 export class CreatequestionsPage {
 
+  selectedImage: string;
+  imageText: string;
   myform: FormGroup;
   user: Observable<firebase.User>;
   element: FirebaseListObservable<any[]>;
@@ -22,6 +27,8 @@ export class CreatequestionsPage {
   formdata: any;
   questiondata: any;
   formname: string;
+  loading:any;
+  message:string;
   elementTypes = [
 
     { key: "Label", value: "Label" },
@@ -50,7 +57,15 @@ export class CreatequestionsPage {
     public af: AngularFireDatabase,
     private fb: FormBuilder,
     public loadingCtrl: LoadingController,
-    public alertCtrl: AlertController) {
+    public alertCtrl: AlertController,
+    private camera: Camera, 
+    private actionSheetCtrl: ActionSheetController) {
+
+      this.message = 'Scanning Text...';
+      this.loading = this.loadingCtrl.create({
+        spinner: 'bubbles',
+        content:  this.message
+      });
 
 
     this.formdata = navParams.get('formInfo');
@@ -214,5 +229,66 @@ export class CreatequestionsPage {
       }
     }
   }
+
+
+  selectSource() {    
+    let actionSheet = this.actionSheetCtrl.create({
+      buttons: [
+        {
+          text: 'Use Photo Library',
+          handler: () => {
+            this.getPicture(this.camera.PictureSourceType.PHOTOLIBRARY);
+          }
+        }, {
+          text: 'Use Camera',
+          handler: () => {
+            this.getPicture(this.camera.PictureSourceType.CAMERA);
+          }
+        }, {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+ 
+  getPicture(sourceType: PictureSourceType) {
+    this.camera.getPicture({
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: sourceType,
+      allowEdit: true,
+      saveToPhotoAlbum: false,
+      correctOrientation: true
+    }).then((imageData) => {
+      this.selectedImage = `data:image/jpeg;base64,${imageData}`;
+      this.loading.dismiss();
+      this.recognizeImage();
+    });
+  }
+ 
+  recognizeImage() {
+    this.message="Scanning Image...";
+    this.loading.present();
+    Tesseract.recognize(this.selectedImage)
+    .progress(message => {
+      if (message.status === 'recognizing text')
+      this.message="recognizing text...";
+      
+    })
+    .catch(err => console.error(err))
+    .then(result => {
+      // this.imageText = result.text;
+      this.myform.controls['displaytext'].setValue(result.text);
+      this.message="Scanning Complete...";
+      this.loading.dismiss();
+    })
+    .finally(resultOrError => {
+      this.loading.dismiss();
+    });
+  }
+
+
 
 }

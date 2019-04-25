@@ -6,31 +6,47 @@ import { Platform } from 'ionic-angular';
 
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { SettingsProvider } from './../../providers/settings/settings';
 
 @Component({
   selector: 'settings',
-  templateUrl: 'settings.html'
+  templateUrl: 'settings.html',
+  providers: [SettingsProvider]
 })
 export class SettingsComponent {
 
   text: string;
   userDetails: any;
+  selectedTheme: String;
+  ThemeValue:boolean=false;
 
   url = 'https://minuteforms.com';
 
   constructor(private _AuthService: AuthService, public navCtrl: NavController,
     private alertCtrl: AlertController,
     private socialSharing: SocialSharing, private file: File,
-    private plt: Platform
+    private plt: Platform, private settings: SettingsProvider
   ) {
 
     this.text = 'Minute Forms';
+
+
+
+    this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
 
     this.userDetails = _AuthService.userDetails;
 
     console.log(this.userDetails);
   }
 
+
+  toggleAppTheme() {
+    if (this.selectedTheme === 'dark-theme') {
+      this.settings.setActiveTheme('light-theme');
+    } else {
+      this.settings.setActiveTheme('dark-theme');
+    }
+  }
 
   presentConfirm() {
     let alert = this.alertCtrl.create({

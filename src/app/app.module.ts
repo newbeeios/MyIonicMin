@@ -11,6 +11,8 @@ import { Network } from '@ionic-native/network';
 import {EmailComposer} from '@ionic-native/email-composer/ngx';
 import {File} from '@ionic-native/file/ngx';
 import {FileOpener} from '@ionic-native/file-opener/ngx';
+import { FileTransfer } from '@ionic-native/file-transfer/ngx';
+import { DocumentViewer } from '@ionic-native/document-viewer/ngx';
 
 
 import { AboutPage } from '../pages/about/about';
@@ -150,6 +152,8 @@ export const firebaseConfig={
     EmailComposer,
     File,
     FileOpener,
+    FileTransfer,
+    DocumentViewer,
     SocialSharing,
     AuthService,
     SettingsProvider,

@@ -1,5 +1,14 @@
 page-data {
 
+
+// .div{
+// border-color: red;
+// border-width: 2px;
+// border-bottom: 2px;
+
+
+// }
+
     .scroll-content {
       background-color: grey;
   }
@@ -11,19 +20,19 @@ page-data {
         background-color:lightgrey;
       }
       
-      .col {
-        border: solid 1px #428bca;
-        border-bottom-style: none;
-        border-right-style: none;
-      }
+      // .col {
+      //   border: solid 1px #428bca;
+      //   border-bottom-style: none;
+      //   border-right-style: none;
+      // }
       
-      .col:last-child {
-        border-right: solid 1px grey;
-      }
+      // .col:last-child {
+      //   border-right: solid 1px grey;
+      // }
       
-      .row:last-child .col {
-        border-bottom: solid 1px grey;
-      }
+      // .row:last-child .col {
+      //   border-bottom: solid 1px grey;
+      // }
 
     // ion-grid{
     //     border-width: 1px;
@@ -37,14 +46,14 @@ page-data {
 
     // }
 
-    ion-col
-    {
-        border-width: 1px;
-        border-style: solid;
-        // border-left: solid;
-        border-color: #428bca;
+    // ion-col
+    // {
+    //     border-width: 1px;
+    //     border-style: solid;
+    //     // border-left: solid;
+    //     border-color: #428bca;
 
-    }
+    // }
     // ion-row {
     //      border-width: 1px;
     //      border-style: solid;
