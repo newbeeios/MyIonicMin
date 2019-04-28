@@ -1,8 +1,25 @@
 page-d-form {
-    .container{
-        display: -webkit-flex;
-        height: 100%;
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,darkgray), color-stop(100%,#f7d47c));
-        // background: -webkit-linear-gradient(top, darkgray 0%,#f7d47c 100%);
+    // .container{
+    //     display: -webkit-flex;
+    //     height: 100%;
+    //     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,darkgray), color-stop(100%,#f7d47c));
+    //     // background: -webkit-linear-gradient(top, darkgray 0%,#f7d47c 100%);
+    // }
+
+    // .container{
+    //     background-color:red;
+    // }
+
+    .content{
+        background: lightgrey;
+        // background: -webkit-linear-gradient(top, white 10%,lightgrey 100%);
     }
+  
+    // ion-input{
+    //     background: lightgrey;
+    //     color:black;
+    // }
+    // span .button-inner{
+    //     background: lightgrey; 
+    // }
 }

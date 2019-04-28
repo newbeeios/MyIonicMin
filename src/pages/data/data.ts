@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, Platform, ToastController } from 'ionic-angular';
 import { Printer, PrintOptions } from '@ionic-native/printer';
 import firebase from 'firebase';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from "rxjs/Rx";
 import { QuestionBase } from './../../providers/question-base';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-import { File } from '@ionic-native/file/ngx';
+import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { isRightSide } from 'ionic-angular/umd/util/util';
 import pdfMake from 'pdfmake/build/pdfmake';
@@ -33,11 +33,13 @@ export class DataPage {
   columnDataForPdf: any[] = [];
   columnRelDataForPdf: any[] = [];
   loader: any;
+  error: any;
 
   constructor(private printer: Printer, public af: AngularFireDatabase,
     public navCtrl: NavController, public navParams: NavParams,
     private loadingCtrl: LoadingController, private alertCtrl: AlertController,
-    private file: File, private fileOpener: FileOpener, private plt: Platform
+    private file: File, private fileOpener: FileOpener, private plt: Platform,
+    private toastCtrl: ToastController
   ) {
     this.myPhotosRef = firebase.storage().ref();
     this.formData = navParams.get('param1');
@@ -295,7 +297,13 @@ export class DataPage {
             body: bodyData
           }
         }
-      ]
+      ], styles: {
+        header: {
+          bold: true,
+          fontSize: 20,
+          alignment: 'right'
+        }
+      }
     };
 
 
@@ -305,28 +313,55 @@ export class DataPage {
 
   print() {
     //////PDF CREATION LOGIC SAVED FOR PRO VERSION
-    if (this.plt.is('ios') || this.plt.is('android') || this.plt.is('windows')) {
 
-      this.createPdf(); // create the pdf document first
-      this.pdfObj.getBuffer((buffer) => {
+    this.createPdf();
 
-        var utf8 = new Uint8Array(buffer);
-        var binaryArray = utf8.buffer;
-        var blob = new Blob([binaryArray], { type: 'application/pdf' });
+    if (this.plt.is('cordova')) {
+      this.pdfObj.getBuffer(function (buffer) {
 
-        this.saveAndOpenPdf(blob, "Form.pdf");
-        // this.file.writeFile(this.file.externalDataDirectory, this.formName + '.pdf', blob, { replace: true }).then(fileEntry => {
+        let utf8 = new Uint8Array(buffer);
+        let binaryArray = utf8.buffer;
 
-        //   this.fileOpender.open(this.file.externalDataDirectory + this.formName + '.pdf', 'application/pdf');
-        // }).catch((e) => {
-        //   alert(e.message);
-        // });
+        var filename = this.formname + new Date().toDateString();
+        // var blob = new Blob([buffer], { type: 'application/pdf' });
 
-      })
+        // Save the PDF to the data Directory of our App
+        this.file.writeFile(this.file.documentsDirectory, filename+'.pdf', binaryArray, { replace: true }).then(fileEntry => {
+
+          const toast = this.toastCtrl.create({
+            message: 'File saved to your device',
+            duration: 3000,
+            position: 'top'
+          });
+          toast.present();
+
+
+          // Open the PDf with the correct OS tools
+          this.fileOpener.open(this.file.documentsDirectory + filename+'.pdf', 'application/pdf');
+        })
+      });
+
+
+      // create the pdf document first
+      // this.pdfObj.getBuffer((buffer) => {
+
+      //   var utf8 = new Uint8Array(buffer);
+      //   var binaryArray = utf8.buffer;
+      //   var blob = new Blob([binaryArray], { type: 'application/pdf' });
+
+      //   this.saveAndOpenPdf(blob, "Form.pdf");
+      //   // this.file.writeFile(this.file.externalDataDirectory, this.formName + '.pdf', blob, { replace: true }).then(fileEntry => {
+
+      //   //   this.fileOpender.open(this.file.externalDataDirectory + this.formName + '.pdf', 'application/pdf');
+      //   // }).catch((e) => {
+      //   //   alert(e.message);
+      //   // });
+
+      // })
 
     } else {
       console.log("Inside download");
-      this.createPdf();
+
       this.pdfObj.download();
 
     }
@@ -336,23 +371,32 @@ export class DataPage {
 
 
   saveAndOpenPdf(pdf: any, filename: string) {
-    this.loader.present();
 
-    const writeDirectory = this.plt.is('ios') ? this.file.documentsDirectory : this.file.dataDirectory;
+    var pdfloader = this.loadingCtrl.create({
+      spinner: "bubbles",
+      content: "Creating Pdf...",
+    });
+    pdfloader.present();
+
+    const writeDirectory = this.plt.is('ios') ? this.file.documentsDirectory : this.file.externalDataDirectory;
 
     this.file.writeFile(writeDirectory, filename, pdf, { replace: true })
       .then(() => {
-        this.loader.dismiss();
+        pdfloader.dismiss();
+        this.error = "Inside saveAndOpenPdf()-- WriteFile()";
+
         this.fileOpener.open(writeDirectory + filename, 'application/pdf')
-          .catch(() => {
+          .catch((errors) => {
             console.log('Error opening pdf file');
-            this.loader.dismiss();
+            this.error = "Inside saveAndOpenPdf()-- Open-- " + errors;
+            pdfloader.dismiss();
 
           });
       })
-      .catch(() => {
+      .catch((errors) => {
         console.error('Error writing pdf file');
-        this.loader.dismiss();
+        this.error = errors;
+        pdfloader.dismiss();
       });
     // this.file.writeFile(writeDirectory, filename, this.convertBaseb64ToBlob(pdf, 'application/pdf'), {replace: true})
     //   .then(() => {

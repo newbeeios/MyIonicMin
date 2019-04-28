@@ -5,7 +5,7 @@ import { LoginPage } from '../login/login';
 import { Platform } from 'ionic-angular';
 
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { File } from '@ionic-native/file/ngx';
+import { File } from '@ionic-native/file';
 import { SettingsProvider } from './../../providers/settings/settings';
 
 @Component({

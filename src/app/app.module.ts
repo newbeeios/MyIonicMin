@@ -9,7 +9,7 @@ import { Device } from '@ionic-native/device';
 import { Printer } from '@ionic-native/printer';
 import { Network } from '@ionic-native/network';
 import {EmailComposer} from '@ionic-native/email-composer/ngx';
-import {File} from '@ionic-native/file/ngx';
+import {File} from '@ionic-native/file';
 import {FileOpener} from '@ionic-native/file-opener/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { DocumentViewer } from '@ionic-native/document-viewer/ngx';

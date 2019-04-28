@@ -21,6 +21,7 @@ export class MyApp {
     platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private settings: SettingsProvider, private push: Push, private alertCtrl: AlertController) {
     this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
     platform.ready().then(() => {
+
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();

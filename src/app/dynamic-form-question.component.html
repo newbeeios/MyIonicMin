@@ -1,3 +1,6 @@
+
+
+
 <div *ngIf="form">
     <div [formGroup]="form" style="padding-top:0px">
 
@@ -108,7 +111,7 @@
 
             </div>
 
-            <div *ngSwitchCase="'sign'" style="border-color:black;border-width:2px;border-style:dotted">
+            <div *ngSwitchCase="'sign'" style="border-color:grey;border-width:2px;border-style:dotted">
 
                 <signature-pad [options]="signaturePadOptions" id="signatureCanvas"></signature-pad>
                 <ion-list>
