@@ -34,6 +34,7 @@ export class DataPage {
   columnRelDataForPdf: any[] = [];
   loader: any;
   error: any;
+  alignment:string="horizontal";
 
   constructor(private printer: Printer, public af: AngularFireDatabase,
     public navCtrl: NavController, public navParams: NavParams,
@@ -225,6 +226,7 @@ export class DataPage {
       storageRef.child('images/' + imageName).getDownloadURL().then(function (url) {
         console.log("Inside IMAGE URL" + url);
         (<HTMLImageElement>document.querySelector("." + CurrentKey)).src = url;
+
         //return url;
 
       }).catch(function (error) {
@@ -326,7 +328,7 @@ export class DataPage {
         // var blob = new Blob([buffer], { type: 'application/pdf' });
 
         // Save the PDF to the data Directory of our App
-        this.file.writeFile(this.file.documentsDirectory, filename+'.pdf', binaryArray, { replace: true }).then(fileEntry => {
+        this.file.writeFile(this.file.externalDataDirectory, filename+'.pdf', binaryArray, { replace: true }).then(fileEntry => {
 
           const toast = this.toastCtrl.create({
             message: 'File saved to your device',

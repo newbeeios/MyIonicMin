@@ -4,56 +4,106 @@
     <ion-title>Submitted Data</ion-title>
   </ion-navbar>
 
-  
+
 </ion-header>
 
 
 
-<ion-content>
+<ion-content style="background-color:white;">
+  <!-- [(ngModel)]="alignment" color="primary" (ionChange)="segmentChanged($event)" -->
+  <ion-segment [(ngModel)]="alignment" color="dark" style="background: white;">
+    <ion-segment-button value="horizontal">
+      Horizontal
+    </ion-segment-button>
+    <ion-segment-button value="vertical">
+      Vertical
+    </ion-segment-button>
+  </ion-segment>
 
-    <ion-list>
 
-      <ion-item>
-          <ion-label style="color:black;">{{formName}} {{error}} </ion-label>
 
+  <div [ngSwitch]="alignment">
+
+    <div *ngSwitchCase="'horizontal'">
+
+      <ion-item no-lines style="background:white;">
+        <ion-label style="color:#488aff;font-weight: bold;">{{formName}}</ion-label>
       </ion-item>
+      <ion-grid *ngFor="let column of columns">
+        <ion-row style="border-bottom: 1px; border-color:lightgray;">
+          <ion-col col-6>
+            <i text-wrap style="color:black;padding-bottom: 5px;font-style: normal;"> {{column.header}}</i>
+          </ion-col>
+          <ion-col>
+            <i style="font-style: normal;color:grey;" text-wrap
+              *ngIf="column.elementtype != 'Photo' && column.elementtype != 'Signature'">
+              {{ formdata[column.columnDef] }} </i>
 
-        
-          <ion-item-sliding *ngFor="let column of columns">
+
+            <ion-thumbnail item-start *ngIf="column.elementtype == 'Photo' || column.elementtype == 'Signature'">
+              <img class="{{column.columnDef}}" src="">
+            </ion-thumbnail>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div *ngSwitchCase="'vertical'">
+
+
+      <ion-list>
+
+        <ion-item no-lines>
+          <ion-label style="color:#488aff;font-weight: bold;">{{formName}}</ion-label>
+        </ion-item>
+
+
+        <ion-item-sliding *ngFor="let column of columns">
           <ion-item>
-              <ion-grid>
-                  <ion-row>
-                    <ion-col>
-                        <h2 text-wrap style="color:#488aff;padding-bottom: 5px;"> {{column.header}}</h2>
-                        <h5 text-wrap *ngIf="column.elementtype != 'Photo' && column.elementtype != 'Signature'"> {{ formdata[column.columnDef] }} </h5>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <h2 text-wrap style="color:black;padding-bottom: 5px;"> {{column.header}}</h2>
+                  <h5 text-wrap *ngIf="column.elementtype != 'Photo' && column.elementtype != 'Signature'">
+                    {{ formdata[column.columnDef] }} </h5>
 
-                       
-                            <ion-thumbnail item-start *ngIf="column.elementtype == 'Photo' || column.elementtype == 'Signature'">
-                              <img class="{{column.columnDef}}" src="">
-                            </ion-thumbnail>
-                      
-                    
-                
-                        <!-- <h4> <b>DATE:</b>  {{item.createddate}}</h4>
-                        <h4> <b>TIME:</b>  {{item.createdtime}}</h4> -->
-                    </ion-col>
-                   
-                  </ion-row>
-                 
-                </ion-grid>
-       
-           
+
+                  <ion-thumbnail item-start *ngIf="column.elementtype == 'Photo' || column.elementtype == 'Signature'">
+                    <img class="{{column.columnDef}}" src="">
+                  </ion-thumbnail>
+
+
+
+                  <!-- <h4> <b>DATE:</b>  {{item.createddate}}</h4>
+                          <h4> <b>TIME:</b>  {{item.createdtime}}</h4> -->
+                </ion-col>
+
+              </ion-row>
+
+            </ion-grid>
+
+
 
           </ion-item>
-          </ion-item-sliding>
-        
-        </ion-list>
+        </ion-item-sliding>
 
-        <ion-fab bottom right>
-            <button ion-fab size="large" color="secondary" (click)="print()">
-              <ion-icon name="cloud-download" size="large"></ion-icon>
-            </button>
-          </ion-fab>
+      </ion-list>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+  <ion-fab bottom right>
+    <button ion-fab size="large" color="secondary" (click)="print()">
+      <ion-icon name="cloud-download" size="large"></ion-icon>
+    </button>
+  </ion-fab>
 
 </ion-content>
 <!-- 
