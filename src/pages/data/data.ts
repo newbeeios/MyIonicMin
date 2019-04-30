@@ -328,7 +328,7 @@ export class DataPage {
         // var blob = new Blob([buffer], { type: 'application/pdf' });
 
         // Save the PDF to the data Directory of our App
-        this.file.writeFile(this.file.externalDataDirectory, filename+'.pdf', binaryArray, { replace: true }).then(fileEntry => {
+        this.file.writeFile(this.file.documentsDirectory, filename+'.pdf', binaryArray, { replace: true }).then(fileEntry => {
 
           const toast = this.toastCtrl.create({
             message: 'File saved to your device',
