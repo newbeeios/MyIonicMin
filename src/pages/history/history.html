@@ -1,25 +1,24 @@
-
 <ion-header>
 
   <ion-navbar color="primary">
     <ion-title>History</ion-title>
-  
+
   </ion-navbar>
-  <ion-toolbar> 
-      <!-- <ion-searchbar [(ngModel)]="searchText" [formControl]="searchControl" (change)="filterExact('family', family)"></ion-searchbar>
+  <ion-toolbar>
+    <!-- <ion-searchbar [(ngModel)]="searchText" [formControl]="searchControl" (change)="filterExact('family', family)"></ion-searchbar>
     -->
     <ion-item>
-      <ion-label>Select Form</ion-label>
-      <ion-select [(ngModel)]="formname"  (ionChange)="filterExact('formname', formname)" style="color:lightgrey;">
+      <ion-label>Filter Form</ion-label>
+      <ion-select [(ngModel)]="formname" (ionChange)="filterExact('displaytext',formname)" style="color:lightgrey;">
         <ion-option value="All">--All--</ion-option>
-        <ion-option  *ngFor="let item of formItems | async" value="{{item.formname}}">{{item.displaytext}}</ion-option>
+        <ion-option *ngFor="let item of formItems | async" value="{{item.displaytext}}">{{item.displaytext}}</ion-option>
       </ion-select>
     </ion-item>
 
 
-      <div *ngIf="searching" class="spinner-container">
-          <ion-spinner name="crescent"></ion-spinner>
-      </div>
+    <div *ngIf="searching" class="spinner-container">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
   </ion-toolbar>
 </ion-header>
 
@@ -27,35 +26,46 @@
 
 <ion-content>
 
-    <ion-list>
-        
-       <ion-spinner  *ngIf="isLoading" name="bubbles"></ion-spinner>
-        
+  <ion-list>
+
+    <ion-spinner *ngIf="isLoading" name="bubbles"></ion-spinner>
+
+
+
+
           <ion-item-sliding *ngFor="let item of filteredHistoryItems">
-          <ion-item>
+            <ion-item>
               <ion-grid>
-                  <ion-row (click)="download(item)">
-                    <ion-col>
-                        <h3> <b>FORM NAME:</b> {{item.formname}}</h3>
-                        <h4> <b>DATE:</b>  {{item.createddate}}</h4>
-                        <h4> <b>TIME:</b>  {{item.createdtime}}</h4>
+                <div (click)="download(item)">
+
+
+                  <ion-row style="color:black;">
+                    <ion-col col-7 text-wrap>
+                      <h3> {{item.formname}}</h3>
+
                     </ion-col>
-                    <!-- <ion-col col-3>
-                     <button ion-button small="true" (click)="download(item)"  type="button" color="primary"> <i class="fa fa-file-pdf-o fa-1x"></i>  View </button>
-                    </ion-col> -->
+
+                    <ion-col  text-wrap>
+                      <h4> {{item.createddate}} {{item.createdtime}}</h4>  
+                    </ion-col>
+              
                   </ion-row>
-                 
-                </ion-grid>
-       
-           
 
-          </ion-item>
+                </div>
 
-          <ion-item-options side="right">
+
+              </ion-grid>
+
+
+
+            </ion-item>
+
+            <ion-item-options side="right">
               <button ion-button color="danger" (click)="deleteRecord(item)">DELETE</button>
             </ion-item-options>
           </ion-item-sliding>
-        
-        </ion-list>
+    
+
+  </ion-list>
 
 </ion-content>

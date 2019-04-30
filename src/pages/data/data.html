@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>Submitted Data</ion-title>
+    <ion-title>{{formName}}</ion-title>
   </ion-navbar>
 
 
@@ -9,15 +9,17 @@
 
 
 
-<ion-content style="background-color:white;">
+<ion-content>
   <!-- [(ngModel)]="alignment" color="primary" (ionChange)="segmentChanged($event)" -->
-  <ion-segment [(ngModel)]="alignment" color="dark" style="background: white;">
-    <ion-segment-button value="horizontal">
-      Horizontal
-    </ion-segment-button>
+  <ion-segment [(ngModel)]="alignment" color="primary" style="background: white;">
+    
     <ion-segment-button value="vertical">
-      Vertical
+      Vertical View
     </ion-segment-button>
+    <ion-segment-button value="horizontal">
+      Horizontal View
+    </ion-segment-button>
+
   </ion-segment>
 
 
@@ -26,11 +28,9 @@
 
     <div *ngSwitchCase="'horizontal'">
 
-      <ion-item no-lines style="background:white;">
-        <ion-label style="color:#488aff;font-weight: bold;">{{formName}}</ion-label>
-      </ion-item>
+
       <ion-grid *ngFor="let column of columns">
-        <ion-row style="border-bottom: 1px; border-color:lightgray;">
+        <ion-row>
           <ion-col col-6>
             <i text-wrap style="color:black;padding-bottom: 5px;font-style: normal;"> {{column.header}}</i>
           </ion-col>
@@ -53,12 +53,6 @@
 
 
       <ion-list>
-
-        <ion-item no-lines>
-          <ion-label style="color:#488aff;font-weight: bold;">{{formName}}</ion-label>
-        </ion-item>
-
-
         <ion-item-sliding *ngFor="let column of columns">
           <ion-item>
             <ion-grid>

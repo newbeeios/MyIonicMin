@@ -7,7 +7,7 @@ import { BehaviorSubject } from "rxjs/Rx";
 import { QuestionBase } from './../../providers/question-base';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { File } from '@ionic-native/file';
-import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { FileOpener } from '@ionic-native/file-opener';
 import { isRightSide } from 'ionic-angular/umd/util/util';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -34,7 +34,7 @@ export class DataPage {
   columnRelDataForPdf: any[] = [];
   loader: any;
   error: any;
-  alignment:string="horizontal";
+  alignment:string="vertical";
 
   constructor(private printer: Printer, public af: AngularFireDatabase,
     public navCtrl: NavController, public navParams: NavParams,

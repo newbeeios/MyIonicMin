@@ -106,6 +106,7 @@ export class HistoryPage {
 
   filterExact(property: string, rule: any) {
    
+ 
     if (rule == "All") {
  
       this.removeFilter(property);

@@ -136,7 +136,7 @@ export class DynamicFormComponent implements OnChanges {
                 "formid": this.formId,
                 "formname": this.formnamestring,
                 "createddate": new Date().getDate() + '-' + this.getMonth(new Date().getMonth()) + '-' + new Date().getFullYear(),
-                "createdtime": new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
+                "createdtime": new Date().getHours() + ':' + new Date().getMinutes(),
                 "deviceuuid": this.device.uuid,
                 "devicemodel": this.device.model,
                 "platform": this.device.platform,

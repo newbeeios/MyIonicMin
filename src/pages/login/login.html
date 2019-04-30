@@ -1,77 +1,86 @@
 <ion-content padding class="login-container">
-    
+
 
   <h1 style="font-weight: bold;color:whitesmoke">
-   Minute Forms
-                           </h1>
+    Minute Forms
+  </h1>
 
-                    
-    <!-- <ion-card style="margin-top:40px;">  -->
-        <!-- <ion-card-header>
+
+  <!-- <ion-card style="margin-top:40px;">  -->
+  <!-- <ion-card-header>
           
         </ion-card-header>
         <ion-card-content> -->
-    
-         <form [formGroup]="login" (ngSubmit)="LoginRegular()">
-    
-            <ion-item>
-                <ion-label floating style="font-size:18px;color:grey;"><ion-icon name="mail" style="color:white"></ion-icon> Email</ion-label>
-                <ion-input type="email"  formControlName="email"></ion-input>
-            </ion-item>
-    
-    
-            <ion-item no-lines *ngIf="!login.controls.email.valid  && (login.controls.email.dirty)">
-                <p style="color: red">Please enter valid Email.</p>
-            </ion-item>
-    
-            <ion-item>
-                <ion-label floating style="font-size:18px;color:grey;"><ion-icon name="key" style="color:white"></ion-icon> Password</ion-label>
-                <ion-input type="password"  formControlName="password"></ion-input>
-            </ion-item>
-    
-            <ion-item no-lines  *ngIf="!login.controls.password.valid  && (login.controls.password.dirty)">
-                <p style="color: red">Please enter Password.</p>
-            </ion-item>
-            <ion-item no-lines *ngIf="invalidPassword">
-              <p style="color: red"><ion-icon name="bulb" style="color:red"></ion-icon> Invalid Credentials</p>
-            </ion-item>
-        
-       <ion-grid>
-        <ion-row>
-            <button type="submit" ion-button color="primary" [disabled]="!login.valid" block > LOGIN</button>
 
-      
-             <button ion-button color="secondary"   ion-left block (click)='SignUpPage()' >
-               <ion-icon style="padding-right:10px"></ion-icon> <!--name="logo-facebook" -->
-               <div>Sign Up</div>
-            </button>
-    
-        </ion-row>
+  <form [formGroup]="login" (ngSubmit)="LoginRegular()">
+
+    <ion-item>
+      <ion-label floating style="font-size:18px;color:grey;">
+        <ion-icon name="mail" style="color:white"></ion-icon> Email
+      </ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
 
 
+    <ion-item no-lines *ngIf="!login.controls.email.valid  && (login.controls.email.dirty)">
+      <p style="color: red">Please enter valid Email.</p>
+    </ion-item>
 
-        <ion-row>
+    <ion-item>
+      <ion-label floating style="font-size:18px;color:grey;">
+        <ion-icon name="key" style="color:white"></ion-icon> Password
+      </ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
 
-          <ion-col>
-            <button type="button" ion-button color="primary"  ion-left block (click)="Reset()">
-             
-              <div><ion-icon ios="ios-lock" md="md-lock"></ion-icon> Forgot Password</div>
-           </button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    
-    
-    
+    <ion-item no-lines *ngIf="!login.controls.password.valid  && (login.controls.password.dirty)">
+      <p style="color: red">Please enter Password.</p>
+    </ion-item>
+    <ion-item no-lines *ngIf="invalidPassword">
+      <p style="color: red">
+        <ion-icon name="bulb" style="color:red"></ion-icon> Invalid Credentials
+      </p>
+    </ion-item>
 
-        
-    
-    
-    
-            </form>
-        <!-- </ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <button type="submit" ion-button color="primary" [disabled]="!login.valid" block> LOGIN</button>
+
+
+        <button ion-button color="secondary" ion-left block (click)='SignUpPage()'>
+          <ion-icon style="padding-right:10px"></ion-icon>
+          <!--name="logo-facebook" -->
+          <div>Sign Up</div>
+        </button>
+
+      </ion-row>
+
+
+
+      <ion-row>
+
+        <ion-col>
+          <button type="button" ion-button color="primary" ion-left block (click)="Reset()">
+
+            <div>
+              <ion-icon ios="ios-lock" md="md-lock"></ion-icon> Forgot Password
+            </div>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+
+
+
+
+
+
+  </form>
+  <!-- </ion-card-content>
     
       </ion-card> -->
-     
-   
+
+
 </ion-content>

@@ -7,7 +7,7 @@
 </ion-header>
 
 
-<ion-content padding class="container">
+<ion-content padding>
 <ion-item>
     <ion-label>
       <h1>Question</h1> 
@@ -20,17 +20,17 @@
 
     <ion-item>
       <ion-label stacked>Question Name</ion-label>
-      <ion-input type="text" formControlName="elementname"></ion-input>
+      <ion-input type="text" formControlName="elementname" placeholder="Example: FirstName"></ion-input>
     </ion-item>
 
     <ion-item>
         <ion-label stacked>Question Text</ion-label>  
-        <ion-textarea type="text" formControlName="displaytext" ></ion-textarea>
+        <ion-textarea type="text" formControlName="displaytext" placeholder="Example: Enter your First Name"></ion-textarea>
     </ion-item>
 
     <ion-item no-lines>
         <ion-label stacked>Question Type</ion-label>
-      <ion-select formControlName="elementtype">
+      <ion-select formControlName="elementtype" placeholder="--Select--">
 
         <ion-option *ngFor="let opt of elementTypes" [value]="opt.value">{{opt.value}}</ion-option>
       </ion-select>

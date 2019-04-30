@@ -41,7 +41,7 @@ export class CreatedropdownsPage {
       this.newKey = this.dpdata.$key;
     }
 
-    debugger;
+
 
 
     this.dropdownname = this.dpdata.displaytext;
@@ -74,6 +74,7 @@ export class CreatedropdownsPage {
       value: this.value
     });
 
+    this.value ="";
 
   }
 
