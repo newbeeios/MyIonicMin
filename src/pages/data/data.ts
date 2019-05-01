@@ -34,7 +34,7 @@ export class DataPage {
   columnRelDataForPdf: any[] = [];
   loader: any;
   error: any;
-  alignment:string="vertical";
+  alignment: string = "vertical";
 
   constructor(private printer: Printer, public af: AngularFireDatabase,
     public navCtrl: NavController, public navParams: NavParams,
@@ -250,7 +250,7 @@ export class DataPage {
   }
 
 
-  createPdf() {
+  createPdfObject() {
 
 
     for (let item of this.columns) {
@@ -310,61 +310,75 @@ export class DataPage {
 
 
     this.pdfObj = pdfMake.createPdf(docDefinition);
+
   }
 
 
   print() {
     //////PDF CREATION LOGIC SAVED FOR PRO VERSION
 
-    this.createPdf();
+    this.createPdfObject();
+
+    var pdfloader1 = this.loadingCtrl.create({
+      spinner: "bubbles",
+      content: "Creating Pdf...",
+    });
 
     if (this.plt.is('cordova')) {
-      this.pdfObj.getBuffer(function (buffer) {
-
-        let utf8 = new Uint8Array(buffer);
-        let binaryArray = utf8.buffer;
-
-        var filename = this.formname + new Date().toDateString();
-        // var blob = new Blob([buffer], { type: 'application/pdf' });
-
-        // Save the PDF to the data Directory of our App
-        this.file.writeFile(this.file.documentsDirectory, filename+'.pdf', binaryArray, { replace: true }).then(fileEntry => {
-
-          const toast = this.toastCtrl.create({
-            message: 'File saved to your device',
-            duration: 3000,
-            position: 'top'
-          });
-          toast.present();
+      // this.pdfObj.getBuffer(function (buffer) {
 
 
-          // Open the PDf with the correct OS tools
-          this.fileOpener.open(this.file.documentsDirectory + filename+'.pdf', 'application/pdf');
-        })
+      //   pdfloader1.present();
+
+      //   let utf8 = new Uint8Array(buffer);
+      //   let binaryArray = utf8.buffer;
+
+      //   //var filename = this.formname + new Date().toDateString();
+      //    var blob = new Blob([buffer], { type: 'application/pdf' });
+
+      //   // Save the PDF to the data Directory of our App
+
+      //   var dirpath = this.plat.is('ios') ? this.file.documentsDirectory : this.file.dataDirectory;
+      //   this.file.writeFile(dirpath, 'Form.pdf', blob, { replace: true }).then(fileEntry => {
+
+      //     pdfloader1.dismiss();
+
+      //     // Open the PDf with the correct OS tools
+      //     this.fileOpener.open(dirpath + 'Form.pdf', 'application/pdf');
+      //   })
+      // });
+
+
+      //create the pdf document first
+      this.pdfObj.getBuffer((buffer) => {
+
+        var utf8 = new Uint8Array(buffer);
+        var binaryArray = utf8.buffer;
+        var blob = new Blob([binaryArray], { type: 'application/pdf' });
+
+        this.saveAndOpenPdf(blob, "Form.pdf");
+        // this.file.writeFile(this.file.externalDataDirectory, this.formName + '.pdf', blob, { replace: true }).then(fileEntry => {
+
+        //   this.fileOpender.open(this.file.externalDataDirectory + this.formName + '.pdf', 'application/pdf');
+        // }).catch((e) => {
+        //   alert(e.message);
+        // });
+
       });
 
-
-      // create the pdf document first
-      // this.pdfObj.getBuffer((buffer) => {
-
-      //   var utf8 = new Uint8Array(buffer);
-      //   var binaryArray = utf8.buffer;
-      //   var blob = new Blob([binaryArray], { type: 'application/pdf' });
-
-      //   this.saveAndOpenPdf(blob, "Form.pdf");
-      //   // this.file.writeFile(this.file.externalDataDirectory, this.formName + '.pdf', blob, { replace: true }).then(fileEntry => {
-
-      //   //   this.fileOpender.open(this.file.externalDataDirectory + this.formName + '.pdf', 'application/pdf');
-      //   // }).catch((e) => {
-      //   //   alert(e.message);
-      //   // });
-
-      // })
 
     } else {
       console.log("Inside download");
 
+      var pdfloader = this.loadingCtrl.create({
+        spinner: "bubbles",
+        content: "Creating Pdf...",
+      });
+      pdfloader.present();
+
       this.pdfObj.download();
+
+      pdfloader.dismiss();
 
     }
 
@@ -372,7 +386,7 @@ export class DataPage {
   }
 
 
-  saveAndOpenPdf(pdf: any, filename: string) {
+  saveAndOpenPdf(pdfObject: any, filename: string) {
 
     var pdfloader = this.loadingCtrl.create({
       spinner: "bubbles",
@@ -380,9 +394,9 @@ export class DataPage {
     });
     pdfloader.present();
 
-    const writeDirectory = this.plt.is('ios') ? this.file.documentsDirectory : this.file.externalDataDirectory;
+    const writeDirectory = this.plt.is('ios') ? this.file.documentsDirectory : this.file.dataDirectory;
 
-    this.file.writeFile(writeDirectory, filename, pdf, { replace: true })
+    this.file.writeFile(writeDirectory, filename, pdfObject, { replace: true })
       .then(() => {
         pdfloader.dismiss();
         this.error = "Inside saveAndOpenPdf()-- WriteFile()";
