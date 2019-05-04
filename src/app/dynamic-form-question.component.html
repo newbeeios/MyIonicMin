@@ -1,14 +1,11 @@
-
-
-
 <div *ngIf="form">
     <div [formGroup]="form" style="padding-top:0px">
 
         <ion-label stacked text-left style="color:black;padding-bottom:2px;" text-wrap>{{question.label}}
-                <i *ngIf="question.required==true" style="color:red;">*</i> 
+            <i *ngIf="question.required==true" style="color:red;">*</i>
         </ion-label>
 
-       
+
 
         <div [ngSwitch]="question.controlType">
 
@@ -17,42 +14,50 @@
             </ion-item>
 
             <ion-segment no-lines *ngSwitchCase="'yesno'" [formControlName]="question.key">
-                <ion-segment-button [value]="Yes">Yes</ion-segment-button>
-                <ion-segment-button [value]="No">No</ion-segment-button>
+                <ion-segment-button style="color:black;" [value]="Yes">Yes</ion-segment-button>
+                <ion-segment-button style="color:black;" [value]="No">No</ion-segment-button>
             </ion-segment>
 
-            <ion-segment no-lines *ngSwitchCase="'segment'" [formControlName]="question.key" >
-                <ion-segment-button style="color:black;" *ngFor="let opt of question.options" [value]="opt.value">
+            
+            <ion-segment no-lines *ngSwitchCase="'segment'" [formControlName]="question.key">
+                <ion-segment-button style="color:black;" [value]="opt.value" *ngFor="let opt of question.options">
                     {{opt.value}}
                 </ion-segment-button>
             </ion-segment>
+         
+
+
 
             <ion-item no-lines *ngSwitchCase="'textbox'">
                 <ion-input type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
             </ion-item>
 
             <ion-item no-lines *ngSwitchCase="'checkbox'">
-                <ion-checkbox [formControlName]="question.key" (ionChange)="checkedChange(question.key,$event)" [id]="question.key" color="dark"
-                    checked="false"></ion-checkbox>
+                <ion-checkbox [formControlName]="question.key" (ionChange)="checkedChange(question.key,$event)"
+                    [id]="question.key" color="dark" checked="false"></ion-checkbox>
             </ion-item>
+
+       
 
             <ion-item no-lines *ngSwitchCase="'textarea'">
                 <ion-textarea type="text" [formControlName]="question.key" [id]="question.key"></ion-textarea>
             </ion-item>
 
             <ion-item no-lines *ngSwitchCase="'date'">
-                <ion-datetime displayFormat="MM/DD/YYYY" [formControlName]="question.key" [id]="question.key"></ion-datetime>
+                <ion-datetime displayFormat="MM/DD/YYYY" [formControlName]="question.key" [id]="question.key">
+                </ion-datetime>
             </ion-item>
 
             <ion-item no-lines *ngSwitchCase="'time'">
-                <ion-datetime displayFormat="HH:mm:ss" [formControlName]="question.key" [id]="question.key"></ion-datetime>
+                <ion-datetime displayFormat="HH:mm:ss" [formControlName]="question.key" [id]="question.key">
+                </ion-datetime>
             </ion-item>
 
             <ion-item no-lines *ngSwitchCase="'divider'">
-                   <ion-label style="background-color: grey;padding-top: 3px;padding-bottom: 3px;">
+                <ion-label style="background-color: grey;padding-top: 3px;padding-bottom: 3px;">
 
-                   </ion-label>
-                </ion-item>
+                </ion-label>
+            </ion-item>
 
 
             <div *ngSwitchCase="'picklist'" (click)="PopUpPickList(question.key,question.options)">
@@ -60,7 +65,8 @@
                     <ion-label>
                         <ion-icon name="list"></ion-icon>
                     </ion-label>
-                    <ion-input [readonly]="true" type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
+                    <ion-input [readonly]="true" type="text" [formControlName]="question.key" [id]="question.key">
+                    </ion-input>
                 </ion-item>
             </div>
 
@@ -81,7 +87,9 @@
             <div *ngSwitchCase="'scanner'">
                 <ion-list>
                     <ion-item>
-                        <button type="button" ion-button (click)='showScanner(question.key)'> <ion-icon name="barcode" style="padding-right:5px;"></ion-icon> scan barcode</button>
+                        <button type="button" ion-button (click)='showScanner(question.key)'>
+                            <ion-icon name="barcode" style="padding-right:5px;"></ion-icon> scan barcode
+                        </button>
                     </ion-item>
                     <ion-item>
                         <ion-input type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
@@ -93,7 +101,9 @@
             <div *ngSwitchCase="'picture'">
                 <ion-list>
                     <ion-item>
-                        <button type="button" ion-button (click)='presentActionSheet(question.key)'><ion-icon name="camera" style="padding-right:5px;"></ion-icon> Capture Image</button>
+                        <button type="button" ion-button (click)='presentActionSheet(question.key)'>
+                            <ion-icon name="camera" style="padding-right:5px;"></ion-icon> Capture Image
+                        </button>
                     </ion-item>
                     <ion-item>
                         <ion-input type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
@@ -109,21 +119,26 @@
             <div *ngSwitchCase="'gps'">
                 <ion-list>
                     <ion-item>
-                        <button type="button" ion-button (click)='getLocationCoordinates(question.key)'><ion-icon name="pin" style="color:white;padding-right:5px;"></ion-icon>  Gps Points</button>
+                        <button type="button" ion-button (click)='getLocationCoordinates(question.key)'>
+                            <ion-icon name="pin" style="color:white;padding-right:5px;"></ion-icon> Gps Points
+                        </button>
                     </ion-item>
                     <ion-item>
-                        <ion-textarea style="height:80px;" elastic type="text" [formControlName]="question.key" [id]="question.key"></ion-textarea>
+                        <ion-textarea style="height:80px;" elastic type="text" [formControlName]="question.key"
+                            [id]="question.key"></ion-textarea>
                     </ion-item>
                 </ion-list>
 
             </div>
 
-            <div *ngSwitchCase="'sign'" style="border-color:grey;background-color:white; border-width:2px;border-style:dotted">
+            <div *ngSwitchCase="'sign'"
+                style="border-color:grey;background-color:white; border-width:2px;border-style:dotted">
 
                 <signature-pad [options]="signaturePadOptions" id="signatureCanvas"></signature-pad>
                 <ion-list>
                     <ion-item style="display:none;">
-                        <ion-input [readonly]="true" type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
+                        <ion-input [readonly]="true" type="text" [formControlName]="question.key" [id]="question.key">
+                        </ion-input>
                     </ion-item>
                 </ion-list>
                 <ion-grid>
@@ -135,7 +150,8 @@
                             <button ion-button type="button" full color="light" (click)="drawClear()">Clear</button>
                         </ion-col>
                         <ion-col col-4>
-                            <button ion-button type="button" full color="primary" (click)="drawComplete(question.key)">Done</button>
+                            <button ion-button type="button" full color="primary"
+                                (click)="drawComplete(question.key)">Done</button>
                         </ion-col>
                     </ion-row>
                 </ion-grid>
@@ -147,7 +163,8 @@
 
 
         <!-- {{question.label}} -->
-        <ion-label text-left color="danger" class="errorMessage" *ngIf="!isValid && (isDirty || isTouched)">This field is required</ion-label>
+        <ion-label text-left color="danger" class="errorMessage" *ngIf="!isValid && (isDirty || isTouched)">This field
+            is required</ion-label>
 
 
     </div>

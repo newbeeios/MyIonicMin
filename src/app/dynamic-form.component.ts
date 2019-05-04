@@ -2,9 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { QuestionBase } from './question-base';
 import { QuestionControlService } from './question-control.service';
-
 import { AuthService } from './../providers/auth.service';
-
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Observable } from 'rxjs';
 import { AlertController, NavController } from 'ionic-angular';

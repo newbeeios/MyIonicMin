@@ -31,6 +31,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/toPromise';
 import { BehaviorSubject } from "rxjs/Rx";
+import { convertDataToISO } from 'ionic-angular/umd/util/datetime-util';
 
 
 
@@ -278,7 +279,7 @@ export class DFormPage implements OnInit, OnChanges {
         });
 
 
-      case 'CheckBox':
+      case 'Checkbox':
 
         return new CheckboxQuestion({
           key: elementData.elementname,
@@ -339,7 +340,7 @@ export class DFormPage implements OnInit, OnChanges {
           return new SegmentQuestion({
             key: elementData.elementname,
             label: elementData.displaytext,
-            options: elementData.options,
+            options: Object.keys(elementData.options).map(e => elementData.options[e]),
             order: elementData.sortorder,
             required: elementData.required ? elementData.required : false
           });
@@ -492,6 +493,8 @@ export class DFormPage implements OnInit, OnChanges {
               }))
               break;
             case 'CheckBox':
+
+             
 
               this.questions.push(new CheckboxQuestion({
                 key: elementData.elementname,
