@@ -8,11 +8,11 @@
 
 
 <ion-content padding>
-<ion-item>
+  <ion-item>
     <ion-label>
-      <h1>Question</h1> 
-          </ion-label>
-</ion-item>
+      <h1>Question</h1>
+    </ion-label>
+  </ion-item>
 
 
 
@@ -22,30 +22,40 @@
       <ion-label stacked>Question Name</ion-label>
       <ion-input type="text" formControlName="elementname" placeholder="Example: FirstName"></ion-input>
     </ion-item>
+    <ion-item no-lines *ngIf="!myform.controls.elementname.valid  && (myform.controls.elementname.dirty)">
+      <p style="color: red">This field is required</p>
+    </ion-item>
 
     <ion-item>
-        <ion-label stacked>Question Text</ion-label>  
-        <ion-textarea type="text" formControlName="displaytext" placeholder="Example: Enter your First Name"></ion-textarea>
+      <ion-label stacked>Question Text</ion-label>
+      <ion-textarea type="text" formControlName="displaytext" placeholder="Example: Enter your First Name">
+      </ion-textarea>
+    </ion-item>
+    <ion-item no-lines *ngIf="!myform.controls.displaytext.valid  && (myform.controls.displaytext.dirty)">
+      <p style="color: red">This field is required</p>
     </ion-item>
 
     <ion-item no-lines>
-        <ion-label stacked>Question Type</ion-label>
+      <ion-label stacked>Question Type</ion-label>
       <ion-select formControlName="elementtype" placeholder="--Select--">
 
         <ion-option *ngFor="let opt of elementTypes" [value]="opt.value">{{opt.value}}</ion-option>
       </ion-select>
     </ion-item>
 
+    <ion-item no-lines *ngIf="!myform.controls.elementtype.valid  && (myform.controls.elementtype.dirty)">
+      <p style="color: red">This field is required</p>
+    </ion-item>
 
 
-    
-       
-      <ion-item no-lines>
-          <ion-label>Required Field ?</ion-label>
-        <ion-checkbox formControlName="required" color="dark" checked="false">
-          
-         </ion-checkbox>
-      </ion-item>
+
+
+    <ion-item no-lines>
+      <ion-label>Required Field ?</ion-label>
+      <ion-checkbox formControlName="required" color="dark" checked="false">
+
+      </ion-checkbox>
+    </ion-item>
 
 
 
@@ -57,9 +67,9 @@
       <button ion-button type="button" color="default" (click)="selectSource()">Scan Text From Image </button>
     </div>
 
-     <div class="row">
-     
-     </div>
+    <div class="row">
+
+    </div>
 
 
 

@@ -48,6 +48,12 @@
                 <ion-datetime displayFormat="HH:mm:ss" [formControlName]="question.key" [id]="question.key"></ion-datetime>
             </ion-item>
 
+            <ion-item no-lines *ngSwitchCase="'divider'">
+                   <ion-label style="background-color: grey;padding-top: 3px;padding-bottom: 3px;">
+
+                   </ion-label>
+                </ion-item>
+
 
             <div *ngSwitchCase="'picklist'" (click)="PopUpPickList(question.key,question.options)">
                 <ion-item no-lines>
@@ -57,6 +63,7 @@
                     <ion-input [readonly]="true" type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
                 </ion-item>
             </div>
+
 
 
             <ion-item no-lines *ngSwitchCase="'dropdown'">

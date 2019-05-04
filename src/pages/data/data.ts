@@ -12,6 +12,7 @@ import { isRightSide } from 'ionic-angular/umd/util/util';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import { DomSanitizer } from '@angular/platform-browser';
 
 @IonicPage()
 @Component({
@@ -40,12 +41,11 @@ export class DataPage {
     public navCtrl: NavController, public navParams: NavParams,
     private loadingCtrl: LoadingController, private alertCtrl: AlertController,
     private file: File, private fileOpener: FileOpener, private plt: Platform,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,private DomSanitizer: DomSanitizer
   ) {
     this.myPhotosRef = firebase.storage().ref();
     this.formData = navParams.get('param1');
-
-    //console.log(this.formData.$key);
+  
 
     var data1 = this.af.object('/forms/' + this.formData["formid"], { preserveSnapshot: true });
     data1.subscribe(snapshot => {
@@ -67,6 +67,7 @@ export class DataPage {
         snapshot.forEach((childSnapshot) => {
           this.columns.push({ columnDef: childSnapshot.elementname, elementtype: childSnapshot.elementtype, header: childSnapshot.displaytext, cell: (element: any) => `${element.elementname}` });
           this.columnDataForPdf.push(childSnapshot.displaytext);
+
           return false;
         });
       }
@@ -109,6 +110,9 @@ export class DataPage {
     let formName: string;
 
     for (var key in this.formData) {
+
+
+
       var temp = [key, this.formData[key]];
       if (key == "formname" || key == "formid") {
         if (key == "formname") { formName = this.formData[key] }
@@ -157,7 +161,9 @@ export class DataPage {
         //  console.log(error);
         // });
       }
-      else if (key.toLowerCase().includes("sign_")) {
+      else if (key.toLowerCase().includes("sign")) {
+
+       
 
         var ctrlKey: string = key;
         //alert("Inside Sign_" + this.formData[key]);
@@ -173,11 +179,11 @@ export class DataPage {
           //alert(url);
           var CurrentKey = ctrlKey;
           imageURL = url;
-
+         // (<HTMLImageElement>document.querySelector("." + ctrlKey)).src = this.formData[CurrentKey];
           (<HTMLImageElement>document.querySelector("." + CurrentKey)).src = url;
 
           ctrlKey = '';
-
+         
           console.log("Inside IMAGE URL" + imageURL);
 
         }).catch(function (error) {
@@ -186,8 +192,9 @@ export class DataPage {
         });
 
 
-        this.data.push({ key: key, value: imageURL });
+       // this.data.push({ key: key, value: imageURL });
 
+        this.data.push({ key: key, value:  this.formData[key] });
       }
 
 
@@ -219,13 +226,37 @@ export class DataPage {
   }
 
 
+ 
+
+
+  convertToDataURLviaCanvas(url, outputFormat){
+    return new Promise((resolve, reject) => {
+   var  img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = () => {
+      let canvas = <HTMLCanvasElement> document.createElement('CANVAS'),
+        ctx = canvas.getContext('2d'),
+        dataURL;
+      canvas.height = img.height;
+      canvas.width = img.width;
+      ctx.drawImage(img, 0, 0);
+      dataURL = canvas.toDataURL(outputFormat);
+      resolve(dataURL);
+      canvas = null;
+    };
+    img.src = url;
+  });
+}
+
+
+
   getImageUrl(imageName, CurrentKey): any {
 
     if (imageName != "") {
       var storageRef = firebase.storage().ref();
       storageRef.child('images/' + imageName).getDownloadURL().then(function (url) {
         console.log("Inside IMAGE URL" + url);
-        (<HTMLImageElement>document.querySelector("." + CurrentKey)).src = url;
+       // (<HTMLImageElement>document.querySelector("." + CurrentKey)).src = url;
 
         //return url;
 
@@ -250,6 +281,8 @@ export class DataPage {
   }
 
 
+
+
   createPdfObject() {
 
 
@@ -267,8 +300,12 @@ export class DataPage {
 
     var bodyData = [];
     var dataRowHeader = [];
-    dataRowHeader.push(this.formName)
-    dataRowHeader.push('')
+    dataRowHeader.push(
+      { text: this.formName, style: 'subheader', color: 'black', opacity: 0.3, bold: true, alignment: 'left' }
+    )
+
+
+    dataRowHeader.push({ text: new Date().toDateString(), color: 'black', opacity: 0.3, bold: true, alignment: 'right' });
     bodyData.push(dataRowHeader);
 
     for (let item of this.columns) {
@@ -276,8 +313,21 @@ export class DataPage {
       var dataRow = [];
 
       dataRow.push(item.header);
-      dataRow.push(this.formdata[item.columnDef] == undefined ? "" : this.formdata[item.columnDef]);
-      bodyData.push(dataRow)
+    
+
+      if(item.elementtype=='Photo' || item.elementtype=='Signature'  ){
+        dataRow.push({
+          image:this.formdata[item.columnDef],
+          width: 200,
+          alignment: 'left'
+        });
+   
+
+      }else{
+        dataRow.push(this.formdata[item.columnDef] == undefined ? "" : this.formdata[item.columnDef]);
+      }
+      bodyData.push(dataRow);
+
 
     }
 
@@ -286,23 +336,53 @@ export class DataPage {
 
 
 
+
+    // var docDefinition = {
+    //   content: [
+    //     {
+    //       layout: 'lightHorizontalLines', // optional
+    //       table: {
+    //         // headers are automatically repeated if the table spans over multiple pages
+    //         // you can declare how many rows should be treated as headers
+    //         headerRows: 1,
+    //         widths: ['*', '*'],
+
+    //         body: bodyData
+    //       }
+    //     }
+    //   ], styles: {
+    //     header: {
+    //       bold: true,
+    //       fontSize: 20,
+    //       alignment: 'right'
+    //     }
+    //   }
+    // };
+
     var docDefinition = {
+      // watermark: {text: 'Minute Forms', color: 'green', opacity: 0.3, bold: true, italics: false,alignment: 'left'},
+      
+    //   header: function(currentPage, pageCount, pageSize) {
+    //     return [
+    //         { image: 'sampleImage.jpg', height: 30, width: 100 }
+    //     ]
+    // },
       content: [
+     
+        { text: 'Minute Forms', style: 'header', color: 'green', opacity: 0.3, bold: true, alignment: 'left' },
         {
-          layout: 'lightHorizontalLines', // optional
+          layout: 'lightHorizontalLines',
           table: {
-            // headers are automatically repeated if the table spans over multiple pages
-            // you can declare how many rows should be treated as headers
             headerRows: 1,
             widths: ['*', '*'],
-
             body: bodyData
           }
         }
+
       ], styles: {
         header: {
           bold: true,
-          fontSize: 20,
+          fontSize: 30,
           alignment: 'right'
         }
       }

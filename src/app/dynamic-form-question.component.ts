@@ -27,6 +27,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
   @Input() form: FormGroup;
 
   @ViewChild(SignaturePad) public signaturePad: SignaturePad;
+  
 
   public signaturePadOptions: Object = {
     'minWidth': 2,
@@ -41,7 +42,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
   public myPhotoURL: any;
 
   options: CameraOptions = {
-    quality: 100,
+    quality: 30,
     destinationType: this.camera.DestinationType.DATA_URL,
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE
@@ -50,9 +51,9 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
   PhotoLibraryOptions: CameraOptions = {
     sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
     destinationType: this.camera.DestinationType.DATA_URL,
-    quality: 60,
-    targetWidth: 1000,
-    targetHeight: 1000,
+    quality: 30,
+    targetWidth: 200,
+    targetHeight: 200,
     encodingType: this.camera.EncodingType.JPEG,
     correctOrientation: true
   }
@@ -203,7 +204,7 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
     }).then(imageData => {
       loader.present();
       this.myPhoto = imageData;
-      this.uploadPhoto(key, loader);
+      this.uploadPhoto(key, loader,imageData);
     }, error => {
       console.log("ERROR -> " + JSON.stringify(error));
     });
@@ -224,21 +225,24 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
     }).then(imageData => {
       loader.present();
       this.myPhoto = imageData;
-      this.uploadPhoto(key, loader);
+      this.uploadPhoto(key, loader,imageData);
     }, error => {
       console.log("ERROR -> " + JSON.stringify(error));
     });
   }
 
-  private uploadPhoto(key, loader): void {
+  private uploadPhoto(key, loader,dataUrlofImage): void {
     var newGUID = this.generateUUID();
     this.myPhotosRef.child(newGUID + '.png')
       .putString(this.myPhoto, 'base64', { contentType: 'image/png' })
       .then((savedPicture) => {
         this.myPhotoURL = savedPicture.downloadURL;
         //this.form.get(key).setValue('thumb_' + newGUID + '.png');
-        this.form.get(key).setValue( newGUID + '.png');
+       
+       //  this.form.get(key).setValue( newGUID + '.png');
       
+        this.form.get(key).setValue(dataUrlofImage);
+
         loader.dismiss();
 
       });
@@ -347,10 +351,15 @@ export class DynamicFormQuestionComponent implements OnInit, OnChanges {
       .putString(this.signatureImage, 'data_url')
       .then((savedPicture) => {
 
-        this.myPhotoURL = savedPicture.downloadURL;
+        this.myPhotoURL = this.signatureImage;
 
-        //this.form.get(key).setValue(this.myPhotoURL);
-        this.form.get(key).setValue( NewGUID + '.png');
+        // Below line sets the dataurl to the img element but not working
+        this.form.get(key).setValue(this.signatureImage);
+
+        //Previous implementation changed to 
+       // this.form.get(key).setValue( NewGUID + '.png');
+
+
         //this.form.get(key).setValue('thumb_' + NewGUID + '.png');
         loader.dismiss();
 

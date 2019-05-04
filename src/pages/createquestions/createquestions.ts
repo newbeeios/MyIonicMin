@@ -31,24 +31,24 @@ export class CreatequestionsPage {
   message:string;
   elementTypes = [
 
-    { key: "Label", value: "Label" },
-    { key: "Textbox", value: "Textbox" },
-    { key: "Dropdown", value: "Dropdown" },
-    { key: "Scanner", value: "Scanner" },
-    { key: "Gps", value: "Gps" },
-    { key: "TextArea", value: "TextArea" },
-    { key: "Multi-Select", value: "Multi-Select" },
-    { key: "Divider", value: "Divider" },
-    { key: "Gender", value: "Gender" },
-    { key: "YesNo", value: "YesNo" },
-    // { key: "Photo", value: "Photo" },
-    { key: "Segment", value: "Segment" },
-    { key: "Date", value: "Date" },
-    { key: "Time", value: "Time" },
     { key: "Checkbox", value: "Checkbox" },
+    { key: "Dropdown", value: "Dropdown" },
+    { key: "Date", value: "Date" },
+    // { key: "Divider", value: "Divider" },
     { key: "Email", value: "Email" },
+    { key: "Gender", value: "Gender" },
+    { key: "Gps", value: "Gps" },
+    { key: "Label", value: "Label" },
+    { key: "Multi-Select", value: "Multi-Select" },
     { key: "Number", value: "Number" },
-    { key: "Signature", value: "Signature" }
+    // { key: "Photo", value: "Photo" },
+    { key: "Textbox", value: "Textbox" },
+    { key: "Scanner", value: "Scanner" },
+    { key: "Segment", value: "Segment" },
+    { key: "Signature", value: "Signature" },
+    { key: "TextArea", value: "TextArea" },
+    { key: "Time", value: "Time" },
+    { key: "YesNo", value: "YesNo" }
   ];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,

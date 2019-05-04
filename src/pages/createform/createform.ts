@@ -52,7 +52,7 @@ export class CreateformPage {
       this.myform = this.fb.group({
         id: 0,
         isedit: false,
-        formname: ['', Validators.compose([Validators.required, Validators.minLength(5)])],
+        formname: [''],
         displaytext: ['', Validators.required],
         description: ['', Validators.required],
         sortorder: [''],
@@ -66,7 +66,7 @@ export class CreateformPage {
       this.myform = this.fb.group({
         id: this.formdata.$key,
         isedit: true,
-        formname: [this.formdata.formname, Validators.compose([Validators.required, Validators.minLength(5)])],
+        formname: [this.formdata.formname],
         displaytext: [this.formdata.displaytext, Validators.required],
         description: [this.formdata.description, Validators.required],
         sortorder: [this.formdata.sortorder],

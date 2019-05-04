@@ -29,12 +29,17 @@
     <!-- <ion-spinner  *ngIf="isLoading" name="bubbles"></ion-spinner> -->
 
   <ion-item-sliding *ngFor="let item of shoppingItems | async">
-  <ion-item  (click)="goToInputForm($event,item)" >
+  <ion-item class="item-divider" (click)="goToInputForm($event,item)" >
     <ion-thumbnail item-start>
-      <img src="{{item.imageurl}}">
+      <img src="{{item.imageurl}}" *ngIf="item.imageurl">
+     
+      <ion-icon ios="ios-clipboard" *ngIf="!item.imageurl" md="md-clipboard" style="padding-left:10px; font-size: 80px;color:rgb(158,100,91)">
+      </ion-icon>
     </ion-thumbnail>
-    <h2 style="font-weight:bold">{{item.displaytext}}</h2>
-    <p>{{item.description}}</p>
+    
+
+    <h2 style="font-weight:bold" text-wrap>{{item.displaytext}}</h2>
+    <p text-wrap>{{item.description}}</p>
 
     <!-- <ion-icon name="arrow-forward" item-end></ion-icon> -->
     <!-- <button ion-button clear item-end>View</button> -->

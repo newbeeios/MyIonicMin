@@ -11,7 +11,7 @@
 
 <ion-content>
   <!-- [(ngModel)]="alignment" color="primary" (ionChange)="segmentChanged($event)" -->
-  <ion-segment [(ngModel)]="alignment" color="primary" style="background: white;">
+  <!-- <ion-segment [(ngModel)]="alignment" color="primary" style="background: white;">
     
     <ion-segment-button value="vertical">
       Vertical View
@@ -20,7 +20,7 @@
       Horizontal View
     </ion-segment-button>
 
-  </ion-segment>
+  </ion-segment> -->
 
 
 
@@ -41,7 +41,7 @@
 
 
             <ion-thumbnail item-start *ngIf="column.elementtype == 'Photo' || column.elementtype == 'Signature'">
-              <img class="{{column.columnDef}}" src="">
+              <img class="{{column.columnDef}}" src="DomSanitizer.bypassSecurityTrustUrl({{formdata[column.columnDef]}})'">
             </ion-thumbnail>
           </ion-col>
 
@@ -64,9 +64,11 @@
 
 
                   <ion-thumbnail item-start *ngIf="column.elementtype == 'Photo' || column.elementtype == 'Signature'">
-                    <img class="{{column.columnDef}}" src="">
+                    <!-- <img class="{{column.columnDef}}" src=""> -->
+                    <ion-icon name="image" style="font-size: 100px;"></ion-icon>
+                    
                   </ion-thumbnail>
-
+                  <label *ngIf="column.elementtype == 'Photo' || column.elementtype == 'Signature'">Print to view image</label>
 
 
                   <!-- <h4> <b>DATE:</b>  {{item.createddate}}</h4>
@@ -95,7 +97,8 @@
 
   <ion-fab bottom right>
     <button ion-fab size="large" color="secondary" (click)="print()">
-      <ion-icon name="cloud-download" size="large"></ion-icon>
+  
+       <ion-icon name="print" size="large"></ion-icon> 
     </button>
   </ion-fab>
 

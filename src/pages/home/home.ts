@@ -12,7 +12,8 @@ import { ToastController } from 'ionic-angular';
 import { SettingsProvider } from './../../providers/settings/settings';
 import { FormControl } from '@angular/forms';
 import { AuthService } from './../../providers/auth.service';
-import {DynamicadminquestionsPage} from '../dynamicadminquestions/dynamicadminquestions';
+import { DynamicadminquestionsPage } from '../dynamicadminquestions/dynamicadminquestions';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'page-home',
@@ -27,7 +28,10 @@ export class HomePage {
   searching: any = false;
   isLoading: boolean = false;
 
-  constructor(private authSer: AuthService, public navCtrl: NavController, public firebaseProvider: FirebaseProvider, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private settings: SettingsProvider, private af: AngularFireDatabase) {
+  constructor(private authSer: AuthService, public navCtrl: NavController, public firebaseProvider: FirebaseProvider,
+    public alertCtrl: AlertController, public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController, private settings: SettingsProvider,
+    private af: AngularFireDatabase) {
     this.searchControl = new FormControl();
     //this.shoppingItems = this.firebaseProvider.getShoppingItems();
     //this.shoppingItems.subscribe(()=> this.isLoading=false);
@@ -69,7 +73,7 @@ export class HomePage {
     this.navCtrl.push(DynamicadminquestionsPage, {
       data: formdata
     });
-    
+
 
   }
 
@@ -135,7 +139,7 @@ export class HomePage {
 
     let alert = this.alertCtrl.create({
       title: 'Confirm delete',
-      message: 'Do you want delete this form?',
+      message: 'Do you want delete this form? All the data associated with this form will be deleted and this action is not reversible.',
       buttons: [
         {
           text: 'Cancel',
@@ -148,6 +152,44 @@ export class HomePage {
           text: 'Delete',
           handler: () => {
             this.firebaseProvider.removeItem(formKey);
+
+            var elementrefs = firebase.database().ref('elements');
+            elementrefs.orderByChild('formid')
+              .limitToFirst(1000)
+              .equalTo(formKey.$key)
+              .once('value').then(function (snapshot) {
+                // get the key of the respective image
+              
+                snapshot.forEach(element => {
+                  //const key = Object.keys(snapshot.val())[0];
+                  Object.keys(snapshot.val()).forEach(subchild => {
+                    elementrefs.child(subchild).remove();
+                  });
+
+                  
+                });
+              });
+
+              var datarefs = firebase.database().ref('data');
+              datarefs.orderByChild('formid')
+                .limitToFirst(1000)
+                .equalTo(formKey.$key)
+                .once('value').then(function (snapshot) {
+                
+                  snapshot.forEach(element => {
+                    //const key = Object.keys(snapshot.val())[0];
+                    Object.keys(snapshot.val()).forEach(subchild => {
+                      datarefs.child(subchild).remove();
+                    });
+  
+                    
+                  });
+                });
+
+           
+
+
+
           }
         }
       ]
