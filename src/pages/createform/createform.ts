@@ -106,7 +106,7 @@ export class CreateformPage {
           "sortorder": this.myform.value.sortorder,
           "updatedby": this.authService.userDetails.email,
           "updateddate": new Date().getDate() + '-' + this.getMonth(new Date().getMonth() + 1) + '-' + new Date().getFullYear(),
-          "updatedtime(HH:MM:SS)": new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds()
+          "updatedtime(HH:MM:SS)": new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() 
         });
 
         let alert = this.alertCtrl.create({

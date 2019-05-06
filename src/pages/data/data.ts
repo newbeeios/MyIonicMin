@@ -362,14 +362,23 @@ export class DataPage {
     var docDefinition = {
       // watermark: {text: 'Minute Forms', color: 'green', opacity: 0.3, bold: true, italics: false,alignment: 'left'},
       
-    //   header: function(currentPage, pageCount, pageSize) {
-    //     return [
-    //         { image: 'sampleImage.jpg', height: 30, width: 100 }
-    //     ]
-    // },
+
+    footer: function (currentPage, pageCount) {
+      return {
+          table: {
+              body: [
+                  [
+                      { text: "Page " + currentPage.toString() + ' of ' + pageCount, alignment: 'right', style: 'normalText', margin: [0, 20, 50, 0] }
+                  ],
+              ]
+          },
+          layout: 'noBorders'
+      };
+  },
       content: [
      
         { text: 'Minute Forms', style: 'header', color: 'green', opacity: 0.3, bold: true, alignment: 'left' },
+        
         {
           layout: 'lightHorizontalLines',
           table: {

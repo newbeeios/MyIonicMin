@@ -1,22 +1,19 @@
 <ion-content padding class="login-container">
 
 
-  <h1 style="font-weight: bold;color:whitesmoke">
+  <h1 style="font-weight: bold;color:white">
     Minute Forms
   </h1>
 
+<div style="padding-top:20%">
 
-  <!-- <ion-card style="margin-top:40px;">  -->
-  <!-- <ion-card-header>
-          
-        </ion-card-header>
-        <ion-card-content> -->
+<ion-card>
 
   <form [formGroup]="login" (ngSubmit)="LoginRegular()">
 
     <ion-item>
       <ion-label floating style="font-size:18px;color:grey;">
-        <ion-icon name="mail" style="color:white"></ion-icon> Email
+        <ion-icon name="mail" style="color:#FFC300"></ion-icon> Email
       </ion-label>
       <ion-input type="email" formControlName="email"></ion-input>
     </ion-item>
@@ -28,7 +25,7 @@
 
     <ion-item>
       <ion-label floating style="font-size:18px;color:grey;">
-        <ion-icon name="key" style="color:white"></ion-icon> Password
+        <ion-icon name="key" style="color:#FFC300"></ion-icon> Password
       </ion-label>
       <ion-input type="password" formControlName="password"></ion-input>
     </ion-item>
@@ -43,27 +40,29 @@
     </ion-item>
 
     <ion-grid>
-      <ion-row>
-        <button type="submit" ion-button color="primary" [disabled]="!login.valid" block> LOGIN</button>
-
-
-        <button ion-button color="secondary" ion-left block (click)='SignUpPage()'>
-          <ion-icon style="padding-right:10px"></ion-icon>
-          <!--name="logo-facebook" -->
-          <div>Sign Up</div>
-        </button>
-
+      <ion-row style="padding-top: 20px; padding-bottom: 20px;">
+        <button type="submit" ion-button color="primary" [disabled]="!login.valid"  block><b>LOGIN</b></button>
       </ion-row>
 
 
 
+
+
       <ion-row>
 
+        <ion-col col-4>
+            <button ion-button color="secondary" ion-left round block outline (click)='SignUpPage()'>
+                <!-- <ion-icon style="padding-right:10px"></ion-icon> -->
+                <ion-icon name="person-add" style="padding-right:10px"></ion-icon>
+                <!--name="logo-facebook" -->
+                <div>Sign Up</div>
+              </button>
+        </ion-col>
         <ion-col>
-          <button type="button" ion-button color="primary" ion-left block (click)="Reset()">
+          <button type="button" ion-button color="primary" ion-left round block outline (click)="Reset()">
 
             <div>
-              <ion-icon ios="ios-lock" md="md-lock"></ion-icon> Forgot Password
+              <ion-icon ios="ios-lock" md="md-lock" style="padding-right:10px"></ion-icon> Forgot Password
             </div>
           </button>
         </ion-col>
@@ -78,9 +77,10 @@
 
 
   </form>
+</ion-card>
   <!-- </ion-card-content>
     
       </ion-card> -->
 
-
+    </div>
 </ion-content>

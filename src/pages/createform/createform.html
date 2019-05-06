@@ -1,4 +1,3 @@
-
 <ion-header>
 
   <ion-navbar color="primary">
@@ -10,35 +9,43 @@
 
 <ion-content padding>
 
-     <form [formGroup]="myform" (ngSubmit)="onSubmit()">
+  <div>
 
-        <ion-item>
-            <ion-label stacked>Form Name</ion-label>
-            <ion-input type="text" formControlName="displaytext"></ion-input>  
-          </ion-item>
-          <ion-item no-lines *ngIf="!myform.controls.displaytext.valid  && (myform.controls.displaytext.dirty)">
-              <p style="color: red">This field is required</p>
-            </ion-item>  
-        
-          <ion-item >
-            <ion-label stacked>Description</ion-label>
-            <ion-textarea  formControlName="description"></ion-textarea>  
-          </ion-item>
 
-            <ion-item no-lines *ngIf="!myform.controls.description.valid  && (myform.controls.description.dirty)">
-              <p style="color: red">This field is required</p>
-            </ion-item>  
-        
-          <ion-item>
-            <ion-label stacked>Image URL</ion-label>
-            <ion-input type="URL"  formControlName="imageurl"></ion-input>     
-          </ion-item>
-        
-        
-          
+    <form [formGroup]="myform" (ngSubmit)="onSubmit()">
+
+      <ion-item>
+        <ion-label stacked style="color:grey;font-weight:bold;">Form Name</ion-label>
+        <ion-input type="text" formControlName="displaytext"></ion-input>
+      </ion-item>
+      <ion-item no-lines *ngIf="!myform.controls.displaytext.valid  && (myform.controls.displaytext.dirty)">
+        <p style="color: red">This field is required</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked style="color:grey;font-weight:bold;">Description</ion-label>
+        <ion-textarea formControlName="description"></ion-textarea>
+      </ion-item>
+
+      <ion-item no-lines *ngIf="!myform.controls.description.valid  && (myform.controls.description.dirty)">
+        <p style="color: red">This field is required</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked style="color:grey;font-weight:bold;">Image URL</ion-label>
+        <ion-input type="URL" formControlName="imageurl"></ion-input>
+      </ion-item>
+
+
+      <div style="padding-top:10px;">
           <button ion-button full color="secondary" round type="submit" [disabled]="!myform.valid">SAVE FORM</button>
 
-    </form> 
- 
+      </div>
+     
 
+
+
+    </form>
+
+  </div>
 </ion-content>

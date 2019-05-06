@@ -284,7 +284,7 @@ export class DFormPage implements OnInit, OnChanges {
         return new CheckboxQuestion({
           key: elementData.elementname,
           label: elementData.displaytext,
-          value: elementData.elementvalue,
+          value: "false",
           required: elementData.required ? elementData.required : false,
           order: elementData.sortorder
 
@@ -494,7 +494,7 @@ export class DFormPage implements OnInit, OnChanges {
               break;
             case 'CheckBox':
 
-             
+
 
               this.questions.push(new CheckboxQuestion({
                 key: elementData.elementname,

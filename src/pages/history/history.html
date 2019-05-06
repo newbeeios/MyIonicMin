@@ -4,12 +4,12 @@
     <ion-title>History</ion-title>
 
   </ion-navbar>
-  <ion-toolbar color="lightgrey">
+  <ion-toolbar color="grey">
     <!-- <ion-searchbar [(ngModel)]="searchText" [formControl]="searchControl" (change)="filterExact('family', family)"></ion-searchbar>
     -->
     <ion-item>
       <ion-label>Filter Form</ion-label>
-      <ion-select [(ngModel)]="formname" (ionChange)="filterExact('formname',formname)" style="color:lightgrey;">
+      <ion-select [(ngModel)]="formname" (ionChange)="filterExact('formname',formname)" style="color:grey;">
         <ion-option value="All">--All--</ion-option>
         <ion-option *ngFor="let item of formItems | async" value="{{item.displaytext}}">{{item.displaytext}}</ion-option>
       </ion-select>
@@ -35,11 +35,13 @@
 
           <ion-item-sliding *ngFor="let item of filteredHistoryItems">
             <ion-item>
+
+           
               <ion-grid>
                 <div (click)="download(item)">
 
 
-                  <ion-row style="color:black;opacity: 0.9;">
+                  <ion-row style="color:grey;">
                     <ion-col col-7 text-wrap>
                       <h2>{{item.formname}}</h2>
 
@@ -56,7 +58,7 @@
 
               </ion-grid>
 
-
+         
 
             </ion-item>
 

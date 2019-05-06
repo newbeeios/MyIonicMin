@@ -29,6 +29,9 @@
     <!-- <ion-spinner  *ngIf="isLoading" name="bubbles"></ion-spinner> -->
 
   <ion-item-sliding *ngFor="let item of shoppingItems | async">
+
+
+    
   <ion-item class="item-divider" (click)="goToInputForm($event,item)" >
     <ion-thumbnail item-start>
       <img src="{{item.imageurl}}" *ngIf="item.imageurl">
@@ -65,7 +68,7 @@
 
 
 <ion-fab bottom right>
-  <button ion-fab size="large" color="secondary"  (click)="CreateNewForm()">
+  <button ion-fab size="large" color="orange"  (click)="CreateNewForm()">
     <ion-icon name="add-circle" size="large"></ion-icon>
   </button>
 </ion-fab>

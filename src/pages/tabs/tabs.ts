@@ -6,7 +6,7 @@ import { DFormPage } from '../d-form/d-form';
 import {SettingsComponent} from '../settings/settings';
 import {ReportsPage} from '../reports/reports';
 import {HistoryPage} from '../history/history';
-//import { OcrscannerpagePage } from '../ocrscannerpage/ocrscannerpage';
+import { OcrscannerpagePage } from '../ocrscannerpage/ocrscannerpage';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -17,7 +17,7 @@ export class TabsPage {
   tab2Root = HistoryPage; //AboutPage;
   tab3Root = SettingsComponent;
   tab4Root = ReportsPage;
-  // tab5Root = OcrscannerpagePage;
+   tab5Root = OcrscannerpagePage;
 
 
   constructor() {

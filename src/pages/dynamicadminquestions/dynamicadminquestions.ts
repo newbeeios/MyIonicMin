@@ -57,7 +57,7 @@ export class DynamicadminquestionsPage {
 
     let alert = this.alertCtrl.create({
       title: 'Confirm delete',
-      message: 'Do you want delete this Question?',
+      message: 'Do you want to delete this Question?',
       buttons: [
         {
           text: 'Cancel',

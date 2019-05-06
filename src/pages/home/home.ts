@@ -139,7 +139,7 @@ export class HomePage {
 
     let alert = this.alertCtrl.create({
       title: 'Confirm delete',
-      message: 'Do you want delete this form? All the data associated with this form will be deleted and this action is not reversible.',
+      message: 'Do you want to delete this form? All the data associated with this form will be deleted and this action is not reversible.',
       buttons: [
         {
           text: 'Cancel',

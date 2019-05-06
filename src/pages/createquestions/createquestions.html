@@ -10,7 +10,7 @@
 <ion-content padding>
   <ion-item>
     <ion-label>
-      <h1>Question</h1>
+      <h1 style="color:#488aff;"><b>Question</b></h1>
     </ion-label>
   </ion-item>
 
@@ -19,7 +19,7 @@
   <form [formGroup]="myform" (ngSubmit)="onSubmit()">
 
     <ion-item>
-      <ion-label stacked>Question Name</ion-label>
+      <ion-label stacked style="color:grey;font-weight:bold;">Question Name</ion-label>
       <ion-input type="text" formControlName="elementname" placeholder="Example: FirstName"></ion-input>
     </ion-item>
     <ion-item no-lines *ngIf="!myform.controls.elementname.valid  && (myform.controls.elementname.dirty)">
@@ -27,7 +27,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>Question Text</ion-label>
+      <ion-label stacked style="color:grey;font-weight:bold;">Question Text</ion-label>
       <ion-textarea type="text" formControlName="displaytext" placeholder="Example: Enter your First Name">
       </ion-textarea>
     </ion-item>
@@ -35,8 +35,8 @@
       <p style="color: red">This field is required</p>
     </ion-item>
 
-    <ion-item no-lines>
-      <ion-label stacked>Question Type</ion-label>
+    <ion-item >
+      <ion-label stacked style="color:grey;font-weight:bold;">Question Type</ion-label>
       <ion-select formControlName="elementtype" placeholder="--Select--">
 
         <ion-option *ngFor="let opt of elementTypes" [value]="opt.value">{{opt.value}}</ion-option>
@@ -61,14 +61,16 @@
 
 
 
-    <div class="row" style="padding-top:10px;">
-      <button ion-button type="submit" color="primary" [disabled]="!myform.valid">Submit</button>
-      <button ion-button type="button" color="danger" (click)="onNoClick()">Cancel</button>
-      <button ion-button type="button" color="default" (click)="selectSource()">Scan Text From Image </button>
+    <div class="row" style="padding-top:20px;">
+
+      
+      <button  ion-col ion-button round type="submit" color="primary" [disabled]="!myform.valid">Submit</button>
+      <button ion-col ion-button  round type="button" color="danger" (click)="onNoClick()">Cancel</button>
+      
     </div>
 
-    <div class="row">
-
+    <div class="row" style="padding-top:20px;">
+        <button ion-col ion-button type="button" color="default" (click)="selectSource()">Scan Question From a document </button>
     </div>
 
 
