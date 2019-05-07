@@ -1,16 +1,16 @@
 <ion-header>
   <!-- <ion-navbar color="secondary" [class]="selectedTheme"> -->
-      <ion-navbar color="primary">
+  <ion-navbar color="primary">
     <ion-title>
-         Forms
+      Forms
     </ion-title>
-     <!-- <ion-buttons end>
+    <!-- <ion-buttons end>
       <button ion-button icon-only color="royal">
         <ion-icon name="contact"></ion-icon>
       </button>
     </ion-buttons> -->
 
- 
+
 
   </ion-navbar>
   <!-- <ion-toolbar> 
@@ -24,54 +24,76 @@
 
 <ion-content>
 
-<ion-list>
+  <ion-list>
+
+
+    <ion-icon *ngIf="(shoppingItems | async)?.length==0" name="bulb" style="font-size:100px;color:#FFC300;"></ion-icon>
+    <ion-item *ngIf="(shoppingItems | async)?.length==0">
+
+      <h1 style="color:grey;font-weight: normal;" text-wrap> You don't have any forms created. <br />
+        Please click on the <b style="color:orangered;">+</b> button below to create a Form.
+      </h1>
+
+      <h1 text-wrap style="color:grey;font-weight: normal;">Swipe right <ion-icon name="arrow-round-forward"
+          style="font-size:50px;color:cadetblue;"></ion-icon> on the Form to Add Questions.</h1>
+
+      <h1 text-wrap style="color:grey;font-weight: normal;">Swipe left <ion-icon name="arrow-round-back"
+          style="font-size:50px;color:cadetblue;"></ion-icon> on the Form to Edit/Delete it.</h1>
+
+
+    </ion-item>
+
+
+
 
     <!-- <ion-spinner  *ngIf="isLoading" name="bubbles"></ion-spinner> -->
 
-  <ion-item-sliding *ngFor="let item of shoppingItems | async">
+    <ion-item-sliding *ngFor="let item of shoppingItems | async">
 
 
-    
-  <ion-item class="item-divider" (click)="goToInputForm($event,item)" >
-    <ion-thumbnail item-start>
-      <img src="{{item.imageurl}}" *ngIf="item.imageurl">
-     
-      <ion-icon ios="ios-clipboard" *ngIf="!item.imageurl" md="md-clipboard" style="padding-left:10px; font-size: 80px;color:rgb(158,100,91)">
-      </ion-icon>
-    </ion-thumbnail>
-    
 
-    <h2 style="font-weight:bold" text-wrap>{{item.displaytext}}</h2>
-    <p text-wrap>{{item.description}}</p>
+      <ion-item class="item-divider" (click)="goToInputForm($event,item)">
 
-    <!-- <ion-icon name="arrow-forward" item-end></ion-icon> -->
-    <!-- <button ion-button clear item-end>View</button> -->
-  </ion-item>
-  <!-- <ion-item-options>
+        <ion-thumbnail item-start>
+          <img src="{{item.imageurl}}" *ngIf="item.imageurl">
+
+          <ion-icon ios="ios-clipboard" *ngIf="!item.imageurl" md="md-clipboard"
+            style="padding-left:10px; font-size: 80px;color:rgb(158,100,91)">
+          </ion-icon>
+        </ion-thumbnail>
+
+
+        <h2 style="font-weight:bold" text-wrap>{{item.displaytext}}</h2>
+        <p text-wrap>{{item.description}}</p>
+
+        <!-- <ion-icon name="arrow-forward" item-end></ion-icon> -->
+        <!-- <button ion-button clear item-end>View</button> -->
+      </ion-item>
+      <!-- <ion-item-options>
       <button shape="round" color="danger" (click)="deleteForm()" > <ion-icon name="trash" size="large"></ion-icon></button>
     </ion-item-options> -->
 
-    <ion-item-options side="left">
+      <ion-item-options side="left">
         <button ion-button (click)="AddQuestions(item)">Questions</button>
-        
+
       </ion-item-options>
-  
+
       <ion-item-options side="right">
         <button ion-button (click)="CreateNewForm(item)">EDIT</button>
         <button ion-button color="danger" (click)="deleteForm(item)">DELETE</button>
       </ion-item-options>
 
 
-  </ion-item-sliding>
+    </ion-item-sliding>
 
-</ion-list>
+  </ion-list>
 
 
-<ion-fab bottom right>
-  <button ion-fab size="large" color="orange"  (click)="CreateNewForm()">
-    <ion-icon name="add-circle" size="large"></ion-icon>
-  </button>
-</ion-fab>
+  <ion-fab bottom right>
+    <button ion-fab size="large" color="orange" (click)="CreateNewForm()">
+      <ion-icon name="add-circle" size="large"></ion-icon>
+    </button>
+  </ion-fab>
 
 
 </ion-content>

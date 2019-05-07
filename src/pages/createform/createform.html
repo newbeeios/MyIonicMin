@@ -11,7 +11,6 @@
 
   <div>
 
-
     <form [formGroup]="myform" (ngSubmit)="onSubmit()">
 
       <ion-item>
@@ -31,19 +30,20 @@
         <p style="color: red">This field is required</p>
       </ion-item>
 
-      <ion-item>
+      <ion-item style="padding-bottom: 50px;">
         <ion-label stacked style="color:grey;font-weight:bold;">Image URL</ion-label>
-        <ion-input type="URL" formControlName="imageurl"></ion-input>
+        <ion-textarea type="URL" formControlName="imageurl"></ion-textarea>
       </ion-item>
 
+      <ion-item *ngIf="imageurl">
+        <ion-thumbnail item-start>
+          <img src="{{imageurl}}">
+        </ion-thumbnail>
+      </ion-item>
 
       <div style="padding-top:10px;">
-          <button ion-button full color="secondary" round type="submit" [disabled]="!myform.valid">SAVE FORM</button>
-
+        <button ion-button full color="secondary" round type="submit" [disabled]="!myform.valid">SAVE FORM</button>
       </div>
-     
-
-
 
     </form>
 

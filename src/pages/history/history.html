@@ -26,6 +26,18 @@
 
 <ion-content>
 
+    <ion-icon *ngIf="(filteredHistoryItems)?.length==0" name="bulb" style="font-size:100px;color:#FFC300;padding-top:10%;" ></ion-icon>
+    <ion-item no-lines *ngIf="(filteredHistoryItems)?.length==0">
+       
+        <h1 style="color:grey;font-weight: normal;" text-wrap> 
+            No records found.
+            Please go to the Forms tab and click on one of the Form you want and save the data.
+        </h1>
+
+      </ion-item>
+
+     
+
   <ion-list>
 
     <ion-spinner *ngIf="isLoading" name="bubbles"></ion-spinner>

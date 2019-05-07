@@ -41,7 +41,7 @@ export class DynamicFormComponent implements OnChanges {
 
         this.data = af.list('/data', {
             query: {
-                limitToLast: 5000
+                limitToLast: 1
             }
         });
 

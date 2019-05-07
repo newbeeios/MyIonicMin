@@ -1,24 +1,5 @@
 page-reports {
-    ios, .md {
-        
-           page-home {
-        
-               .scroll-content {
-                   background-color: map-get($colors, light);
-               }
-        
-               ion-card-header {
-                   font-weight: bold;
-               }
-        
-           }
-        
-       }
 
-    //    .container{
-    //     display: -webkit-flex;
-    //     height: 100%;
-    //     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,darkgray), color-stop(100%,#f7d47c));
-    //     background: -webkit-linear-gradient(top, darkgray 0%,#f7d47c 100%);
-    // }
+
+
 }

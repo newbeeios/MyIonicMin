@@ -1,19 +1,28 @@
-
 <div *ngIf="form">
   <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
-   <div *ngIf="questions">
-    <div *ngFor="let question of questions" class="form-row">
-      <div *ngIf="question">
-        <app-question [question]="question" [form]="form"></app-question>
+    <div *ngIf="questions">
+      <div *ngFor="let question of questions" class="form-row">
+        <div *ngIf="question">
+          <app-question [question]="question" [form]="form"></app-question>
+        </div>
+      </div>
+
+      <div *ngIf="questions?.length==0">
+        <ion-icon name="bulb" style="font-size:100px;color:#FFC300;padding-top:20%;">
+        </ion-icon>
+        <h1 style="color:grey;font-weight: normal;" text-wrap>
+          No questions found for this Form.
+          Please click on the Forms tab and Swipe right <ion-icon name="arrow-round-forward" style="font-size:50px;color:cadetblue;"></ion-icon> on the
+          Form to Add Questions.</h1>
+
+      </div>
+
+      <div class="form-row" style="padding-top: 10px;" *ngIf="questions?.length>0">
+        <button ion-button full color="secondary" type="submit" [disabled]="!form.valid">Save</button>
       </div>
     </div>
 
-    <div class="form-row" style="padding-top: 10px;">   
-        <button ion-button  full color="secondary" type="submit" [disabled]="!form.valid">Save</button>
-    </div>
-  </div>
-   
 
   </form>
 
@@ -21,8 +30,3 @@
     <!-- <strong>Saved the following values</strong><br>{{payLoad}} -->
   </div>
 </div>
-
-
-    
-
-

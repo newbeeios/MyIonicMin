@@ -19,7 +19,7 @@
             </ion-segment>
 
             
-            <ion-segment no-lines *ngSwitchCase="'segment'" [formControlName]="question.key">
+            <ion-segment *ngSwitchCase="'segment'" [formControlName]="question.key">
                 <ion-segment-button style="color:black;" [value]="opt.value" *ngFor="let opt of question.options">
                     {{opt.value}}
                 </ion-segment-button>
@@ -28,22 +28,22 @@
 
 
 
-            <ion-item no-lines *ngSwitchCase="'textbox'">
+            <ion-item  no-lines *ngSwitchCase="'textbox'">
                 <ion-input type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
             </ion-item>
 
-            <ion-item no-lines *ngSwitchCase="'checkbox'">
+            <ion-item no-lines  *ngSwitchCase="'checkbox'">
                 <ion-checkbox [formControlName]="question.key" (ionChange)="checkedChange(question.key,$event)"
                     [id]="question.key" color="dark" checked="false"></ion-checkbox>
             </ion-item>
 
        
 
-            <ion-item no-lines *ngSwitchCase="'textarea'">
+            <ion-item no-lines  *ngSwitchCase="'textarea'">
                 <ion-textarea type="text" [formControlName]="question.key" [id]="question.key"></ion-textarea>
             </ion-item>
 
-            <ion-item no-lines *ngSwitchCase="'date'">
+            <ion-item no-lines  *ngSwitchCase="'date'">
                 <ion-datetime displayFormat="MM/DD/YYYY" [formControlName]="question.key" [id]="question.key">
                 </ion-datetime>
             </ion-item>
@@ -85,7 +85,7 @@
             </ion-item>
 
             <div *ngSwitchCase="'scanner'">
-                <ion-list>
+                <ion-list no-lines>
                     <ion-item>
                         <button type="button" ion-button (click)='showScanner(question.key)'>
                             <ion-icon name="barcode" style="padding-right:5px;"></ion-icon> scan barcode
