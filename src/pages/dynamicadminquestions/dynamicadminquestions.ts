@@ -17,7 +17,8 @@ export class DynamicadminquestionsPage {
   data: FirebaseListObservable<any[]>;
   formdata:any;
   formname:any;
-
+questionEditSettings:any=true;
+questionDeleteSettings:any=true;
 
 
   constructor(private authService: AuthService, 
@@ -35,6 +36,16 @@ export class DynamicadminquestionsPage {
               equalTo: this.formdata.$key 
           }
       });
+
+
+      var settingsInfo =  this.af.object('/userSettings/'+this.authService.userDetails.uid);
+
+      settingsInfo.subscribe((snapshot) => {  
+        this.questionEditSettings =snapshot.editQuestions==undefined?true:snapshot.editQuestions;
+        this.questionDeleteSettings = snapshot.deleteQuestions == undefined?true:snapshot.deleteQuestions;
+      }
+      );
+
 
   }
 

@@ -158,6 +158,8 @@ export class AuthService {
   return this._firebaseAuth.auth.createUserWithEmailAndPassword(email,password)
    .then(newUser=>{
     this.afd.list('/userProfile').update(newUser.uid,{email:email,firstname:firstname,lastname:lastname,phone:phone});
+  
+
   });
   
   }

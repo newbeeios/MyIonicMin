@@ -27,6 +27,8 @@ export class HomePage {
   searchControl: FormControl;
   searching: any = false;
   isLoading: boolean = false;
+  formedit:any=true;
+  formdelete:any=true;
 
   constructor(private authSer: AuthService, public navCtrl: NavController, public firebaseProvider: FirebaseProvider,
     public alertCtrl: AlertController, public loadingCtrl: LoadingController,
@@ -38,6 +40,21 @@ export class HomePage {
 
 
     this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
+
+    var settingsInfo =  this.af.object('/userSettings/'+this.authSer.userDetails.uid);
+
+    settingsInfo.subscribe((snapshot) => {
+     
+      console.log("Inside Snapshot for UserSettings");
+      console.log(snapshot);
+
+      this.formedit =snapshot.editForms==undefined?true:snapshot.editForms;
+      this.formdelete = snapshot.deleteForms == undefined?true:snapshot.deleteForms;
+    }
+    );
+
+
+
   }
 
   toggleAppTheme() {

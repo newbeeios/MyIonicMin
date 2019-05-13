@@ -5,10 +5,25 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
- 
+
 <ion-content>
 
-    <!-- <ion-card style="display:none;">
+  <ion-segment [(ngModel)]="alignment" color="primary" style="background: white;">
+
+    <ion-segment-button value="donut">
+      Donut Chart
+    </ion-segment-button>
+    <ion-segment-button value="bar">
+      Bar Chart
+    </ion-segment-button>
+    <ion-segment-button value="line">
+      Line Chart
+    </ion-segment-button>
+
+  </ion-segment>
+
+
+  <!-- <ion-card style="display:none;">
       <ion-card-header>
         Chart-Form Submissions by you
       </ion-card-header>
@@ -16,16 +31,19 @@
         <canvas #barCanvas></canvas>
       </ion-card-content>
     </ion-card> -->
- <ion-label> Your Form Submissions</ion-label>
-    <!-- <ion-card>
+  <ion-label> Your Form Submissions</ion-label>
+  <!-- <ion-card>
       <ion-card-header>
         
       </ion-card-header>
       <ion-card-content> -->
-        <canvas #doughnutCanvas style="width:100%;"></canvas>
-      <!-- </ion-card-content>
+
+  <!-- </ion-card-content>
     </ion-card> -->
- 
- 
- 
+
+
+  <canvas [hidden]="alignment=='bar' || alignment=='line'" #doughnutCanvas style="width:100%;"></canvas>
+  <canvas [hidden]="alignment=='donut' || alignment=='line'" #barCanvas style="width:100%;"></canvas>
+  <canvas [hidden]="alignment=='bar' || alignment=='donut'" #lineCanvas style="width:100%;"></canvas>
+
 </ion-content>

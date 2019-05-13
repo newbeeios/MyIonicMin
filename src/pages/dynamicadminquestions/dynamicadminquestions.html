@@ -63,8 +63,8 @@
         <button ion-button (click)="editList(item)"
           *ngIf="item.elementtype=='Dropdown' || item.elementtype=='Multi-Select' || item.elementtype=='Segment' "
           color="dark">Edit List</button>
-        <button ion-button (click)="editQuestion(item)">Edit</button>
-        <button ion-button color="danger" (click)="deleteQuestion(item)">Delete</button>
+        <button ion-button *ngIf="questionEditSettings==true"   (click)="editQuestion(item)">Edit</button>
+        <button ion-button *ngIf="questionDeleteSettings==true"  color="danger" (click)="deleteQuestion(item)">Delete</button>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>

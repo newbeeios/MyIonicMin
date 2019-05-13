@@ -52,7 +52,7 @@
 
 
 
-      <ion-item class="item-divider" (click)="goToInputForm($event,item)">
+      <ion-item no-lines class="bottom-border" (click)="goToInputForm($event,item)">
 
         <ion-thumbnail item-start>
           <img src="{{item.imageurl}}" *ngIf="item.imageurl">
@@ -79,8 +79,8 @@
       </ion-item-options>
 
       <ion-item-options side="right">
-        <button ion-button (click)="CreateNewForm(item)">EDIT</button>
-        <button ion-button color="danger" (click)="deleteForm(item)">DELETE</button>
+        <button ion-button *ngIf="formedit==true"  (click)="CreateNewForm(item)">EDIT</button>
+        <button ion-button *ngIf="formdelete==true" color="danger" (click)="deleteForm(item)">DELETE</button>
       </ion-item-options>
 
 

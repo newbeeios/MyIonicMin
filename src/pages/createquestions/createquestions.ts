@@ -34,7 +34,7 @@ export class CreatequestionsPage {
     { key: "Checkbox", value: "Checkbox" },
     { key: "Dropdown", value: "Dropdown" },
     { key: "Date", value: "Date" },
-    // { key: "Divider", value: "Divider" },
+    { key: "Divider", value: "Divider" },
     { key: "Email", value: "Email" },
     { key: "Gender", value: "Gender" },
     { key: "Gps", value: "Gps" },

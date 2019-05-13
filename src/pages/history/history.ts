@@ -25,6 +25,7 @@ export class HistoryPage {
 
   historyItems: any;  //FirebaseListObservable<any[]>;
   filteredHistoryItems: any;
+  historydeleteSettings:any=true;
 
   formname: string;
 
@@ -65,6 +66,13 @@ export class HistoryPage {
         //startAt: this.searchText
       }
     });
+
+    var settingsInfo =  this.af.object('/userSettings/'+this.authSer.userDetails.uid);
+
+    settingsInfo.subscribe((snapshot) => {  
+      this.historydeleteSettings =snapshot.deleteHistory==undefined?true:snapshot.deleteHistory;
+    }
+    );
 
 
 

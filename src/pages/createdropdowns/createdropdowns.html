@@ -9,7 +9,7 @@
       <ion-row>
         <ion-col col-8>
           <ion-item>
-            <ion-input type="text" [(ngModel)]="value"></ion-input>
+            <ion-input type="text" [(ngModel)]="value" placeholder="Enter text here"></ion-input>
           </ion-item>
         </ion-col>
         <ion-col col-4>
@@ -24,8 +24,22 @@
 
 <ion-content>
   <ion-list>
+
+      <ion-icon *ngIf="(dropdown | async)?.length==0" name="bulb" style="font-size:100px;color:#FFC300;"></ion-icon>
+      <ion-item *ngIf="(dropdown | async)?.length==0">
+  
+        <h1 style="color:grey;font-weight: normal;" text-wrap> You don't have any items in the {{dropdownname}} List. <br />
+          Please enter text and click ADD button to add the items to your list.
+        </h1>
+
+  
+      </ion-item>
+
+
+
+
     <ion-item-sliding *ngFor="let item of dropdown | async">
-      <ion-item>
+      <ion-item no-lines class="bottom-border">
         <ion-label> {{item.value}} </ion-label>
       </ion-item>
       <ion-item-options side="right">

@@ -7,6 +7,8 @@ page-home {
     //     background: -webkit-linear-gradient(top, darkgray 0%,#f7d47c 100%);
     // }
 
+
+    
     ion-spinner * {
         width: 28px;
         height: 28px;
@@ -19,8 +21,10 @@ page-home {
         vertical-align: center;
     }
 
-    .item, .item-divider {
-      border-color: red;
-    }
+ 
+    .item[no-lines].bottom-border { 
+      border-bottom: 2px solid grey;
+   
+  }
 
 }

@@ -7,6 +7,7 @@ import { Platform } from 'ionic-angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { File } from '@ionic-native/file';
 import { SettingsProvider } from './../../providers/settings/settings';
+import {AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database';
 
 @Component({
   selector: 'settings',
@@ -19,26 +20,63 @@ export class SettingsComponent {
   userDetails: any;
   selectedTheme: String;
   ThemeValue:boolean=false;
+  formeditchange:any=true;
+  formdeletechange:any=true;
+  questioneditchange:any=true;
+  questiondeletechange:any=true;
+  listdeletechange:any=true;
+  historydelete:any=true;
+
 
   url = 'https://minuteforms.com';
 
   constructor(private _AuthService: AuthService, public navCtrl: NavController,
     private alertCtrl: AlertController,
     private socialSharing: SocialSharing, private file: File,
-    private plt: Platform, private settings: SettingsProvider
+    private plt: Platform, private settings: SettingsProvider,public afd:AngularFireDatabase
   ) {
 
     this.text = 'Minute Forms';
-
-
 
     this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
 
     this.userDetails = _AuthService.userDetails;
 
     console.log(this.userDetails);
+
+   var settingsInfo =  this.afd.object('/userSettings/'+this._AuthService.userDetails.uid);
+
+    settingsInfo.subscribe((snapshot) => {
+     
+      console.log("Inside Snapshot for UserSettings");
+      console.log(snapshot);
+
+      this.formeditchange =snapshot.editForms==undefined?true:snapshot.editForms;
+      this.formdeletechange = snapshot.deleteForms == undefined?true:snapshot.deleteForms;
+      this.questioneditchange = snapshot.editQuestions==undefined?true:snapshot.editQuestions;
+      this.questiondeletechange = snapshot.deleteQuestions==undefined?true:snapshot.deleteQuestions;
+      this.listdeletechange = snapshot.deleteLists==undefined?true:snapshot.deleteLists;
+      this.historydelete= snapshot.deleteHistory==undefined?true:snapshot.deleteHistory;
+
+    }
+    );
+
+
+
   }
 
+
+  settingsChange(events){
+
+
+    this.afd.list('/userSettings').update(this.userDetails.uid,
+      {email:this.userDetails.email,
+      editForms:this.formeditchange,deleteForms:this.formdeletechange,
+      editQuestions:this.questioneditchange,deleteQuestions:this.questiondeletechange,
+      deleteLists:this.listdeletechange, deleteHistory:this.historydelete
+     });
+
+  }
 
   toggleAppTheme() {
     if (this.selectedTheme === 'dark-theme') {

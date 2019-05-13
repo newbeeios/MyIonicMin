@@ -1,27 +1,34 @@
-<!-- <ion-header>
-   <ion-navbar color="secondary" [class]="selectedTheme"> 
+<ion-header>
   <ion-navbar color="primary">
     <ion-title>
-      Profile
+      Settings
     </ion-title>
+
+  
   </ion-navbar>
 
-</ion-header> -->
+
+</ion-header>
 
 <ion-content>
 
+    <ion-fab bottom right>
+        <button ion-fab size="small" color="danger" (click)="logout()">
+          <ion-icon name="log-out" size="small"></ion-icon>
+        </button>
+      </ion-fab>
 
-  <ion-row center>
+  <!-- <ion-row center>
     <div class="header-img" style="height:100px;width:100%;background-color: #488aff;">   
-      <!-- #BED946; -->
+   
       <ion-label center>
         <h2 style="color:white">{{userDetails.displayName}}</h2>
       </ion-label>
     </div>
 
-  </ion-row>
+  </ion-row> -->
 
-  <ion-row>
+  <!-- <ion-row>
     <ion-col col-3 class="profile-img-col">
       <div class="profile-frame">
         <ion-thumbnail>
@@ -37,25 +44,49 @@
       </button>
     </ion-col>
 
-  </ion-row>
+  </ion-row> -->
 
+
+ 
 
   <ion-list>
+    <ion-list-header start style="background-color: whitesmoke;text-align: left;"> <b>Form Settings</b>
+   
+    </ion-list-header>
     <ion-item>
-      <ion-label col-2 start>Email</ion-label>
-      <ion-label col-10> {{userDetails.email}}</ion-label>
+      <ion-label>Edit Forms</ion-label>
+      <ion-toggle secondary [(ngModel)]="formeditchange" (ionChange)="settingsChange($event)"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Delete Forms</ion-label>
+      <ion-toggle secondary [(ngModel)]="formdeletechange" (ionChange)="settingsChange($event)"></ion-toggle>
     </ion-item>
 
 
-  <!-- <ion-item text-wrap>
-    <ion-label>
-      Please use the Website: <i style="color:blue;font-style: normal"> <u>https://minuteforms.com</u> </i>  as an alternative for this app. You can use this website as a desktop version of this app.
-    </ion-label>
-   
-  </ion-item>  -->
 
   </ion-list>
 
+  <ion-list>
+    <ion-list-header start style="background-color: whitesmoke;text-align: left;"> <b>Question Settings</b>
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Edit Questions</ion-label>
+      <ion-toggle secondary [(ngModel)]="questioneditchange" (ionChange)="settingsChange($event)"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Delete Questions</ion-label>
+      <ion-toggle secondary [(ngModel)]="questiondeletechange" (ionChange)="settingsChange($event)"></ion-toggle>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header start style="background-color: whitesmoke;text-align: left;"> <b>History Settings</b>
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Delete History</ion-label>
+      <ion-toggle secondary [(ngModel)]="historydelete" (ionChange)="settingsChange($event)"></ion-toggle>
+    </ion-item>
+  </ion-list>
 
 
 

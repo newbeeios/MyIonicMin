@@ -23,8 +23,8 @@ import { PickListQuestion } from './../../providers/question-picklist';
 import { DateQuestion } from './../../providers/question-date';
 import { TimeQuestion } from './../../providers/question-time';
 import { SignatureQuestion } from './../../providers/question-signature';
-
-
+import {LabelQuestion} from './../../providers/question-label';
+import {DividerQuestion} from './../../providers/question-divider';
 
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -189,7 +189,25 @@ export class DFormPage implements OnInit, OnChanges {
           order: elementData.sortorder
         });
 
+        case "Label":
 
+        return new LabelQuestion({
+          key: elementData.elementname,
+          label: elementData.displaytext,
+          value: elementData.elementvalue,
+          required: false,
+          order: elementData.sortorder
+        });
+
+        case "Divider":
+
+        return new DividerQuestion({
+          key: elementData.elementname,
+          label: elementData.displaytext,
+          value: elementData.elementvalue,
+          required: false,
+          order: elementData.sortorder
+        });
 
       case 'Dropdown':
 
