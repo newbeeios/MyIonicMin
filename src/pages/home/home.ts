@@ -39,7 +39,7 @@ export class HomePage {
     //this.shoppingItems.subscribe(()=> this.isLoading=false);
 
 
-    this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
+   // this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
 
     var settingsInfo =  this.af.object('/userSettings/'+this.authSer.userDetails.uid);
 

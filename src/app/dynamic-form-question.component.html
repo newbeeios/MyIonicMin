@@ -9,17 +9,17 @@
 
         <div [ngSwitch]="question.controlType">
 
-            <ion-item no-lines *ngSwitchCase="'number'">
+            <ion-item no-lines  *ngSwitchCase="'number'">
                 <ion-input type="number" [formControlName]="question.key" [id]="question.key"></ion-input>
             </ion-item>
 
-            <ion-segment no-lines *ngSwitchCase="'yesno'" [formControlName]="question.key">
+            <ion-segment no-lines  *ngSwitchCase="'yesno'" [formControlName]="question.key">
                 <ion-segment-button style="color:black;" [value]="Yes">Yes</ion-segment-button>
                 <ion-segment-button style="color:black;" [value]="No">No</ion-segment-button>
             </ion-segment>
 
             
-            <ion-segment *ngSwitchCase="'segment'" [formControlName]="question.key">
+            <ion-segment *ngSwitchCase="'segment'" style="background-color: white;"  [formControlName]="question.key">
                 <ion-segment-button style="color:black;" [value]="opt.value" *ngFor="let opt of question.options">
                     {{opt.value}}
                 </ion-segment-button>
@@ -28,7 +28,7 @@
 
 
 
-            <ion-item  no-lines *ngSwitchCase="'textbox'">
+            <ion-item no-lines   *ngSwitchCase="'textbox'">
                 <ion-input type="text" [formControlName]="question.key" [id]="question.key"></ion-input>
             </ion-item>
 

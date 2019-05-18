@@ -8,14 +8,14 @@
 </ion-header>
 
 
-<ion-content padding> 
+<ion-content> 
 
   <!-- <div>
     <label></label>
   </div> -->
 
   <!-- <app-dynamic-form [questions]="(questions$ | async)"></app-dynamic-form> -->
-  <div *ngIf="questions$">
+  <div *ngIf="questions$" style="padding-left:5px;padding-right:5px;">
   <app-dynamic-form  [formnamestring]="formName" [formId]="formKey" [questions]="(questions$ | async)"></app-dynamic-form>
   </div>
 

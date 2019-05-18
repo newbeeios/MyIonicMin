@@ -44,9 +44,10 @@
     "@ionic/storage": "2.0.1",
     "angular2-signaturepad": "^2.8.0",
     "angularfire2": "^4.0.0-rc0",
+    "bootstrap": "^4.0.0-beta.2",
     "chart.js": "^2.7.1",
     "cordova-android": "^6.3.0",
-    "cordova-ios": "^4.5.5",
+    "cordova-ios": "4.5.5",
     "cordova-plugin-add-swift-support": "^1.6.0",
     "cordova-plugin-camera": "^3.0.0",
     "cordova-plugin-compat": "^1.2.0",
@@ -91,6 +92,9 @@
     "typescript": "2.3.4"
   },
   "description": "An Ionic project",
+  "config": {
+    "ionic_saas": "./saas.config.js"
+  },
   "cordova": {
     "plugins": {
       "cordova-plugin-console": {},

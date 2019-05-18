@@ -1,4 +1,7 @@
 page-d-form {
+
+
+
     // .container{
     //     display: -webkit-flex;
     //     height: 100%;
@@ -17,10 +20,18 @@ page-d-form {
         // background: -webkit-linear-gradient(top, white 10%,lightgrey 100%);
     }
   
-    // ion-input{
-    //     background: lightgrey;
-    //     color:black;
-    // }
+
+    div.input-cover{
+        border-color:grey;
+        border-width: 2px;
+        color:black;
+    }
+
+    ion-input{
+        border-color:grey;
+        border-width: 2px;
+        color:black;
+    }
     // span .button-inner{
     //     background: lightgrey; 
     // }
