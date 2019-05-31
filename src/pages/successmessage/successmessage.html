@@ -1,0 +1,19 @@
+
+<ion-content>
+  <section *ngIf="!interactive">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-12 col-sm-12 col-md-6 col-lg-4 *ngFor="let option of animations">
+          <lottie-animation-view [options]="option"></lottie-animation-view>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+
+      </ion-row>
+      <ion-row center> 
+        <button type="button" ion-button (click)="closeMessage()">CLOSE</button>
+      </ion-row>
+    </ion-grid>
+  </section>
+</ion-content>

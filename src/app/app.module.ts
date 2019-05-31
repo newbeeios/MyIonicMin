@@ -30,6 +30,9 @@ import {SignupPage} from '../pages/signup/signup';
 import {ResetPasswordPage} from '../pages/resetpassword/resetpassword';
 import {ReportsPage} from '../pages/reports/reports';
 import {DataPage} from '../pages/data/data';
+import {LoadingPage} from '../pages/loading/loading';
+import {SuccessmessagePage} from '../pages/successmessage/successmessage';
+
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -62,7 +65,7 @@ import { FCM } from '@ionic-native/fcm';
 import { SignaturePage } from '../pages/signature/signature';
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-
+import { LottieAnimationViewModule } from 'ng-lottie';
 
 
 export const firebaseConfig={
@@ -95,6 +98,8 @@ export const firebaseConfig={
     SettingsComponent,
     ReportsPage,
     DataPage,
+    LoadingPage,
+    SuccessmessagePage,
     GoogleloginComponent,
     SignaturePage,
     HistoryPage,
@@ -111,7 +116,8 @@ export const firebaseConfig={
     IonicModule.forRoot(MyApp),
     HttpModule,
     AngularFireAuthModule,
-    SignaturePadModule
+    SignaturePadModule,
+    LottieAnimationViewModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -129,6 +135,8 @@ export const firebaseConfig={
     SettingsComponent,
     ReportsPage,
     DataPage,
+    LoadingPage,
+    SuccessmessagePage,
     GoogleloginComponent,
     SignaturePage,
     HistoryPage,

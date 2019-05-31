@@ -5,9 +5,10 @@ import { QuestionControlService } from './question-control.service';
 import { AuthService } from './../providers/auth.service';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Observable } from 'rxjs';
-import { AlertController, NavController } from 'ionic-angular';
+import { AlertController, NavController,ModalController } from 'ionic-angular';
 import * as firebase from 'firebase';
 import { Device } from '@ionic-native/device';
+import {SuccessmessagePage} from '../pages/successmessage/successmessage';
 
 @Component({
     selector: 'app-dynamic-form',
@@ -37,7 +38,10 @@ export class DynamicFormComponent implements OnChanges {
     }
 
 
-    constructor(private device: Device, private authService: AuthService, private qcs: QuestionControlService, private af: AngularFireDatabase, private alertCtrl: AlertController, private navCtrl: NavController) {
+    constructor(private device: Device, private authService: AuthService, 
+        private qcs: QuestionControlService, private af: AngularFireDatabase, 
+        private alertCtrl: AlertController, private navCtrl: NavController,
+        public modalCtrl: ModalController) {
 
         this.data = af.list('/data', {
             query: {
@@ -50,6 +54,11 @@ export class DynamicFormComponent implements OnChanges {
         console.log("DynamicFormComponent constructor triggered");
 
     }
+
+    presentSuccessModal() {
+        let successModal = this.modalCtrl.create(SuccessmessagePage);
+        successModal.present();
+      }
 
     // ngOnInit() {  
 
@@ -157,7 +166,10 @@ export class DynamicFormComponent implements OnChanges {
                 return currentRank == null ? 0 : currentRank + 1;
             });
 
-            this.presentAlert();
+            
+            this.presentSuccessModal();
+       
+            //this.presentAlert();
         }
 
         //this.data.push(this.payLoad);

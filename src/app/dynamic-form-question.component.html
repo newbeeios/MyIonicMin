@@ -25,7 +25,7 @@
                 </ion-segment-button>
             </ion-segment>
          
-
+         
 
 
             <ion-item no-lines   *ngSwitchCase="'textbox'">
@@ -53,8 +53,8 @@
                 </ion-datetime>
             </ion-item>
 
-            <ion-item no-lines *ngSwitchCase="'divider'" style="background-color: lightgrey;padding:0px;">
-                <ion-item-divider no-lines style="background-color: lightgrey;color:black;" text-wrap><h2> <b>{{question.label}} </b></h2> </ion-item-divider>
+            <ion-item no-lines *ngSwitchCase="'divider'" style="background-color: lightgrey;padding:0px !important;">
+                <ion-item-divider no-lines style="background-color: lightgrey;" text-wrap><h2> <b style="color:black;">{{question.label}} </b></h2> </ion-item-divider>
             </ion-item>
 
 
