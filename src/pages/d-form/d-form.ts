@@ -67,6 +67,7 @@ export class DFormPage implements OnInit, OnChanges {
   formName: any;
   formKey = '';
   options: { key: string, value: string }[] = [];
+  isLoading:any=true;
   @Input()
   set data(value) {
     // set the latest value for _data BehaviorSubject
@@ -78,6 +79,19 @@ export class DFormPage implements OnInit, OnChanges {
     return this._questions.getValue();
   }
 
+  selectedAnimation: any = "interactive";
+  animations: any;
+  interactive = false;
+  anim: any;
+  animationSpeed: number = 1;
+  lottieConfig: Object ;
+
+
+  lottieAnimations = [
+    {
+      path: 'assets/animations/lottie/material-wave-loading.json'
+    }
+  ];
 
   constructor(public loadingCtrl: LoadingController, public navCtrl: NavController, public af: AngularFireDatabase, public navParams: NavParams, private qcs: QuestionService) {
 
@@ -85,8 +99,44 @@ export class DFormPage implements OnInit, OnChanges {
     this.formName = this.parameter1.displaytext;
     this.formKey = this.parameter1.$key;
 
+    this.lottieConfig = {
+      path: 'assets/animations/lottie/material-wave-loading.json',
+      autoplay: true,
+      loop: false
+  };
+  this.changeAnimations();
+
   }
 
+
+  handleAnimation(anim) {
+    this.anim = anim;
+  }
+
+  stop() {
+    this.anim.stop();
+  }
+
+  play() {
+    this.anim.play();
+  }
+
+  pause() {
+    this.anim.pause();
+  }
+
+  setSpeed() {
+    this.anim.setSpeed(this.animationSpeed);
+  }
+
+  animate() {
+    this.anim.playSegments([[27, 142], [14, 26]], true);
+  }
+
+  changeAnimations() {
+    this.interactive = false;
+    this.animations = this.lottieAnimations;
+  }
 
 
   ngOnInit() {
@@ -134,12 +184,12 @@ export class DFormPage implements OnInit, OnChanges {
     console.log(FormKey);
 
 
-    let loading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: 'Loading...'
-    });
+    // let loading = this.loadingCtrl.create({
+    //   spinner: 'bubbles',
+    //   content: 'Loading...'
+    // });
 
-    loading.present();
+    // loading.present();
 
     const dbQuestions$ = this.af.list('/elements', {
       query: {
@@ -162,7 +212,9 @@ export class DFormPage implements OnInit, OnChanges {
 
       ));
 
-    this.questions$.subscribe(() => loading.dismiss());
+    this.questions$.subscribe(() => 
+    this.isLoading=false
+    );
 
   }
 

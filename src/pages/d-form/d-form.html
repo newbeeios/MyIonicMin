@@ -10,6 +10,18 @@
 
 <ion-content> 
 
+    <ion-item *ngIf="isLoading">
+        <section>
+            <ion-grid>
+              <ion-row>
+                <ion-col col-12  *ngFor="let option of animations">
+                  <lottie-animation-view [options]="option"></lottie-animation-view>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </section>
+    </ion-item>
+    
   <!-- <div>
     <label></label>
   </div> -->

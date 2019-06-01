@@ -8,7 +8,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SuccessmessagePage {
 
- 
   selectedAnimation: any = "interactive";
   animations: any;
   interactive = false;
@@ -27,12 +26,10 @@ export class SuccessmessagePage {
 
   constructor(public navCtrl: NavController) {
     this.changeAnimations();
-
   }
 
   handleAnimation(anim) {
     this.anim = anim;
-
   }
 
   stop() {
@@ -52,17 +49,16 @@ export class SuccessmessagePage {
   }
 
   animate() {
-    this.anim.playSegments([[27, 142], [14, 26]], false);
-    this.anim.stop();
+    this.anim.playSegments([[27, 142], [14, 26]], true);
   }
 
   changeAnimations() {
     this.interactive = false;
     this.animations = this.lottieAnimations;
   }
-
-  closeMessage(){
-    this.navCtrl.pop();
+  closePopup() {
+    this.navCtrl.popAll();
   }
+
 
 }

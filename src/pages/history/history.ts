@@ -13,6 +13,8 @@ import { AuthService } from './../../providers/auth.service';
 import { DataPage } from '../data/data';
 import { Printer, PrintOptions } from '@ionic-native/printer';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
+
+
 // import * as jsPDF from 'jspdf'; 
 // import 'jspdf-autotable';
 import * as _ from "lodash";
@@ -32,13 +34,26 @@ export class HistoryPage {
   // Active filter rules
 
   filters = {}
+  selectedAnimation: any = "interactive";
+  animations: any;
+  interactive = false;
+  anim: any;
+  animationSpeed: number = 1;
 
 
 
-  isLoading: boolean = false;
+  lottieAnimations = [
+    {
+      path: 'assets/animations/lottie/material-wave-loading.json'
+    }
+  ];
+
+
+  lottieConfig: Object ;
+  isLoading: boolean = true;
   searchControl: FormControl;
   searchText: string = '';
-  loading: any;
+  loading: any=true;
 
   formItems: FirebaseListObservable<any[]>;
 
@@ -51,11 +66,18 @@ export class HistoryPage {
 
     var items = [];
 
-    this.loading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: 'Loading...'
-    });
-    this.loading.present();
+    this.lottieConfig = {
+      path: 'assets/animations/lottie/material-wave-loading.json',
+      autoplay: true,
+      loop: false
+  };
+  this.changeAnimations();
+
+    // this.loading = this.loadingCtrl.create({
+    //    spinner: 'bubbles',
+    //   content: 'Loading...'
+    // });
+    // this.loading.present();
 
 
     this.formItems = this.af.list('/forms', {
@@ -96,7 +118,10 @@ export class HistoryPage {
       }
     }).subscribe(history => {
       this.historyItems = history;
-      this.loading.dismiss();
+      
+      this.isLoading=false;
+
+
       this.applyFilters();
     });
 
@@ -111,6 +136,37 @@ export class HistoryPage {
 
 
   }
+
+
+  handleAnimation(anim) {
+    this.anim = anim;
+  }
+
+  stop() {
+    this.anim.stop();
+  }
+
+  play() {
+    this.anim.play();
+  }
+
+  pause() {
+    this.anim.pause();
+  }
+
+  setSpeed() {
+    this.anim.setSpeed(this.animationSpeed);
+  }
+
+  animate() {
+    this.anim.playSegments([[27, 142], [14, 26]], true);
+  }
+
+  changeAnimations() {
+    this.interactive = false;
+    this.animations = this.lottieAnimations;
+  }
+
 
   filterExact(property: string, rule: any) {
    

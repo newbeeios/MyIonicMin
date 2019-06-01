@@ -14,6 +14,7 @@ import { FormControl } from '@angular/forms';
 import { AuthService } from './../../providers/auth.service';
 import { DynamicadminquestionsPage } from '../dynamicadminquestions/dynamicadminquestions';
 import * as firebase from 'firebase';
+import {LoadingPage} from '../loading/loading';
 
 @Component({
   selector: 'page-home',
@@ -30,6 +31,19 @@ export class HomePage {
   formedit:any=true;
   formdelete:any=true;
 
+  selectedAnimation: any = "interactive";
+  animations: any;
+  interactive = false;
+  anim: any;
+  animationSpeed: number = 1;
+
+
+  lottieAnimations = [
+    {
+      path: 'assets/animations/lottie/material-wave-loading.json'
+    }
+  ];
+
   constructor(private authSer: AuthService, public navCtrl: NavController, public firebaseProvider: FirebaseProvider,
     public alertCtrl: AlertController, public loadingCtrl: LoadingController,
     public toastCtrl: ToastController, private settings: SettingsProvider,
@@ -40,6 +54,8 @@ export class HomePage {
 
 
    // this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
+
+   this.changeAnimations();
 
     var settingsInfo =  this.af.object('/userSettings/'+this.authSer.userDetails.uid);
 
@@ -65,6 +81,35 @@ export class HomePage {
     }
   }
 
+
+  handleAnimation(anim) {
+    this.anim = anim;
+  }
+
+  stop() {
+    this.anim.stop();
+  }
+
+  play() {
+    this.anim.play();
+  }
+
+  pause() {
+    this.anim.pause();
+  }
+
+  setSpeed() {
+    this.anim.setSpeed(this.animationSpeed);
+  }
+
+  animate() {
+    this.anim.playSegments([[27, 142], [14, 26]], true);
+  }
+
+  changeAnimations() {
+    this.interactive = false;
+    this.animations = this.lottieAnimations;
+  }
 
   ionViewDidLoad() {
 

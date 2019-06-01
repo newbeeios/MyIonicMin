@@ -44,7 +44,17 @@
     </ion-item>
 
 
-
+<ion-item *ngIf="isLoading">
+    <section >
+        <ion-grid>
+          <ion-row>
+            <ion-col col-12 col-sm-12 col-md-6 col-lg-4 *ngFor="let option of animations">
+              <lottie-animation-view [options]="option"></lottie-animation-view>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </section>
+</ion-item>
 
     <!-- <ion-spinner  *ngIf="isLoading" name="bubbles"></ion-spinner> -->
 

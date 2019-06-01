@@ -1,4 +1,3 @@
-
 <ion-content>
   <section *ngIf="!interactive">
     <ion-grid>
@@ -9,10 +8,10 @@
       </ion-row>
 
       <ion-row>
-
-      </ion-row>
-      <ion-row center> 
-        <button type="button" ion-button (click)="closeMessage()">CLOSE</button>
+        <ion-col>
+            <button ion-button type="button" class="primary" (click)="closePopup()" center> CLOSE </button>
+        </ion-col>
+       
       </ion-row>
     </ion-grid>
   </section>
