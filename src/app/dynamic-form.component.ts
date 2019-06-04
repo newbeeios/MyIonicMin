@@ -56,6 +56,7 @@ export class DynamicFormComponent implements OnChanges {
     }
 
     presentSuccessModal() {
+        this.navCtrl.pop();
         let successModal = this.modalCtrl.create(SuccessmessagePage);
         successModal.present();
       }

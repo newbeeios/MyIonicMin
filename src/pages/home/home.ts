@@ -14,7 +14,7 @@ import { FormControl } from '@angular/forms';
 import { AuthService } from './../../providers/auth.service';
 import { DynamicadminquestionsPage } from '../dynamicadminquestions/dynamicadminquestions';
 import * as firebase from 'firebase';
-import {LoadingPage} from '../loading/loading';
+import { LoadingPage } from '../loading/loading';
 
 @Component({
   selector: 'page-home',
@@ -22,14 +22,19 @@ import {LoadingPage} from '../loading/loading';
 })
 export class HomePage {
   shoppingItems: FirebaseListObservable<any[]>;
+  CombinedForms: FirebaseListObservable<any[]>;
+  FormIdsWithAccess: any[];
   newItem = '';
   searchText: string = '';
   selectedTheme: String;
   searchControl: FormControl;
   searching: any = false;
   isLoading: boolean = false;
-  formedit:any=true;
-  formdelete:any=true;
+  formedit: any = true;
+  formdelete: any = true;
+  formtype:any;
+
+  FormsDataWithAccess: any[];
 
   selectedAnimation: any = "interactive";
   animations: any;
@@ -53,25 +58,86 @@ export class HomePage {
     //this.shoppingItems.subscribe(()=> this.isLoading=false);
 
 
-   // this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
+    // this.settings.getActiveTheme().subscribe(val => this.selectedTheme = val);
 
-   this.changeAnimations();
 
-    var settingsInfo =  this.af.object('/userSettings/'+this.authSer.userDetails.uid);
+
+    this.changeAnimations();
+
+    var settingsInfo = this.af.object('/userSettings/' + this.authSer.userDetails.uid);
 
     settingsInfo.subscribe((snapshot) => {
-     
-      console.log("Inside Snapshot for UserSettings");
-      console.log(snapshot);
 
-      this.formedit =snapshot.editForms==undefined?true:snapshot.editForms;
-      this.formdelete = snapshot.deleteForms == undefined?true:snapshot.deleteForms;
+      //  console.log("Inside Snapshot for UserSettings");
+      // console.log(snapshot);
+
+      this.formedit = snapshot.editForms == undefined ? true : snapshot.editForms;
+      this.formdelete = snapshot.deleteForms == undefined ? true : snapshot.deleteForms;
     }
     );
+
+    // var formsaccessInfo = this.af.object('/formaccess/' + this.authSer.userDetails.uid);
+
+    var formsaccessInfo = this.af.list('/formaccess/' + this.authSer.userDetails.uid, {
+      query: {
+        limitToLast: 200
+      }
+    });
+
+    formsaccessInfo.subscribe((snap) => {
+
+      snap.forEach((formItem) => {
+        console.log(formItem.formkey);
+     
+        var formInfo = this.af.object('/forms/' + formItem.formkey);
+        console.log("Inside Snapshot for FormAccessInfo");
+
+        // formInfo.subscribe((p1) => {
+        //   console.log('formaccess values');
+        //   console.log(p1);
+        //   if (p1!=undefined)
+        //   {
+        //     this.shoppingItems.forEach((x) => {
+
+        //       debugger;
+        //       console.log('inside foreach');
+        //       console.log(x);
+        //       if (x != undefined) {
+        //         if (x[0].$key == p1.$key) {
+        //           console.log("duplicate value")
+        //         } else {
+        //           this.pushValuesBasedOnAccess(p1);
+        //            //this.CombinedForms.push(p1);
+        //         }
+        //       }
+  
+        //     });
+
+        //   }
+        // });
+
+
+      })
+
+      // this.FormIdsWithAccess.push(snap.val());
+    });
+
+
+
+
+
+    console.log("FormsInfo with Access ");
+    console.log(this.FormsDataWithAccess);
 
 
 
   }
+
+
+ pushValuesBasedOnAccess(item:any){
+  this.CombinedForms.push(item);
+ }
+
 
   toggleAppTheme() {
     if (this.selectedTheme === 'dark-theme') {
@@ -145,10 +211,10 @@ export class HomePage {
   }
 
   setFilteredItems() {
-    let loading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: 'Loading...'
-    });
+    // let loading = this.loadingCtrl.create({
+    //   spinner: 'bubbles',
+    //   content: 'Loading...'
+    // });
 
     //loading.present();
 
@@ -156,24 +222,35 @@ export class HomePage {
       this.searching = true;
       console.log(this.searchText);
 
-
-
-
-
       this.shoppingItems = this.af.list('/forms', {
         query: {
-          limitToLast: 2000,
+          limitToLast: 200,
           orderByChild: 'createdby',
-          equalTo: this.authSer.userDetails.email //,
+          equalTo: this.authSer.userDetails.uid //,
           //startAt: this.searchText
         }
       });
 
-      this.shoppingItems.subscribe(() => {
+      this.shoppingItems.subscribe((Items) => {
+
+       
+      
+//         Items.forEach((singleitem)=>{
+// debugger;
+//           this.CombinedForms.push(singleitem);
+//         });
+       
         this.isLoading = false;
+
+
         //loading.dismiss();
       }
       );
+
+
+
+
+
 
       this.searching = false;
 
@@ -183,12 +260,16 @@ export class HomePage {
         query: {
           limitToLast: 2000,
           orderByChild: 'createdby',
-          equalTo: this.authSer.userDetails.email //,
+          equalTo: this.authSer.userDetails.uid //,
           //startAt: this.searchText
         }
       });
 
-      this.shoppingItems.subscribe(() => {
+      this.shoppingItems.subscribe((items) => {
+        console.log('items printing');
+        console.log(items);
+       
+
         //loading.dismiss();
       }
         //  this.isLoading=false
@@ -221,34 +302,51 @@ export class HomePage {
               .equalTo(formKey.$key)
               .once('value').then(function (snapshot) {
                 // get the key of the respective image
-              
+
                 snapshot.forEach(element => {
                   //const key = Object.keys(snapshot.val())[0];
                   Object.keys(snapshot.val()).forEach(subchild => {
                     elementrefs.child(subchild).remove();
                   });
 
-                  
+
                 });
               });
 
-              var datarefs = firebase.database().ref('data');
-              datarefs.orderByChild('formid')
-                .limitToFirst(1000)
-                .equalTo(formKey.$key)
-                .once('value').then(function (snapshot) {
-                
-                  snapshot.forEach(element => {
-                    //const key = Object.keys(snapshot.val())[0];
-                    Object.keys(snapshot.val()).forEach(subchild => {
-                      datarefs.child(subchild).remove();
-                    });
-  
-                    
-                  });
-                });
+            var datarefs = firebase.database().ref('data');
+            datarefs.orderByChild('formid')
+              .limitToFirst(1000)
+              .equalTo(formKey.$key)
+              .once('value').then(function (snapshot) {
 
-           
+                snapshot.forEach(element => {
+                  //const key = Object.keys(snapshot.val())[0];
+                  Object.keys(snapshot.val()).forEach(subchild => {
+                    datarefs.child(subchild).remove();
+                  });
+
+
+                });
+              });
+
+          // Remove access for all the people as you are the owner of this form.
+
+           var accessrefs = firebase.database().ref('formaccess'+'/'+this.authSer.userDetails.uid);
+           accessrefs.orderByChild('formKey').limitToFirst(1).equalTo(formKey.$key)
+           .once('value').then(function (snapshot) {
+            snapshot.forEach(element => {
+          
+              //const key = Object.keys(snapshot.val())[0];
+              Object.keys(snapshot.val()).forEach(subchild => {
+                accessrefs.child(subchild).remove();
+              });
+
+
+            });
+          });
+
+
+
 
 
 
@@ -269,9 +367,9 @@ export class HomePage {
     let filteredItems = [];
     this.shoppingItems = this.af.list('/forms', {
       query: {
-        limitToLast: 2000,
+        limitToLast: 50,
         orderByChild: 'createdby',
-        equalTo: this.authSer.userDetails.email
+        equalTo: this.authSer.userDetails.uid
         //equalTo: this.searchText
       }
     })

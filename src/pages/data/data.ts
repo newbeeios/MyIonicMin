@@ -36,6 +36,18 @@ export class DataPage {
   loader: any;
   error: any;
   alignment: string = "vertical";
+  selectedAnimation: any = "interactive";
+  animations: any;
+  interactive = false;
+  anim: any;
+  animationSpeed: number = 1;
+  isLoading:any=true;
+
+  lottieAnimations = [
+    {
+      path: 'assets/animations/lottie/material-wave-loading.json'
+    }
+  ];
 
   constructor(private printer: Printer, public af: AngularFireDatabase,
     public navCtrl: NavController, public navParams: NavParams,
@@ -45,7 +57,7 @@ export class DataPage {
   ) {
     this.myPhotosRef = firebase.storage().ref();
     this.formData = navParams.get('param1');
-  
+    this.changeAnimations();
 
     var data1 = this.af.object('/forms/' + this.formData["formid"], { preserveSnapshot: true });
     data1.subscribe(snapshot => {
@@ -96,16 +108,19 @@ export class DataPage {
 
   }
 
-
+  changeAnimations() {
+    this.interactive = false;
+    this.animations = this.lottieAnimations;
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DataPage');
 
-    this.loader = this.loadingCtrl.create({
-      spinner: "bubbles",
-      content: "Loading...",
-    });
-    this.loader.present();
+    // this.loader = this.loadingCtrl.create({
+    //   spinner: "bubbles",
+    //   content: "Loading...",
+    // });
+    // this.loader.present();
 
     let formName: string;
 
@@ -207,7 +222,8 @@ export class DataPage {
 
     }
 
-    this.loader.dismiss();
+    this.isLoading = false;
+    //this.loader.dismiss();
 
 
     let options: PrintOptions = {

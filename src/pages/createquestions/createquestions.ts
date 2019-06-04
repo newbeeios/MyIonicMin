@@ -48,7 +48,8 @@ export class CreatequestionsPage {
     { key: "Signature", value: "Signature" },
     { key: "TextArea", value: "TextArea" },
     { key: "Time", value: "Time" },
-    { key: "YesNo", value: "YesNo" }
+    { key: "YesNo", value: "YesNo" },
+    { key: "YesNoNA", value: "YesNoNA" }
   ];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -164,7 +165,7 @@ export class CreatequestionsPage {
 
     this.navCtrl.pop();
 
-    if (this.myform.value.elementtype == "Dropdown" || this.myform.value.elementtype == "Multi-Select") {
+    if (this.myform.value.elementtype == "Dropdown" || this.myform.value.elementtype == "Multi-Select" || this.myform.value.elementtype == "Segment") {
       this.navCtrl.push(CreatedropdownsPage, { newKey: newkey, data: this.myform.value });
     }
 

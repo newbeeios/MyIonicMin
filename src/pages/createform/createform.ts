@@ -6,6 +6,7 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs';
 import { Loading, LoadingController, AlertController, } from 'ionic-angular';
+import { userInfo } from 'os';
 
 @IonicPage()
 @Component({
@@ -15,12 +16,27 @@ import { Loading, LoadingController, AlertController, } from 'ionic-angular';
 export class CreateformPage {
 
   myform: FormGroup;
+  myacess: FormGroup;
   user: Observable<firebase.User>;
   form: FirebaseListObservable<any[]>;
+  formaccess:FirebaseListObservable<any[]>;
   isEdit: boolean = false;
   formdata: any;
   formname: string;
   title:string;
+  alignment: string = "vertical";
+  selectedAnimation: any = "interactive";
+  animations: any;
+  interactive = false;
+  anim: any;
+  animationSpeed: number = 1;
+  isLoading:any=false;
+
+  lottieAnimations = [
+    {
+      path: 'assets/animations/lottie/check-animation.json'
+    }
+  ];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public authService: AuthService,
@@ -31,6 +47,8 @@ export class CreateformPage {
     public alertCtrl: AlertController
   ) {
 
+    this.changeAnimations();
+
     this.formdata = navParams.get('data');
     if(this.formdata!=null){
     this.formname = this.formdata.displaytext;
@@ -38,12 +56,17 @@ export class CreateformPage {
 
     this.form = af.list('/forms/', {
       query: {
-        limitToLast: 50
+        limitToLast: 500
       }
     });
 
 
+   this.formaccess = af.list('/formaccess/'+this.authService.userDetails.uid);
+
     this.user = this.afAuth.authState;
+
+
+
 
 
     if (this.formdata == null) {
@@ -88,7 +111,14 @@ export class CreateformPage {
 
   }
 
+  closePopup(){
+    this.navCtrl.pop();
+  }
 
+ changeAnimations() {
+    this.interactive = false;
+    this.animations = this.lottieAnimations;
+  }
 
 
   onSubmit() {
@@ -104,42 +134,53 @@ export class CreateformPage {
           "imageurl": this.myform.value.imageurl,
           "isedit": true,
           "sortorder": this.myform.value.sortorder,
-          "updatedby": this.authService.userDetails.email,
+          "updatedby": this.authService.userDetails.uid,
           "updateddate": new Date().getDate() + '-' + this.getMonth(new Date().getMonth() + 1) + '-' + new Date().getFullYear(),
           "updatedtime(HH:MM:SS)": new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds() 
         });
 
-        let alert = this.alertCtrl.create({
-          title: 'Success',
-          subTitle: 'Form Updated',
-          buttons: ['Dismiss']
-        });
+
+        this.isLoading=true;
+        // let alert = this.alertCtrl.create({
+        //   title: 'Success',
+        //   subTitle: 'Form Updated',
+        //   buttons: ['Dismiss']
+        // });
     
-        alert.present();
+        // alert.present();
 
     } else {
 
-      var newKey = this.form.push(this.myform.value).key;
+       var newKey = this.form.push(this.myform.value).key;
 
-      this.af.object('/forms/' + newKey)
+     var currentForm =  this.af.object('/forms/' + newKey)
         .update({
-          "createdby": this.authService.userDetails.email,
+          "createdby": this.authService.userDetails.uid,
           "createddate": new Date().getDate() + '-' + this.getMonth(new Date().getMonth()) + '-' + new Date().getFullYear(),
           "createdtime(HH:MM:SS)": new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds()
         });
 
-        let alert = this.alertCtrl.create({
-          title: 'Success',
-          subTitle: 'Form Created',
-          buttons: ['Dismiss']
-        });
-    
-        alert.present();
+      // var currentObject = this.af.object('/forms/' + newKey);
+
+        //Form assignment part
+      var AssignKey =  this.formaccess.push(this.myform.value).key;
+      this.af.object('/formaccess/'+this.authService.userDetails.uid+'/'+AssignKey)
+      .update({
+         "formKey":newKey,
+         "createdby": this.authService.userDetails.uid,
+         "createddate": new Date().getDate() + '-' + this.getMonth(new Date().getMonth()) + '-' + new Date().getFullYear(),
+         "createdtime(HH:MM:SS)": new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds()
+
+      });
+
+       this.isLoading=true;
+
+
     }
 
    
 
-    this.navCtrl.pop();
+   // this.navCtrl.pop();
   }
 
 

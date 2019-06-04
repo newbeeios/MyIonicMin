@@ -24,7 +24,21 @@
 
 <ion-content>
 
+
   <ion-list>
+
+    <ion-item no-lines>
+      <ion-segment [(ngModel)]="formtype" color="primary" style="background: white;">
+
+        <ion-segment-button value="vertical">
+          My Forms
+        </ion-segment-button>
+        <ion-segment-button value="horizontal">
+          Shared Forms
+        </ion-segment-button>
+
+      </ion-segment>
+    </ion-item>
 
 
     <ion-icon *ngIf="(shoppingItems | async)?.length==0" name="bulb" style="font-size:100px;color:#FFC300;"></ion-icon>
@@ -44,8 +58,8 @@
     </ion-item>
 
 
-<ion-item *ngIf="isLoading">
-    <section >
+    <ion-item *ngIf="isLoading">
+      <section>
         <ion-grid>
           <ion-row>
             <ion-col col-12 col-sm-12 col-md-6 col-lg-4 *ngFor="let option of animations">
@@ -54,7 +68,7 @@
           </ion-row>
         </ion-grid>
       </section>
-</ion-item>
+    </ion-item>
 
     <!-- <ion-spinner  *ngIf="isLoading" name="bubbles"></ion-spinner> -->
 
@@ -89,7 +103,7 @@
       </ion-item-options>
 
       <ion-item-options side="right">
-        <button ion-button *ngIf="formedit==true"  (click)="CreateNewForm(item)">EDIT</button>
+        <button ion-button *ngIf="formedit==true" (click)="CreateNewForm(item)">EDIT</button>
         <button ion-button *ngIf="formdelete==true" color="danger" (click)="deleteForm(item)">DELETE</button>
       </ion-item-options>
 
